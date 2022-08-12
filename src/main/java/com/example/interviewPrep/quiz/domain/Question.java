@@ -2,16 +2,13 @@ package com.example.interviewPrep.quiz.domain;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
+import javax.persistence.*;
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(indexes = @Index(name= "i_question", columnList = "title"))
 public class Question {
 
     @Id @GeneratedValue

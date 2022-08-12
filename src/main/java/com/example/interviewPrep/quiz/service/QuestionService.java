@@ -54,8 +54,14 @@ public class QuestionService {
         return question;
     }
 
-    public List<Question> findQuestionsByType(String type){
-        return questionRepository.findByType(type);
+    public Optional<List<Question>> findQuestionsByType(String type){
+        List<Question> questions = questionRepository.findByType(type);
+
+        if(questions.size() == 0){
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(questions);
     }
 
     public Question findQuestionById(Long id){
