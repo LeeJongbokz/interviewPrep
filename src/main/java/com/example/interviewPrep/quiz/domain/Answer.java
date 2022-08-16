@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import java.util.UUID;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -34,6 +32,10 @@ public class Answer {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "QUESTION_ID")
     Question question;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "MEMBER_ID")
+    Member member;
 
     public void change(String content){
         this.content = content;
