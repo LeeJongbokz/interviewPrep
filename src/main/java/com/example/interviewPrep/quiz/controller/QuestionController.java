@@ -4,7 +4,6 @@ import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +21,12 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 @CrossOrigin(origins = "http://localhost:3000")
 public class QuestionController {
 
-    @Autowired
     private final QuestionService questionService;
-
 
     @GetMapping("/{type}")
     public ResponseEntity<Void> getTest(@PathVariable String type){
 
-        ResponseEntity responseEntity = null;
+        ResponseEntity responseEntity;
 
         Optional<List<Question>> questions = questionService.findQuestionsByType(type);
 
@@ -42,25 +39,25 @@ public class QuestionController {
         return responseEntity;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Question create(@RequestBody @Valid QuestionDTO questionDTO){
         return questionService.createQuestion(questionDTO);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public Question update(@RequestBody @Valid QuestionDTO questionDTO){
         Long id = questionDTO.getId();
         return questionService.updateQuestion(id, questionDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id){
         questionService.deleteQuestion(id);
     }
 
-    public List<QuestionDTO> getQuestionDTOs(Optional<List<Question>> questions){
+    private List<QuestionDTO> getQuestionDTOs(Optional<List<Question>> questions){
         List<QuestionDTO> questionDTOs = new ArrayList<>();
 
         int len = questions.get().size();
@@ -68,6 +65,7 @@ public class QuestionController {
         for(int i=0; i<len; i++){
             Question question = questions.get().get(i);
             QuestionDTO questionDTO = QuestionDTO.builder()
+                    .id(question.getId())
                     .title(question.getTitle())
                     .build();
             questionDTOs.add(questionDTO);
