@@ -21,10 +21,7 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class MemberController {
-
     private final MemberService memberService;
-
-
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody @NotNull MemberDTO memberInfo){
 
