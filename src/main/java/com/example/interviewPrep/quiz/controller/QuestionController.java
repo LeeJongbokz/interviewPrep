@@ -57,7 +57,7 @@ public class QuestionController {
         questionService.deleteQuestion(id);
     }
 
-    public List<QuestionDTO> getQuestionDTOs(Optional<List<Question>> questions){
+    private List<QuestionDTO> getQuestionDTOs(Optional<List<Question>> questions){
         List<QuestionDTO> questionDTOs = new ArrayList<>();
 
         int len = questions.get().size();

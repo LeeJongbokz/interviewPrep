@@ -5,7 +5,6 @@ import com.example.interviewPrep.quiz.dto.MemberDTO;
 import com.example.interviewPrep.quiz.repository.MemberRepository;
 import com.example.interviewPrep.quiz.utils.PasswordCheck;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-    @Autowired
     private final MemberRepository memberRepository;
 
     public Optional<MemberDTO> loginByEmailAndPassword(String email, String password){
@@ -25,7 +23,7 @@ public class MemberService {
 
         List<Member> searchedMembers = memberRepository.findByEmail(member.getEmail());
 
-        if(searchedMembers.size() == 0){
+        if(searchedMembers.isEmpty()){
             return Optional.empty();
         }
         boolean isSamePassword = PasswordCheck.isMatch(searchedMembers.get(0).getPassword(), password);
