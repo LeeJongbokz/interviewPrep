@@ -19,3 +19,12 @@ logging:
     org.hibernate.SQL: debug
 #    org.hibernate.type: trace
 
+---
+
+# mariadb profile
+spring:
+  profiles: mariadb
+  datasource:
+    url: jdbc:mariadb://mariadb:3306/test
+    username: root
+    password: root1234
