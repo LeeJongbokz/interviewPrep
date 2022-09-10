@@ -1,5 +1,6 @@
 package com.example.interviewPrep.quiz.dto;
 
+import com.example.interviewPrep.quiz.domain.Question;
 import lombok.*;
 
 import java.util.List;
@@ -10,4 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 public class AnswersDTO {
     public List<AnswerDTO> answers;
+
 }

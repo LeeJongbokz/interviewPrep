@@ -2,8 +2,12 @@ package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.repository.QuestionJpaRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,20 +28,30 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("/{type}")
-    public ResponseEntity<Void> getTest(@PathVariable String type){
+    public ResponseEntity<?> getQuestionType(@PathVariable String type, @PageableDefault(size=10) Pageable pageable){
 
-        ResponseEntity responseEntity;
+        Optional<Page<QuestionDTO>> questionsDTO = questionService.findByType(type, pageable);
 
-        Optional<List<Question>> questions = questionService.findQuestionsByType(type);
-
-        if(!questions.isPresent()){
+        if(!questionsDTO.isPresent()){
             return RESPONSE_NOT_FOUND;
         }
 
-        List<QuestionDTO> questionDTOs = getQuestionDTOs(questions);
-        responseEntity = new ResponseEntity<>(questionDTOs, HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(questionsDTO, HttpStatus.OK);
     }
+
+
+    @GetMapping("/single/{id}")
+    public ResponseEntity<?> getQuestion(@PathVariable("id") Long id){
+
+        Optional<QuestionDTO> questionDTO = questionService.findById(id);
+
+        if(!questionDTO.isPresent()){
+            return RESPONSE_NOT_FOUND;
+        }
+        return new ResponseEntity<>(questionDTO, HttpStatus.OK);
+
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -73,5 +87,6 @@ public class QuestionController {
 
         return questionDTOs;
     }
+
 
 }

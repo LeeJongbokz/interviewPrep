@@ -1,5 +1,6 @@
 package com.example.interviewPrep.quiz.dto;
 
+import com.example.interviewPrep.quiz.domain.Question;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -17,4 +18,6 @@ public class QuestionDTO {
     @NotNull
     private String type;
 
+    public QuestionDTO(Question question) {
+    }
 }

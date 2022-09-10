@@ -3,10 +3,11 @@ package com.example.interviewPrep.quiz.service;
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.exception.QuestionNotFoundException;
+import com.example.interviewPrep.quiz.repository.QuestionJpaRepository;
 import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +19,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class QuestionService {
 
-    @Autowired
     private final QuestionRepository questionRepository;
+    private final QuestionJpaRepository questionJpaRepository;
+
 
     public Question createQuestion(QuestionDTO questionDTO){
         Question question = Question.builder()
@@ -64,7 +66,31 @@ public class QuestionService {
         return Optional.ofNullable(questions);
     }
 
+
+    public Optional<Page<QuestionDTO>> findByType(String type, Pageable pageable){
+        Page<Question> questions = questionJpaRepository.findByType(type, pageable);
+
+
+        return Optional.of(questions.map(q -> QuestionDTO.builder().
+                                                        id(q.getId())
+                                                        .type(q.getType())
+                                                        .title(q.getTitle())
+                                                        .build()));
+    }
+
+
     public Question findQuestionById(Long id){
         return questionRepository.findById(id);
     }
+
+    public Optional<QuestionDTO> findById(Long id){
+
+        return questionJpaRepository.findById(id).map(q -> QuestionDTO.builder()
+                .id(q.getId())
+                .type(q.getType())
+                .title(q.getTitle())
+                .build());
+    }
+
+
 }
