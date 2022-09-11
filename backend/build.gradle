@@ -15,6 +15,10 @@ repositories {
 	mavenCentral()
 }
 
+jar {
+	enabled = false
+}
+
 dependencies {
 
 	// JUnit Jupiter API for testing.
