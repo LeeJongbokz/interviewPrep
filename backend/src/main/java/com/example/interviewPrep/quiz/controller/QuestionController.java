@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_NOT_FOUND;
 
@@ -26,16 +25,15 @@ public class QuestionController {
     @GetMapping("/{type}")
     public ResponseEntity<Void> getTest(@PathVariable String type){
 
-        ResponseEntity responseEntity;
+        List<Question> questions = questionService.findQuestionsByType(type);
 
-        Optional<List<Question>> questions = questionService.findQuestionsByType(type);
-
-        if(!questions.isPresent()){
+        if(questions.size() == 0){
             return RESPONSE_NOT_FOUND;
         }
 
         List<QuestionDTO> questionDTOs = getQuestionDTOs(questions);
-        responseEntity = new ResponseEntity<>(questionDTOs, HttpStatus.OK);
+
+        ResponseEntity responseEntity = new ResponseEntity<>(questionDTOs, HttpStatus.OK);
         return responseEntity;
     }
 
@@ -57,13 +55,10 @@ public class QuestionController {
         questionService.deleteQuestion(id);
     }
 
-    private List<QuestionDTO> getQuestionDTOs(Optional<List<Question>> questions){
+    private List<QuestionDTO> getQuestionDTOs(List<Question> questions){
         List<QuestionDTO> questionDTOs = new ArrayList<>();
 
-        int len = questions.get().size();
-
-        for(int i=0; i<len; i++){
-            Question question = questions.get().get(i);
+        for(Question question: questions){
             QuestionDTO questionDTO = QuestionDTO.builder()
                     .id(question.getId())
                     .title(question.getTitle())
