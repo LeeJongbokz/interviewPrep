@@ -27,8 +27,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest( QuestionController.class)
 @AutoConfigureMockMvc(addFilters = false)
+@WebMvcTest(QuestionController.class)
 public class QuestionReadWebControllerTest {
 
     @MockBean
@@ -39,7 +39,6 @@ public class QuestionReadWebControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-
 
     QuestionDTO questionDTO;
     List<QuestionDTO> questionDTOS;
@@ -62,7 +61,7 @@ public class QuestionReadWebControllerTest {
 
         pageable = PageRequest.of(0, 10);
         Page<QuestionDTO> questions = new PageImpl<>(questionDTOS);
-        when(questionService.findByType("java", pageable)).thenReturn(Optional.ofNullable(questions));
+        when(questionService.findByType("java", pageable)).thenReturn(Optional.of(questions));
 
 
     }

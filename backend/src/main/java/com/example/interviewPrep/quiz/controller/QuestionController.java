@@ -2,6 +2,7 @@ package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.repository.QuestionJpaRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.*;
+import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_NOT_FOUND;
 
 @RestController
 @RequestMapping("/question")
@@ -27,7 +29,6 @@ public class QuestionController {
 
     @GetMapping("/{type}")
     public ResponseEntity<?> getQuestionType(@PathVariable String type, @PageableDefault(size=10) Pageable pageable){
-
 
         Optional<Page<QuestionDTO>> questionsDTO = questionService.findByType(type, pageable);
 
@@ -63,7 +64,6 @@ public class QuestionController {
         return questionService.updateQuestion(id, questionDTO);
     }
 
-
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id){
@@ -83,7 +83,6 @@ public class QuestionController {
 
         return questionDTOs;
     }
-
 
 
 }
