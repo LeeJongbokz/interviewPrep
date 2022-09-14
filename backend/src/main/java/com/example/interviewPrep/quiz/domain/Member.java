@@ -15,8 +15,7 @@ import javax.persistence.*;
 @Table(indexes = @Index(name= "i_member", columnList = "email"))
 public class Member {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="MEMBER_ID")
     private Long id;
 

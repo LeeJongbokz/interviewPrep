@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -56,14 +55,8 @@ public class QuestionService {
         return question;
     }
 
-    public Optional<List<Question>> findQuestionsByType(String type){
-        List<Question> questions = questionRepository.findByType(type);
-
-        if(questions.size() == 0){
-            return Optional.empty();
-        }
-
-        return Optional.ofNullable(questions);
+    public List<Question> findQuestionsByType(String type){
+        return questionRepository.findByType(type);
     }
 
 
