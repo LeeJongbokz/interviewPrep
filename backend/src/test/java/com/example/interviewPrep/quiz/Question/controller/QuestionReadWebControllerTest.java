@@ -4,11 +4,11 @@ import com.example.interviewPrep.quiz.controller.QuestionController;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.repository.QuestionJpaRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -21,14 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(QuestionController.class)
+@WebMvcTest( QuestionController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class QuestionReadWebControllerTest {
 
     @MockBean
@@ -40,9 +40,9 @@ public class QuestionReadWebControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+
     QuestionDTO questionDTO;
     List<QuestionDTO> questionDTOS;
-    String jsonRequest;
     Pageable pageable;
 
     @BeforeEach
@@ -58,12 +58,11 @@ public class QuestionReadWebControllerTest {
             questionDTOS.add(questionDTO);
         }
 
-        when(questionService.findById(10L)).thenReturn(Optional.ofNullable((questionDTO)));
-
+        when(questionService.findById(10L)).thenReturn(Optional.ofNullable(questionDTO));
 
         pageable = PageRequest.of(0, 10);
         Page<QuestionDTO> questions = new PageImpl<>(questionDTOS);
-        when(questionService.findByType("java", pageable)).thenReturn(Optional.of(questions));
+        when(questionService.findByType("java", pageable)).thenReturn(Optional.ofNullable(questions));
 
 
     }
@@ -110,7 +109,7 @@ public class QuestionReadWebControllerTest {
 
     @Test
     @DisplayName("Question valid id 조회")
-    void findByValidIdType() throws Exception{
+    void findByValidSingleId() throws Exception{
         //given
         Long id = 10L;
 
@@ -128,7 +127,7 @@ public class QuestionReadWebControllerTest {
 
     @Test
     @DisplayName("Question invalid id 조회")
-    void findByInvalidIdType() throws Exception{
+    void findByInvalidSingleId() throws Exception{
         //given
         Long id = 11L;
 

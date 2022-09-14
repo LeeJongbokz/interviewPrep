@@ -15,10 +15,6 @@ public class AnswerRepository {
     @PersistenceContext
     EntityManager em;
 
-    public void save(Answer answer){
-        em.persist(answer);
-    }
-
     public void save(List<Answer> answers){
         for(Answer answer: answers){
             em.persist(answer);

@@ -68,14 +68,13 @@ public class QuestionService {
 
 
     public Optional<Page<QuestionDTO>> findByType(String type, Pageable pageable){
-        Page<Question> questions = questionJpaRepository.findByType(type, pageable);
+        Page<Question> questions = questionJpaRepository.findByType(type, pageable); //문제 타입과 페이지 조건 값을 보내어 question 조회, 반환값 page
 
-
-        return Optional.of(questions.map(q -> QuestionDTO.builder().
-                                                        id(q.getId())
-                                                        .type(q.getType())
-                                                        .title(q.getTitle())
-                                                        .build()));
+        return Optional.of(questions.map(q -> QuestionDTO.builder()   //question list 값들을 dto로 변경
+                                                .id(q.getId())
+                                                .type(q.getType())
+                                                .title(q.getTitle())
+                                                .build()));
     }
 
 

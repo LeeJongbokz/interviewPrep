@@ -2,7 +2,6 @@ package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.repository.QuestionJpaRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_NOT_FOUND;
+import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.*;
 
 @RestController
 @RequestMapping("/question")
@@ -32,7 +31,7 @@ public class QuestionController {
 
         Optional<Page<QuestionDTO>> questionsDTO = questionService.findByType(type, pageable);
 
-        if(!questionsDTO.isPresent()){
+        if(questionsDTO.isEmpty()){
             return RESPONSE_NOT_FOUND;
         }
 
@@ -45,7 +44,7 @@ public class QuestionController {
 
         Optional<QuestionDTO> questionDTO = questionService.findById(id);
 
-        if(!questionDTO.isPresent()){
+        if(questionDTO.isEmpty()){
             return RESPONSE_NOT_FOUND;
         }
         return new ResponseEntity<>(questionDTO, HttpStatus.OK);
@@ -64,6 +63,7 @@ public class QuestionController {
         Long id = questionDTO.getId();
         return questionService.updateQuestion(id, questionDTO);
     }
+
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -87,6 +87,7 @@ public class QuestionController {
 
         return questionDTOs;
     }
+
 
 
 }
