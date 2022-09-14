@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.*;
 
@@ -28,6 +27,7 @@ public class QuestionController {
 
     @GetMapping("/{type}")
     public ResponseEntity<?> getQuestionType(@PathVariable String type, @PageableDefault(size=10) Pageable pageable){
+
 
         Optional<Page<QuestionDTO>> questionsDTO = questionService.findByType(type, pageable);
 
@@ -48,7 +48,6 @@ public class QuestionController {
             return RESPONSE_NOT_FOUND;
         }
         return new ResponseEntity<>(questionDTO, HttpStatus.OK);
-
     }
 
 
@@ -71,13 +70,10 @@ public class QuestionController {
         questionService.deleteQuestion(id);
     }
 
-    private List<QuestionDTO> getQuestionDTOs(Optional<List<Question>> questions){
+    private List<QuestionDTO> getQuestionDTOs(List<Question> questions){
         List<QuestionDTO> questionDTOs = new ArrayList<>();
 
-        int len = questions.get().size();
-
-        for(int i=0; i<len; i++){
-            Question question = questions.get().get(i);
+        for(Question question: questions){
             QuestionDTO questionDTO = QuestionDTO.builder()
                     .id(question.getId())
                     .title(question.getTitle())
