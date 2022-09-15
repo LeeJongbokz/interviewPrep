@@ -1,20 +1,22 @@
 package com.example.interviewPrep.quiz.controller;
 
+import com.example.interviewPrep.quiz.domain.Answer;
 import com.example.interviewPrep.quiz.dto.AnswerDTO;
 import com.example.interviewPrep.quiz.dto.AnswersDTO;
 import com.example.interviewPrep.quiz.service.AnswerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import java.util.List;
 
-import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_OK;
-import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_SERVER_ERROR;
+import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.*;
 
 @RestController
 @RequestMapping("/answer")
@@ -33,6 +35,17 @@ public class AnswerController {
             answerService.createAnswers(answerDTOs);
             return RESPONSE_OK;
         }catch(Exception e){
+            return RESPONSE_SERVER_ERROR;
+        }
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> saveAnswer(@RequestBody @Valid AnswerDTO answerDTO){
+
+        try {
+            answerService.createAnswer(answerDTO);
+            return RESPONSE_CREATED;
+        }catch (Exception e){
             return RESPONSE_SERVER_ERROR;
         }
     }

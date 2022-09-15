@@ -2,8 +2,12 @@ package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.repository.QuestionJpaRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_NOT_FOUND;
 
@@ -23,19 +28,29 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("/{type}")
-    public ResponseEntity<Void> getTest(@PathVariable String type){
+    public ResponseEntity<?> getQuestionType(@PathVariable String type, @PageableDefault(size=10) Pageable pageable){
 
-        List<Question> questions = questionService.findQuestionsByType(type);
+        Optional<Page<QuestionDTO>> questionsDTO = questionService.findByType(type, pageable);
 
-        if(questions.size() == 0){
+        if(questionsDTO.isEmpty()){
             return RESPONSE_NOT_FOUND;
         }
 
-        List<QuestionDTO> questionDTOs = getQuestionDTOs(questions);
-
-        ResponseEntity responseEntity = new ResponseEntity<>(questionDTOs, HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(questionsDTO, HttpStatus.OK);
     }
+
+
+    @GetMapping("/single/{id}")
+    public ResponseEntity<?> getQuestion(@PathVariable("id") Long id){
+
+        Optional<QuestionDTO> questionDTO = questionService.findById(id);
+
+        if(questionDTO.isEmpty()){
+            return RESPONSE_NOT_FOUND;
+        }
+        return new ResponseEntity<>(questionDTO, HttpStatus.OK);
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -68,5 +83,6 @@ public class QuestionController {
 
         return questionDTOs;
     }
+
 
 }

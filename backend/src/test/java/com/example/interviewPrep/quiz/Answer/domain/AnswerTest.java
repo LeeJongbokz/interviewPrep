@@ -2,8 +2,10 @@ package com.example.interviewPrep.quiz.Answer.domain;
 
 import com.example.interviewPrep.quiz.domain.Answer;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.Rollback;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class AnswerTest {
 
