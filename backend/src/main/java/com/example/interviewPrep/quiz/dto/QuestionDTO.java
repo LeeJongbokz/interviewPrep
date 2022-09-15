@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Builder
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class QuestionDTO {
 
     private final Long id;
