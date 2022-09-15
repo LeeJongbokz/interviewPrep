@@ -9,10 +9,12 @@ import org.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import java.util.List;
 
+import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_CREATED;
 import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_OK;
 import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_SERVER_ERROR;
 
@@ -33,6 +35,17 @@ public class AnswerController {
             answerService.createAnswers(answerDTOs);
             return RESPONSE_OK;
         }catch(Exception e){
+            return RESPONSE_SERVER_ERROR;
+        }
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> saveAnswer(@RequestBody @Valid AnswerDTO answerDTO){
+
+        try {
+            answerService.createAnswer(answerDTO);
+            return RESPONSE_CREATED;
+        }catch (Exception e){
             return RESPONSE_SERVER_ERROR;
         }
     }

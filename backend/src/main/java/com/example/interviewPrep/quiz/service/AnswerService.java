@@ -42,5 +42,20 @@ public class AnswerService {
         return answers;
     }
 
+    public Answer createAnswer(AnswerDTO answerDTO){
+
+
+        Question question = new Question();
+        question.setId(((Number) answerDTO.getQuestionId()).longValue());
+
+        Answer answer =  Answer.builder()
+                .question(question)
+                .content(answerDTO.getContent())
+                .build();
+
+        answerRepository.save(answer);
+        return answer;
+    }
+
 
 }

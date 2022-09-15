@@ -6,15 +6,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
 public class HeartRepository {
+
     @PersistenceContext
     EntityManager em;
 
     public void save(Heart heart) {
-            em.persist(heart);
+        em.persist(heart);
+    }
+
+    public Optional<Heart> findById(Long id) {
+        return Optional.ofNullable(em.find(Heart.class, id));
     }
 }

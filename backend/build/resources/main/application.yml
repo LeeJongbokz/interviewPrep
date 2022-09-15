@@ -1,6 +1,6 @@
 spring:
   datasource:
-gi    url: jdbc:mariadb://mariadb:3306/test
+    url: jdbc:mariadb://mariadb:3306/test
     username: root
     password: root1234
 
