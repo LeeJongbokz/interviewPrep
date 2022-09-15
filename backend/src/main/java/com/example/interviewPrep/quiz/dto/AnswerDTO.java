@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Builder
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class AnswerDTO {
 
     private final Long id;
@@ -18,6 +17,5 @@ public class AnswerDTO {
 
     @NotBlank
     private final String content;
-
 
 }
