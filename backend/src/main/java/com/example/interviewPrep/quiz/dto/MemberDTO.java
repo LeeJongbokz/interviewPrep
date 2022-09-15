@@ -12,13 +12,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class MemberDTO {
 
-    private Long id;
+    private final Long id;
 
     @NotNull
-    private String email;
+    private final String email;
     @NotNull
-    private String password;
+    private final String password;
     @NotNull
-    private String type;
+    private final String type;
 
 }
