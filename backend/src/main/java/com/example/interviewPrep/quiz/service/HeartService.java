@@ -19,8 +19,7 @@ public class HeartService {
 
     public Heart createHeart(Long answerId) {
         Answer answer = answerRepository.findById(answerId).orElseThrow();
-        //TODO 멤버 정보 가져오기
-
+        //TODO 멤버 정보 가져오기 - 좋아요 기록 검증
         Heart heart = Heart.builder()
                 .answer(answer)
                 .question(answer.getQuestion())
@@ -30,4 +29,10 @@ public class HeartService {
         return heart;
     }
 
+    public Heart deleteHeart(Long heartId) {
+        //TODO 멤버 정보 가져오기 - 좋아요 기록 검증
+        Heart heart = heartRepository.findById(heartId).orElseThrow();
+        heartRepository.delete(heart);
+        return heart;
+    }
 }
