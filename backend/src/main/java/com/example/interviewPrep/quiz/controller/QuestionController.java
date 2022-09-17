@@ -2,9 +2,10 @@ package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.repository.QuestionJpaRepository;
+import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,8 +25,10 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class QuestionController {
-
+    @Autowired
     private final QuestionService questionService;
+    @Autowired
+    private final QuestionRepository questionRepository;
 
     @GetMapping("/{type}")
     public ResponseEntity<?> getQuestionType(@PathVariable String type, @PageableDefault(size=10) Pageable pageable){
@@ -41,13 +44,11 @@ public class QuestionController {
 
 
     @GetMapping("/single/{id}")
-    public ResponseEntity<?> getQuestion(@PathVariable("id") Long id){
+    public ResponseEntity<?> getQuestion(@PathVariable Long id){
 
-        Optional<QuestionDTO> questionDTO = questionService.findById(id);
+        Question question = questionService.getQuestion(id);
+        QuestionDTO questionDTO = questionService.domainToDTO(question);
 
-        if(questionDTO.isEmpty()){
-            return RESPONSE_NOT_FOUND;
-        }
         return new ResponseEntity<>(questionDTO, HttpStatus.OK);
     }
 
@@ -58,9 +59,8 @@ public class QuestionController {
         return questionService.createQuestion(questionDTO);
     }
 
-    @PutMapping
-    public Question update(@RequestBody @Valid QuestionDTO questionDTO){
-        Long id = questionDTO.getId();
+    @PutMapping("{id}")
+    public Question update(@PathVariable Long id, @RequestBody @Valid QuestionDTO questionDTO){
         return questionService.updateQuestion(id, questionDTO);
     }
 

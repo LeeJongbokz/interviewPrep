@@ -14,6 +14,7 @@ import java.util.Optional;
 @Transactional
 public interface QuestionRepository extends JpaRepository<Question, Long>{
 
+    Optional<Question> findById(Long id);
     Optional<Question> findByTitle(String title);
     List<Question> findByType(String type);
     Page<Question> findByType(String type, Pageable pageable);
