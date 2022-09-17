@@ -13,13 +13,13 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_SERVER_ERROR;
 
 @RestController
-@RequestMapping("/answer")
+@RequestMapping("/heart")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class HeartController {
     private final HeartService heartService;
 
-    @PostMapping("/{id}/heart")
+    @PostMapping("/{id}")
     public ResponseEntity<Void> create(@PathVariable Long id){
         Long answerId = id;
         try {
