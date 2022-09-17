@@ -30,6 +30,6 @@ public class Heart {
     Answer answer;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "QUESTION_ID")
+    @JoinColumn(name = "MEMBER_ID")
     Member member;
 }
