@@ -31,5 +31,5 @@ public class Heart {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "QUESTION_ID")
-    Question question;
+    Member member;
 }

@@ -22,7 +22,7 @@ public class HeartService {
         //TODO 멤버 정보 가져오기 - 좋아요 기록 검증
         Heart heart = Heart.builder()
                 .answer(answer)
-                .question(answer.getQuestion())
+                .member(answer.getMember())
                 .build();
 
         heartRepository.save(heart);
