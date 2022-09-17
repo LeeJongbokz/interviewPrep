@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -39,9 +38,6 @@ public class AnswerCreateWebControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Mock
-    List<AnswerDTO> mockDTOs;
-
     List<AnswerDTO> answerDTOs;
     String jsonRequest;
 
@@ -54,28 +50,19 @@ public class AnswerCreateWebControllerTest {
                 .content("새 답안입니다1.")
                 .build();
 
-        AnswerDTO answerDTO2 = AnswerDTO.builder()
-                .content("새 답안입니다2.")
-                .build();
-
 
         answerDTOs.add(answerDTO1);
-        answerDTOs.add(answerDTO2);
-
         jsonRequest = objectMapper.writeValueAsString(answerDTOs);
-
 
         Answer answer = Answer.builder()
                 .content("새 답안입니다")
                 .build();
-        String myJson = objectMapper.writeValueAsString(answer);
         when(answerService.createAnswer(any(AnswerDTO.class))).thenReturn(answer);
-
-
     }
 
 
 
+    /*
     @Test
     void create() throws Exception{
 
@@ -88,13 +75,13 @@ public class AnswerCreateWebControllerTest {
 
         verify(answerService).createAnswers(refEq(answerDTOs));
     }
-
+    */
 
 
 
     @Test
     @DisplayName("answer valid create")
-    void createvalidAnswer() throws Exception{
+    void createValidAnswer() throws Exception{
         //when
         mockMvc.perform(post("/answer/1")
                 .accept(MediaType.APPLICATION_JSON)
