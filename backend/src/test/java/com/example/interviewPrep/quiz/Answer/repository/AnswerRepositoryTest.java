@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -28,30 +26,16 @@ public class AnswerRepositoryTest {
     public void save(){
 
         // Given
-        List<Answer> answers = new ArrayList<>();
-
         Answer answer1 = Answer.builder()
                 .content("답안1")
                 .build();
 
-        Answer answer2 = Answer.builder()
-                .content("답안2")
-                .build();
-
-        answers.add(answer1);
-        answers.add(answer2);
-
         // When
-        answerRepository.save(answers);
+        Answer savedAnswer = answerRepository.save(answer1);
 
         // Then
-        for(Answer answer: answers){
-            Long savedId = answer.getId();
-            assertEquals(answer, answerRepository.findById(savedId));
-        }
-
+        assertEquals(savedAnswer.getId(), answer1.getId());
     }
-
 
 
 }
