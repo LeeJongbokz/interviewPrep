@@ -1,8 +1,9 @@
 package com.example.interviewPrep.quiz.Question.controller;
 
 import com.example.interviewPrep.quiz.controller.QuestionController;
+import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.repository.QuestionJpaRepository;
+import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,17 +36,24 @@ public class QuestionReadWebControllerTest {
     QuestionService questionService;
 
     @MockBean
-    QuestionJpaRepository questionJpaRepository;
+    QuestionRepository questionRepository;
 
     @Autowired
     MockMvc mockMvc;
 
+    Question question;
     QuestionDTO questionDTO;
     List<QuestionDTO> questionDTOS;
     Pageable pageable;
 
     @BeforeEach
     void setUp() throws Exception{
+
+        question = Question.builder()
+                    .title("자바 1번문제")
+                    .type("자바")
+                    .build();
+
         questionDTOS = new ArrayList<>();
 
         for(int i = 1; i<11; i++) {
@@ -57,7 +65,7 @@ public class QuestionReadWebControllerTest {
             questionDTOS.add(questionDTO);
         }
 
-        when(questionService.findById(10L)).thenReturn(Optional.ofNullable(questionDTO));
+        when(questionService.findQuestion(10L)).thenReturn(question);
 
         pageable = PageRequest.of(0, 10);
         Page<QuestionDTO> questions = new PageImpl<>(questionDTOS);
@@ -119,7 +127,7 @@ public class QuestionReadWebControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(questionService).findById(id);
+        verify(questionService).findQuestion(id);
 
     }
 
@@ -137,7 +145,7 @@ public class QuestionReadWebControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
-        verify(questionService).findById(id);
+        verify(questionService).findQuestion(id);
 
     }
 

@@ -2,6 +2,7 @@ package com.example.interviewPrep.quiz.Question.controller;
 
 import com.example.interviewPrep.quiz.controller.QuestionController;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,9 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(QuestionController.class)
@@ -24,6 +25,9 @@ public class QuestionCreateWebControllerTest {
 
     @MockBean
     QuestionService questionService;
+
+    @MockBean
+    QuestionRepository questionRepository;
 
     @Autowired
     MockMvc mockMvc;
@@ -48,16 +52,15 @@ public class QuestionCreateWebControllerTest {
     @Test
     @DisplayName("Question 생성")
     void createWithValidAttributes() throws Exception{
-        mockMvc.perform(post("/test/create")
+        mockMvc.perform(post("/question")
+                        .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest)
                 )
+                .andDo(print())
                 .andExpect(status().isCreated());
-        // .andExpect(jsonPath("$.title").value("problem1"))
-        // .andExpect(jsonPath("$.type").value("java"));
 
         verify(questionService).createQuestion(any(QuestionDTO.class));
     }
-
 
 }

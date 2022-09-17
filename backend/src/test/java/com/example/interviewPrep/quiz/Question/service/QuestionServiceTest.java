@@ -2,21 +2,14 @@ package com.example.interviewPrep.quiz.Question.service;
 
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.repository.QuestionJpaRepository;
+import com.example.interviewPrep.quiz.exception.QuestionNotFoundException;
 import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,82 +18,111 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 public class QuestionServiceTest {
 
-    @Autowired
-    QuestionService questionService;
+    private QuestionService questionService;
 
-    @Autowired
-    QuestionRepository questionRepository;
+    private QuestionRepository questionRepository = mock(QuestionRepository.class);
 
-    @Autowired
-    QuestionJpaRepository questionJpaRepository;
-
-    private Question question;
-    private QuestionDTO questionDTO;
-    private QuestionDTO updatedQuestionDTO;
-    private List<QuestionDTO> questionDTOS;
+    Question question;
+    QuestionDTO questionDTO;
 
     @BeforeEach
     void setUp(){
-        questionDTO = QuestionDTO.builder()
-                                .title("자바 1번 문제")
-                                .type("java")
-                                .build();
 
+        questionService = new QuestionService(questionRepository);
 
-        updatedQuestionDTO = QuestionDTO.builder()
-                            .title("자바 1번 문제 수정")
-                            .type("java")
+        question = Question.builder()
+                            .id(1L)
+                            .title("1번 문제")
+                            .type("자바")
                             .build();
 
+        given(questionRepository.findAll()).willReturn(List.of(question));
+        given(questionRepository.findById(1L)).willReturn(Optional.of(question));
     }
 
     @Test
     @DisplayName("새 Question 생성")
     void createQuestion() {
 
-        question = Question.builder()
-                .title(questionDTO.getTitle())
-                .type(questionDTO.getType())
-                .build();
+        QuestionDTO questionDTO = QuestionDTO.builder()
+                                    .id(10L)
+                                    .title("자바 10번 문제")
+                                    .type("자바")
+                                    .build();
 
-        assertThat(question.getTitle()).isEqualTo(questionDTO.getTitle());
-        assertThat(question.getType()).isEqualTo(questionDTO.getType());
+        Question createdQuestion = questionService.createQuestion(questionDTO);
+
+        verify(questionRepository).save(any(Question.class));
+
+        assertThat(createdQuestion.getId()).isEqualTo(10L);
+        assertThat(createdQuestion.getTitle()).isEqualTo("자바 10번 문제");
+        assertThat(createdQuestion.getType()).isEqualTo("자바");
+    }
+
+    @Test
+    @DisplayName("유효한 ID로 Question 업데이트")
+    void updateQuestionWithExistedId(){
+
+       QuestionDTO questionDTO = QuestionDTO.builder()
+                                .id(1L)
+                                .title("문제 1번")
+                                .type("자바")
+                                .build();
+
+       Question updatedQuestion = questionService.updateQuestion(questionDTO.getId(), questionDTO);
+
+       assertThat(updatedQuestion.getId()).isEqualTo(1L);
+       assertThat(updatedQuestion.getTitle()).isEqualTo("문제 1번");
     }
 
     @Test
     @DisplayName("Question 업데이트")
-    void updateQuestion(){
+    void updateQuestionWithNotExistedId(){
 
-       Question question = questionService.createQuestion(questionDTO);
+        QuestionDTO questionDTO = QuestionDTO.builder()
+                                .id(1000L)
+                                .title("문제 1번")
+                                .type("자바")
+                                .build();
 
-       Question updatedQuestion = questionService.updateQuestion(question.getId(), updatedQuestionDTO);
-
-       assertThat(updatedQuestion.getTitle()).isEqualTo(updatedQuestionDTO.getTitle());
+        assertThatThrownBy(() -> questionService.updateQuestion(questionDTO.getId(), questionDTO))
+                        .isInstanceOf(QuestionNotFoundException.class);
     }
 
 
     @Test
-    @DisplayName("Question 삭제")
-    void deleteQuestion(){
+    @DisplayName("유효한 ID로 Question 삭제")
+    void deleteQuestionWithExistedId(){
 
-        Question question = questionService.createQuestion(questionDTO);
+        questionService.deleteQuestion(1L);
 
-        questionService.deleteQuestion(question.getId());
+        verify(questionRepository).delete(any(Question.class));
+    }
 
-        assertThat(questionRepository.findById(question.getId())).isEqualTo(null);
+    @Test
+    @DisplayName("유효하지 않은 ID로 Question 삭제")
+    void deleteQuestionWithNotExistedId(){
+
+        assertThatThrownBy(() -> questionService.deleteQuestion(1000L))
+                            .isInstanceOf(QuestionNotFoundException.class);
 
     }
 
 
-    private void createPageQuestion(){
-        questionDTOS = new ArrayList<>();
+    @Test
+    void createPageQuestion(){
+        List<QuestionDTO> questionDTOS = new ArrayList<>();
 
         QuestionDTO mydto;
         String[] type = {"java", "c++"};
