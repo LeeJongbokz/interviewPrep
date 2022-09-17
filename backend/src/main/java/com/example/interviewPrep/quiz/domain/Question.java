@@ -3,6 +3,7 @@ package com.example.interviewPrep.quiz.domain;
 import lombok.*;
 
 import javax.persistence.*;
+
 @Entity
 @Getter
 @Setter
