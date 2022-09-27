@@ -1,8 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mariadb://mariadb:3306/test
-    username: root
-    password: root1234
+    url: jdbc:h2:tcp://localhost/~/interviewPrep
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
@@ -12,6 +13,10 @@ spring:
         #        show_sql: true
         format_sql: true
 #        default_batch_fetch_size: 100
+
+jwt:
+  secret: "12345678123456781234567812345678"
+
 
 logging:
   level:
