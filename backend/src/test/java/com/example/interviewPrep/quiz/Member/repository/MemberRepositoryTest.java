@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -54,7 +54,7 @@ public class MemberRepositoryTest {
 
         // Then
         String savedEmail = member.getEmail();
-        assertEquals(member, memberRepository.findByEmail(savedEmail).get(0));
+        assertEquals(member, memberRepository.findByEmail(savedEmail).get());
 
     }
 
@@ -65,10 +65,10 @@ public class MemberRepositoryTest {
 
         // When
         memberRepository.save(member);
-        List<Member> searchedMembers = memberRepository.findByEmail(email);
+        Optional<Member> searchedMember = memberRepository.findByEmail(email);
 
         // Then
-        assertThat(email).isEqualTo(searchedMembers.get(0).getEmail());
+        assertThat(email).isEqualTo(searchedMember.get().getEmail());
     }
 
 

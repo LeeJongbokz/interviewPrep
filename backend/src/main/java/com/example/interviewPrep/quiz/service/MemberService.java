@@ -7,7 +7,6 @@ import com.example.interviewPrep.quiz.utils.PasswordCheck;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,20 +20,20 @@ public class MemberService {
                 .password(password)
                 .build();
 
-        List<Member> searchedMembers = memberRepository.findByEmail(member.getEmail());
+        Optional<Member> searchedMember = memberRepository.findByEmail(member.getEmail());
 
-        if(searchedMembers.isEmpty()){
+        if(searchedMember.isEmpty()){
             return Optional.empty();
         }
-        boolean isSamePassword = PasswordCheck.isMatch(searchedMembers.get(0).getPassword(), password);
+        boolean isSamePassword = PasswordCheck.isMatch(searchedMember.get().getPassword(), password);
 
         if(!isSamePassword){
             return Optional.empty();
         }
 
         Optional<MemberDTO> searchedMemberDTO = Optional.ofNullable(MemberDTO.builder()
-                .email(searchedMembers.get(0).getEmail())
-                .password(searchedMembers.get(0).getPassword())
+                .email(searchedMember.get().getEmail())
+                .password(searchedMember.get().getPassword())
                 .build());
 
         return searchedMemberDTO;
