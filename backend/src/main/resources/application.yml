@@ -14,9 +14,8 @@ spring:
         format_sql: true
 #        default_batch_fetch_size: 100
 
-jwt:
-  secret: "12345678123456781234567812345678"
-
+  profiles:
+    include: oauth
 
 logging:
   level:

@@ -68,6 +68,12 @@ dependencies {
 	// JSON Object
 	implementation group: 'org.json', name: 'json', version: '20090211'
 
+	//OAuth2
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	//security-test
+	testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {

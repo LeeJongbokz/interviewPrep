@@ -20,11 +20,12 @@ public class MemberService {
                 .password(password)
                 .build();
 
-        Optional<Member> searchedMember = memberRepository.findByEmail(member.getEmail());
+        Optional<Member> searchedMember = memberRepository.findByEmailAndType(member.getEmail(),"normal");
 
         if(searchedMember.isEmpty()){
             return Optional.empty();
         }
+        
         boolean isSamePassword = PasswordCheck.isMatch(searchedMember.get().getPassword(), password);
 
         if(!isSamePassword){

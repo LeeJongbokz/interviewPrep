@@ -29,6 +29,7 @@ public class MemberRepositoryTest {
     Member member;
     String email;
     String password;
+    String type;
 
     @BeforeEach
     void setUp(){
@@ -36,10 +37,12 @@ public class MemberRepositoryTest {
         // Given
         email = "hello@gmail.com";
         password = "1234";
+        type = "google";
 
         member = Member.builder()
                 .email(email)
                 .password(password)
+                .type(type)
                 .build();
 
     }
@@ -54,11 +57,11 @@ public class MemberRepositoryTest {
 
         // Then
         String savedEmail = member.getEmail();
+
         assertEquals(member, memberRepository.findByEmail(savedEmail).get());
-
+        assertEquals(member, memberRepository.findByEmailAndType(savedEmail,type).get());
     }
-
-
+    
     @Test
     @DisplayName("Email로 회원 찾기")
     public void findByEmail(){
@@ -70,6 +73,8 @@ public class MemberRepositoryTest {
         // Then
         assertThat(email).isEqualTo(searchedMember.get().getEmail());
     }
+
+     
 
 
 }
