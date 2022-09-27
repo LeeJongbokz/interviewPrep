@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -57,24 +57,24 @@ public class MemberRepositoryTest {
 
         // Then
         String savedEmail = member.getEmail();
+
+        assertEquals(member, memberRepository.findByEmail(savedEmail).get());
         assertEquals(member, memberRepository.findByEmailAndType(savedEmail,type).get());
-
     }
-
-    /*
+    
     @Test
     @DisplayName("Email로 회원 찾기")
     public void findByEmail(){
 
         // When
         memberRepository.save(member);
-        List<Member> searchedMembers = memberRepository.findByEmail(email);
+        Optional<Member> searchedMember = memberRepository.findByEmail(email);
 
         // Then
-        assertThat(email).isEqualTo(searchedMembers.get(0).getEmail());
+        assertThat(email).isEqualTo(searchedMember.get().getEmail());
     }
 
-     */
+     
 
 
 }
