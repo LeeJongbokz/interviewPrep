@@ -21,20 +21,20 @@ public class MemberService {
                 .password(password)
                 .build();
 
-        List<Member> searchedMembers = memberRepository.findByEmail(member.getEmail());
+        Optional<Member> searchedMembers = memberRepository.findByEmailAndType(member.getEmail(),"normal");
 
         if(searchedMembers.isEmpty()){
             return Optional.empty();
         }
-        boolean isSamePassword = PasswordCheck.isMatch(searchedMembers.get(0).getPassword(), password);
+        boolean isSamePassword = PasswordCheck.isMatch(searchedMembers.get().getPassword(), password);
 
         if(!isSamePassword){
             return Optional.empty();
         }
 
         Optional<MemberDTO> searchedMemberDTO = Optional.ofNullable(MemberDTO.builder()
-                .email(searchedMembers.get(0).getEmail())
-                .password(searchedMembers.get(0).getPassword())
+                .email(searchedMembers.get().getEmail())
+                .password(searchedMembers.get().getPassword())
                 .build());
 
         return searchedMemberDTO;
