@@ -1,40 +1,37 @@
 package com.example.interviewPrep.quiz.controller;
 
 
-import com.example.interviewPrep.quiz.dto.MemberDTO;
-import com.example.interviewPrep.quiz.service.MemberService;
+import com.example.interviewPrep.quiz.dto.LoginRequestDTO;
+import com.example.interviewPrep.quiz.dto.LoginResponseDTO;
+import com.example.interviewPrep.quiz.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
-
-import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_OK;
-import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_NOT_FOUND;
-
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class MemberController {
-    private final MemberService memberService;
+    private final AuthenticationService authService;
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody @NotNull MemberDTO memberInfo){
+    public LoginResponseDTO login(@RequestBody @NotNull LoginRequestDTO member){
 
-        String email = memberInfo.getEmail();
-        String password = memberInfo.getPassword();
+        String email = member.getEmail();
+        String password = member.getPassword();
 
-        Optional<MemberDTO> searchedMemberDTO = memberService.loginByEmailAndPassword(email, password);
-        if(searchedMemberDTO.isPresent()){
-            return RESPONSE_OK;
-        }else {
-            return RESPONSE_NOT_FOUND;
-        }
+        String token = authService.login(email, password);
 
+        return toResponse(token);
+    }
+
+    private LoginResponseDTO toResponse(String token){
+        return LoginResponseDTO.builder()
+                .accessToken(token)
+                .build();
     }
 
 }
