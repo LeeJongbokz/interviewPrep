@@ -2,7 +2,6 @@ package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,6 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 public class QuestionController {
     @Autowired
     private final QuestionService questionService;
-    @Autowired
-    private final QuestionRepository questionRepository;
-
     @GetMapping("/{type}")
     public ResponseEntity<?> getQuestionType(@PathVariable String type, @PageableDefault(size=10) Pageable pageable){
 

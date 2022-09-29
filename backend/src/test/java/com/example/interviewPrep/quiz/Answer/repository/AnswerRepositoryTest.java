@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.Answer.repository;
 
 import com.example.interviewPrep.quiz.domain.Answer;
-import com.example.interviewPrep.quiz.repository.AnswerRepository;
+import com.example.interviewPrep.quiz.domain.AnswerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -12,14 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class AnswerRepositoryTest {
-
+class AnswerRepositoryTest {
     @Autowired
-    AnswerRepository answerRepository;
+    private final AnswerRepository answerRepository = mock(AnswerRepository.class);
 
     @Test
     @DisplayName("Answer를 DB에 저장")

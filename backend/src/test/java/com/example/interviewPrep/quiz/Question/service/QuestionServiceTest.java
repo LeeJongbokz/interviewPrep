@@ -1,14 +1,16 @@
 package com.example.interviewPrep.quiz.Question.service;
 
 import com.example.interviewPrep.quiz.domain.Question;
+import com.example.interviewPrep.quiz.domain.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.exception.QuestionNotFoundException;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
+import com.example.interviewPrep.quiz.infra.JpaQuestionRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +33,8 @@ public class QuestionServiceTest {
 
     private QuestionService questionService;
 
-    private QuestionRepository questionRepository = mock(QuestionRepository.class);
+    @Autowired
+    private final QuestionRepository questionRepository = mock(JpaQuestionRepository.class);
 
     Question question;
     QuestionDTO questionDTO;

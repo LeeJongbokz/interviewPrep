@@ -2,8 +2,8 @@ package com.example.interviewPrep.quiz.Question.controller;
 
 import com.example.interviewPrep.quiz.controller.QuestionController;
 import com.example.interviewPrep.quiz.domain.Question;
+import com.example.interviewPrep.quiz.domain.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,9 +34,6 @@ public class QuestionReadWebControllerTest {
 
     @MockBean
     QuestionService questionService;
-
-    @MockBean
-    QuestionRepository questionRepository;
 
     @Autowired
     MockMvc mockMvc;
