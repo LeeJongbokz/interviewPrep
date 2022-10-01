@@ -2,20 +2,16 @@ package com.example.interviewPrep.quiz.Answer.service;
 
 import com.example.interviewPrep.quiz.domain.Answer;
 import com.example.interviewPrep.quiz.dto.AnswerDTO;
-import com.example.interviewPrep.quiz.repository.AnswerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class AnswerServiceTest {
 
-    @Autowired
-    AnswerRepository answerRepository;
+public class AnswerServiceTest {
 
     Answer answer1;
     Answer answer2;

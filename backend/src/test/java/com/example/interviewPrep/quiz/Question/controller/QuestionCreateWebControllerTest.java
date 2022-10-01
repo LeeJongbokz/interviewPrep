@@ -2,7 +2,6 @@ package com.example.interviewPrep.quiz.Question.controller;
 
 import com.example.interviewPrep.quiz.controller.QuestionController;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,9 +24,6 @@ public class QuestionCreateWebControllerTest {
 
     @MockBean
     QuestionService questionService;
-
-    @MockBean
-    QuestionRepository questionRepository;
 
     @Autowired
     MockMvc mockMvc;

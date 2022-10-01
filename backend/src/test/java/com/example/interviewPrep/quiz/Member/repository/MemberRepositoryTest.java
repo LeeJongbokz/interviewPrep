@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.Member.repository;
 
 import com.example.interviewPrep.quiz.domain.Member;
-import com.example.interviewPrep.quiz.repository.MemberRepository;
+import com.example.interviewPrep.quiz.domain.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,15 +15,15 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class MemberRepositoryTest {
-
+class MemberRepositoryTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    private final MemberRepository memberRepository = mock(MemberRepository.class);
 
 
     Member member;
