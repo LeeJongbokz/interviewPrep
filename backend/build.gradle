@@ -74,6 +74,8 @@ dependencies {
 	//security-test
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	//aop
+	implementation 'org.springframework:spring-aop'
 }
 
 tasks.named('test') {

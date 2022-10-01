@@ -1,5 +1,6 @@
 package com.example.interviewPrep.quiz.controller;
 
+import com.example.interviewPrep.quiz.aop.Timer;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ public class IndexController{
 
     private final HttpSession httpSession;
 
+    @Timer
     @GetMapping("/")
     public String index(Model model) {
 
