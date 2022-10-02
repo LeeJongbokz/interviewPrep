@@ -1,11 +1,12 @@
 package com.example.interviewPrep.quiz.Question.repository;
 
 import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
+import com.example.interviewPrep.quiz.domain.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,8 @@ import static org.mockito.Mockito.mock;
 @Transactional
 class QuestionRepositoryTest {
 
-    QuestionRepository questionRepository = mock(QuestionRepository.class);
+    @Autowired
+    private final QuestionRepository questionRepository = mock(QuestionRepository.class);
 
     Question question;
     @BeforeEach

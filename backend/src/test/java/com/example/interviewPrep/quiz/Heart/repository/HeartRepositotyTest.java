@@ -3,7 +3,7 @@ package com.example.interviewPrep.quiz.Heart.repository;
 import com.example.interviewPrep.quiz.domain.Answer;
 import com.example.interviewPrep.quiz.domain.Heart;
 import com.example.interviewPrep.quiz.domain.Member;
-import com.example.interviewPrep.quiz.repository.HeartRepository;
+import com.example.interviewPrep.quiz.infra.HeartRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 

@@ -1,9 +1,9 @@
 package com.example.interviewPrep.quiz.service;
 
 import com.example.interviewPrep.quiz.domain.Member;
+import com.example.interviewPrep.quiz.domain.MemberRepository;
 import com.example.interviewPrep.quiz.dto.OAuthAttributes;
 import com.example.interviewPrep.quiz.dto.SessionUser;
-import com.example.interviewPrep.quiz.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

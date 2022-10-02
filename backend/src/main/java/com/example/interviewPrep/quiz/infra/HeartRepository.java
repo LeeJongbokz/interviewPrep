@@ -1,4 +1,4 @@
-package com.example.interviewPrep.quiz.repository;
+package com.example.interviewPrep.quiz.infra;
 
 import com.example.interviewPrep.quiz.domain.Heart;
 import org.springframework.data.jpa.repository.JpaRepository;
