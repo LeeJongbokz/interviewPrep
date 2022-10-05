@@ -32,14 +32,7 @@ const Test = () => {
     </Layout>
   );
 };
-const Div = styled.div`
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  background-color: #f3f4f6;
-  width: 96vw;
-`;
+
 const TRow = styled.tr`
   display: flex;
   justify-content: space-between;

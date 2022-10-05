@@ -7,7 +7,7 @@ import { subjects } from '../utils/data';
 
 const TestScreen = () => {
   const [questions, setQuestions] = useState([]);
-  const [answerDTOs, setAnswerDTOs] = useState([]);
+  const [answerDTOs] = useState([]);
 
   const location = useLocation();
   const paths = location.pathname.split('/');
