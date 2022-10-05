@@ -32,7 +32,7 @@ const TextBox = styled.span`
 `;
 
 const H1 = styled.h1`
-  margin-top: 20px;
+  padding-top: 50px;
 `;
 
 const H2 = styled.h2`
