@@ -8,7 +8,7 @@ const SingUp = () => {
   const [nickName, setNickName] = useState();
   const onSubmit = e => {
     e.preventDefault();
-    console.log(e.target);
+    console.log(e.target.vaule);
   };
   return (
     <>
@@ -17,6 +17,7 @@ const SingUp = () => {
         <Input
           type="email"
           id="email"
+          name="email"
           placeholder="Enter email"
           value={email}
           onChange={e => setEmail(e.target.value)}
@@ -25,6 +26,7 @@ const SingUp = () => {
         <Input
           type="password"
           id="password"
+          name="password"
           placeholder="Password"
           value={password}
           onChange={e => setPassword(e.target.value)}
@@ -32,7 +34,8 @@ const SingUp = () => {
         <H4>비밀번호확인</H4>
         <Input
           type="password"
-          id="password"
+          id="confirmpassword"
+          name="confirmpassword"
           placeholder="Password"
           value={confirmPassword}
           onChange={e => setConfrimPassword(e.target.value)}
@@ -41,6 +44,8 @@ const SingUp = () => {
         <Input
           type="text"
           placeholder="Enter NickName"
+          name="nickname"
+          id="nickname"
           value={nickName}
           onChange={e => setNickName(e.target.value)}
         />
