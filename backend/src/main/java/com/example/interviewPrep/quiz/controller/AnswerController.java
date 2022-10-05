@@ -1,12 +1,16 @@
 package com.example.interviewPrep.quiz.controller;
 
+import com.example.interviewPrep.quiz.domain.Answer;
 import com.example.interviewPrep.quiz.dto.AnswerDTO;
 import com.example.interviewPrep.quiz.service.AnswerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.Optional;
 
 import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.*;
 
@@ -18,7 +22,7 @@ public class AnswerController {
 
     private final AnswerService answerService;
     @PostMapping("/{id}")
-    public ResponseEntity<?> create(@RequestBody @Valid AnswerDTO answerDTO){
+    public ResponseEntity<?> createAnswer(@RequestBody @Valid AnswerDTO answerDTO){
 
         try {
             answerService.createAnswer(answerDTO);
@@ -26,6 +30,24 @@ public class AnswerController {
         }catch (Exception e){
             return RESPONSE_SERVER_ERROR;
         }
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> readAnswer(@PathVariable Long id){
+
+        Optional<AnswerDTO> answerDTO = answerService.readAnswer(id);
+        if(answerDTO.isEmpty()) return RESPONSE_NO_CONTENT;
+        return new ResponseEntity<>(answerDTO, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAnswer(@PathVariable Long id){
+
+        Optional<Answer> answer = answerService.deleteAnswer(id);
+        if(answer.isEmpty()) return RESPONSE_NO_CONTENT;
+        return RESPONSE_OK;
     }
 
 

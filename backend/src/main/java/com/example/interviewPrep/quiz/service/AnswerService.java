@@ -19,7 +19,6 @@ public class AnswerService {
     private final QuestionRepository questionRepository;
     public Answer createAnswer(AnswerDTO answerDTO){
 
-
         Optional<Question> question = questionRepository.findById(answerDTO.getQuestionId());
 
         Answer answer =  Answer.builder()
@@ -30,6 +29,26 @@ public class AnswerService {
         answerRepository.save(answer);
         return answer;
     }
+
+    public Optional<AnswerDTO> readAnswer(Long id){
+
+        Optional<Answer> answer = answerRepository.findById(id);
+
+        return Optional.ofNullable(AnswerDTO.builder()
+                .id(answer.get().getId())
+                .content(answer.get().getContent())
+                .questionId(answer.get().getQuestion().getId())
+                .build());
+    }
+
+    public Optional<Answer> deleteAnswer(Long id){
+
+        Optional<Answer> answer = answerRepository.findById(id);
+        answerRepository.delete(answer.get());
+        return answer;
+
+    }
+
 
 
 }
