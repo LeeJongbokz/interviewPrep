@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 
-@RestController("/login")
+@RestController("/members/")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://52.3.173.210")
 @Slf4j
 public class MemberController {
     private final AuthenticationService authService;
-    @PostMapping
+    @PostMapping("login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @NotNull LoginRequestDTO member){
 
         ResponseEntity<LoginResponseDTO> responseEntity = null;
