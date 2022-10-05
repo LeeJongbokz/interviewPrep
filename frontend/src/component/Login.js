@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Layout from '../layout/Layout';
 import styled from 'styled-components';
-
+import { Link } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -57,6 +57,11 @@ const Login = () => {
             onChange={handlePasswordChange}
           />
           <Button onClick={onSubmit}>로그인</Button>
+          <Button color="skyblue">
+            <Link style={{ textDecoration: 'none' }} to="/singup">
+              회원가입
+            </Link>
+          </Button>
         </InputBoxes>
       </Div>
     </Layout>
@@ -98,11 +103,11 @@ const Button = styled.button`
   margin-top: 40px;
   margin-left: 100px;
   cursor: pointer;
-  background-color: dodgerblue;
+  background-color: ${props => (props.color ? props.color : 'dodgerblue')};
   border-radius: 3px;
   border-width: 2px;
   border-style: solid;
-  border-color: dodgerblue;
+  border-color: ${props => (props.color ? props.color : 'dodgerblue')};
   color: white;
   font-weight: bold;
 `;
