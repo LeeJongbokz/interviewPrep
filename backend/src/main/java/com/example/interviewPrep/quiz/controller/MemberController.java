@@ -52,7 +52,7 @@ public class MemberController {
                 String password = member.getPassword();
 
                 token = authService.login(email, password);
-                responseEntity = new ResponseEntity<>(toResponse(token), HttpStatus.UNAUTHORIZED);
+                responseEntity = new ResponseEntity<>(toResponse(token), HttpStatus.OK);
             }catch(RuntimeException re){
                 log.error("login Error:" + responseEntity);
             }
