@@ -3,7 +3,9 @@ package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.dto.LoginRequestDTO;
 import com.example.interviewPrep.quiz.dto.LoginResponseDTO;
+import com.example.interviewPrep.quiz.dto.SignUpRequestDTO;
 import com.example.interviewPrep.quiz.service.AuthenticationService;
+import com.example.interviewPrep.quiz.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,20 @@ import javax.validation.constraints.NotNull;
 @Slf4j
 public class MemberController {
     private final AuthenticationService authService;
+    private final MemberService memberService;
+
+    @PostMapping("signup")
+    public ResponseEntity<Void> signUp(@RequestBody @NotNull SignUpRequestDTO member){
+
+        if(member.hasNullDataBeforeSignup(member)){
+            throw new NullPointerException("회원가입시 필수 데이터를 모두 입력해야 합니다.");
+        }
+        memberService.createMember(member);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
     @PostMapping("login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @NotNull LoginRequestDTO member){
 
