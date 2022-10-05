@@ -1,9 +1,13 @@
 package com.example.interviewPrep.quiz.utils;
 
+import com.example.interviewPrep.quiz.errors.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +16,7 @@ import java.time.Duration;
 import java.util.Date;
 
 @Component
+@Slf4j
 public class JwtUtil {
 
     private final Key key;
@@ -32,10 +37,30 @@ public class JwtUtil {
     }
 
     public Claims decode(String token){
-        return Jwts.parserBuilder()
-                   .setSigningKey(key)
-                   .build()
-                   .parseClaimsJws(token)
-                   .getBody();
+
+        if(token == null || token.isBlank()){
+            throw new InvalidTokenException(token);
+        }
+
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        }catch(SignatureException e){
+            throw new InvalidTokenException(token);
+        }
     }
+
+    public boolean isTokenValid(String token){
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        } catch (JwtException e) {
+            log.error("유효하지 않은 Token입니다", e.getMessage());
+            return false;
+        }
+    }
+
 }
