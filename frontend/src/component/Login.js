@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleEmailChange = e => {
     console.log(e.target.value);
@@ -36,39 +37,30 @@ const Login = () => {
   };
 
   return (
-    <Div>
-      <InputBoxes>
-        <H4>이메일</H4>
-        <Input
-          type="email"
-          id="email"
-          placeholder="Enter email"
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <H4>비밀번호</H4>
-        <Input
-          type="password"
-          id="password"
-          placeholder="Password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        <Button onClick={onSubmit}>로그인</Button>
-        <Button color="skyblue">
-          <Link style={{ textDecoration: 'none' }} to="/singup">
-            회원가입
-          </Link>
-        </Button>
-      </InputBoxes>
-    </Div>
+    <InputBoxes>
+      <H4>이메일</H4>
+      <Input
+        type="email"
+        id="email"
+        placeholder="Enter email"
+        value={email}
+        onChange={handleEmailChange}
+      />
+      <H4>비밀번호</H4>
+      <Input
+        type="password"
+        id="password"
+        placeholder="Password"
+        value={password}
+        onChange={handlePasswordChange}
+      />
+      <Button onClick={onSubmit}>로그인</Button>
+      <Button onClick={() => navigate('/singup')} margin="30px" color="skyblue">
+        회원가입
+      </Button>
+    </InputBoxes>
   );
 };
-
-const Div = styled.div`
-  height: 999px;
-  background-color: #e9e9e9;
-`;
 
 const InputBoxes = styled.div`
   width: 500px;
@@ -76,7 +68,7 @@ const InputBoxes = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding-top: 120px;
+  padding-top: 50px;
 `;
 
 const H4 = styled.h4`
@@ -97,7 +89,7 @@ const Input = styled.input`
 const Button = styled.button`
   width: 305px;
   height: 35px;
-  margin-top: 40px;
+  margin-top: ${props => (props.margin ? props.margin : '50px')};
   margin-left: 100px;
   cursor: pointer;
   background-color: ${props => (props.color ? props.color : 'dodgerblue')};
