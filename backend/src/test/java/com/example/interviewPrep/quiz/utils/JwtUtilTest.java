@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.utils;
 
+import com.example.interviewPrep.quiz.errors.InvalidTokenException;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.security.SignatureException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,38 +10,45 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class JwtUtilTest {
 
+    private static final String SECRET = "12345678901234567890123456789010";
     private static final String email = "hello@gmail.com";
-    private static final String SECRET = "12345678123456781234567812345678";
-    private static final String VALID_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmcmVzaCIsImlhdCI6MTY2NDMwMjI5NCwiZXhwIjoxNjY0MzA0MDk0LCJlbWFpbCI6ImhlbGxvQGdtYWlsLmNvbSJ9._xKOG080jGvnr-X9BS9ND4VfPIKtxWIrQ0N4pZjUjno";
-    private static final String INVALID_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmcmVzaCIsImlhdCI6MTY2NDMwMjI5NCwiZXhwIjoxNjY0MzA0MDk0LCJlbWFpbCI6ImhlbGxvQGdtYWlsLmNvbSJ9._xKOG080jGvnr-X9BS9ND4VfPIKtxWIrQ0N4pZjUjnp";
-
+    private static String accessToken;
     private JwtUtil jwtUtil;
 
     @BeforeEach
     void setUp(){
         jwtUtil = new JwtUtil(SECRET);
+        accessToken = jwtUtil.makeJWTtoken(email);
     }
 
     @Test
     void makeJWTtoken() {
-
-        String accessToken = jwtUtil.makeJWTtoken(email);
-
-        assertThat(accessToken).isEqualTo(VALID_TOKEN);
-
+        assertThat(jwtUtil.isTokenValid(accessToken)).isTrue();
     }
 
     @Test
     void decodeWithValidToken() {
-
-        Claims claims = jwtUtil.decode(VALID_TOKEN);
-        assertThat(claims.get("memberId", Long.class)).isEqualTo(1);
+        Claims claims = jwtUtil.decode(accessToken);
+        assertThat(claims.get("email")).isEqualTo(email);
     }
 
 
     @Test
     void decodeWithInValidToken() {
-        assertThatThrownBy(() -> jwtUtil.decode(INVALID_TOKEN))
-                .isInstanceOf(SignatureException.class);
+        assertThatThrownBy(() -> jwtUtil.decode(accessToken+"d"))
+                .isInstanceOf(InvalidTokenException.class);
+    }
+
+    @Test
+    void decodeWithEmptyToken(){
+        assertThatThrownBy(() -> jwtUtil.decode(null))
+                .isInstanceOf(InvalidTokenException.class);
+
+        assertThatThrownBy(() -> jwtUtil.decode(" "))
+                .isInstanceOf(InvalidTokenException.class);
+
+        assertThatThrownBy(() -> jwtUtil.decode("   "))
+                .isInstanceOf(InvalidTokenException.class);
+
     }
 }
