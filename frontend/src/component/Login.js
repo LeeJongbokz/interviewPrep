@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Layout from '../layout/Layout';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 const Login = () => {
@@ -37,34 +36,32 @@ const Login = () => {
   };
 
   return (
-    <Layout>
-      <Div>
-        <InputBoxes>
-          <H4>이메일</H4>
-          <Input
-            type="email"
-            id="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={handleEmailChange}
-          />
-          <H4>비밀번호</H4>
-          <Input
-            type="password"
-            id="password"
-            placeholder="Password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-          <Button onClick={onSubmit}>로그인</Button>
-          <Button color="skyblue">
-            <Link style={{ textDecoration: 'none' }} to="/singup">
-              회원가입
-            </Link>
-          </Button>
-        </InputBoxes>
-      </Div>
-    </Layout>
+    <Div>
+      <InputBoxes>
+        <H4>이메일</H4>
+        <Input
+          type="email"
+          id="email"
+          placeholder="Enter email"
+          value={email}
+          onChange={handleEmailChange}
+        />
+        <H4>비밀번호</H4>
+        <Input
+          type="password"
+          id="password"
+          placeholder="Password"
+          value={password}
+          onChange={handlePasswordChange}
+        />
+        <Button onClick={onSubmit}>로그인</Button>
+        <Button color="skyblue">
+          <Link style={{ textDecoration: 'none' }} to="/singup">
+            회원가입
+          </Link>
+        </Button>
+      </InputBoxes>
+    </Div>
   );
 };
 

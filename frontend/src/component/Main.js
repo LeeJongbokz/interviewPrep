@@ -1,24 +1,21 @@
 import React from 'react';
-import Layout from '../layout/Layout';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const Main = () => {
   return (
-    <Layout>
-      <Div>
-        <H1>당신의 기술 면접을 위한 최고의 솔루션</H1>
-        <H2>답안을 작성하세요. 최고의 멘토들이 피드백 드립니다.</H2>
-        <P>
-          서비스 첫 이용시 누구나 <strong>무료</strong>
-        </P>
-        <LinkBox>
-          <Link style={{ textDecoration: 'inherit' }} to="/login">
-            <TextBox>지금 이용하기</TextBox>
-          </Link>
-        </LinkBox>
-      </Div>
-    </Layout>
+    <Div>
+      <H1>당신의 기술 면접을 위한 최고의 솔루션</H1>
+      <H2>답안을 작성하세요. 최고의 멘토들이 피드백 드립니다.</H2>
+      <P>
+        서비스 첫 이용시 누구나 <strong>무료</strong>
+      </P>
+      <LinkBox>
+        <Link style={{ textDecoration: 'inherit' }} to="/login">
+          <TextBox>지금 이용하기</TextBox>
+        </Link>
+      </LinkBox>
+    </Div>
   );
 };
 const TextBox = styled.span`

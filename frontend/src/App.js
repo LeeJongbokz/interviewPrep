@@ -1,18 +1,23 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './component/Login';
 import Main from './component/Main';
 import Test from './component/Test';
 import TestScreen from './component/TestScreen';
-import SignUp from './component/SignUp';
+import SingUp from './component/SingUp';
+import Layout from './layout/Layout';
 function App() {
   return (
     <div className="App">
       <Router>
-        <Route path="/" component={Main} exact={true} />
-        <Route path="/login" component={Login} />
-        <Route path="/test" component={Test} exact={true} />
-        <Route path="/test/:subject" component={TestScreen} exact={true} />
-        <Route path="/signup" component={SignUp} exact={true} />
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Main />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/test/:subject" element={<TestScreen />} />
+            <Route path="/singup" element={<SingUp />} />
+          </Route>
+        </Routes>
       </Router>
     </div>
   );

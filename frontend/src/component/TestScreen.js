@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import Layout from '../layout/Layout';
 import { subjects } from '../utils/data';
 
 const TestScreen = () => {
@@ -61,27 +60,25 @@ const TestScreen = () => {
   }, [questions]);
 
   return (
-    <Layout>
-      <Div>
-        <H3>
-          <TitleBox>
-            <Title>{subject} 테스트</Title> <Button onClick={onSubmit}>제출하기</Button>
-          </TitleBox>
-        </H3>
-        <UL>
-          {questions.map(question => (
-            <Question>
-              <SubTitle>
-                {num++}
-                {'. '}
-                {question.title}
-              </SubTitle>
-              <TextArea onChange={e => handleChange(e, question.id)}></TextArea>
-            </Question>
-          ))}
-        </UL>
-      </Div>
-    </Layout>
+    <Div>
+      <H3>
+        <TitleBox>
+          <Title>{subject} 테스트</Title> <Button onClick={onSubmit}>제출하기</Button>
+        </TitleBox>
+      </H3>
+      <UL>
+        {questions.map(question => (
+          <Question>
+            <SubTitle>
+              {num++}
+              {'. '}
+              {question.title}
+            </SubTitle>
+            <TextArea onChange={e => handleChange(e, question.id)}></TextArea>
+          </Question>
+        ))}
+      </UL>
+    </Div>
   );
 };
 

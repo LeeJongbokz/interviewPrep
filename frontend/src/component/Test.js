@@ -1,5 +1,4 @@
 import React from 'react';
-import Layout from '../layout/Layout';
 import styled from 'styled-components';
 
 import Problem from './Problem';
@@ -15,21 +14,19 @@ const Test = () => {
   ];
 
   return (
-    <Layout>
-      <Table>
-        <Thead>
-          <TRow>
-            <Tcol>과목</Tcol>
-            <Tcol>문제 이름</Tcol>
-            <Tcol>문제 난이도</Tcol>
-            <Tcol>푼 사람 수</Tcol>
-          </TRow>
-        </Thead>
-        {problems.map((problem, index) => {
-          return <Problem key={index} problem={problem} />;
-        })}
-      </Table>
-    </Layout>
+    <Table>
+      <Thead>
+        <TRow>
+          <Tcol>과목</Tcol>
+          <Tcol>문제 이름</Tcol>
+          <Tcol>문제 난이도</Tcol>
+          <Tcol>푼 사람 수</Tcol>
+        </TRow>
+      </Thead>
+      {problems.map((problem, index) => {
+        return <Problem key={index} problem={problem} />;
+      })}
+    </Table>
   );
 };
 

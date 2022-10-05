@@ -1,17 +1,19 @@
 import React from 'react';
 import Header from './Header';
 import styled from 'styled-components';
-
-const Layout = props => {
+import { Outlet } from 'react-router-dom';
+const Layout = () => {
   return (
     <>
       <Header />
-      <Main>{props.children}</Main>
+      <Main>
+        <Outlet />
+      </Main>
     </>
   );
 };
 const Main = styled.main`
-  height: 999px;
+  height: 100%;
   text-align: center;
 `;
 
