@@ -58,28 +58,32 @@ const Login = () => {
       <Button onClick={() => navigate('/singup')} margin="30px" color="skyblue">
         회원가입
       </Button>
+      <SNSButton back={'/kakao_login.png'}></SNSButton>
+      <SNSButton back={'/naver_login.png'}></SNSButton>
+      <SNSButton back={'/google_login.png'}></SNSButton>
     </InputBoxes>
   );
 };
 
 const InputBoxes = styled.div`
   width: 500px;
-  height: 600px;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
   padding-top: 50px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
 `;
 
-const H4 = styled.h4`
+const H4 = styled.span`
   font-weight: bold;
-  height: 10px;
+  text-align: center;
+  margin: 10px;
 `;
 
 const Input = styled.input`
-  width: 300px;
+  width: 250px;
   height: 30px;
-  margin-left: 100px;
   border-color: grey;
   border-width: 1px;
   border-radius: 3px;
@@ -87,10 +91,9 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  width: 305px;
+  width: 200px;
   height: 35px;
   margin-top: ${props => (props.margin ? props.margin : '50px')};
-  margin-left: 100px;
   cursor: pointer;
   background-color: ${props => (props.color ? props.color : 'dodgerblue')};
   border-radius: 3px;
@@ -99,6 +102,16 @@ const Button = styled.button`
   border-color: ${props => (props.color ? props.color : 'dodgerblue')};
   color: white;
   font-weight: bold;
+  background-image: ${props => (props.back ? props.back : '')};
+`;
+const SNSButton = styled.div`
+  background-image: url(${props => (props.back ? props.back : '')});
+  width: 200px;
+  height: 50px;
+  margin-top: 30px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 `;
 
 export default Login;

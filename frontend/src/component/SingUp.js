@@ -67,6 +67,7 @@ const InputBoxes = styled.form`
   flex-direction: column;
   margin: 0 auto;
   padding-top: 50px;
+  text-align: center;
 `;
 
 const H4 = styled.h4`
