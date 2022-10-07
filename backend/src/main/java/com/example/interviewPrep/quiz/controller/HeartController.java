@@ -20,12 +20,12 @@ public class HeartController {
     private final HeartService heartService;
 
     @PostMapping("/{id}")
-    public ResponseEntity<Void> create(@PathVariable Long id){
+    public ResponseEntity<Void> create(@PathVariable Long id) {
         Long answerId = id;
         try {
             heartService.createHeart(answerId);
             return RESPONSE_CREATED;
-        }catch (Exception e){
+        } catch (Exception e) {
             return RESPONSE_SERVER_ERROR;
         }
     }
