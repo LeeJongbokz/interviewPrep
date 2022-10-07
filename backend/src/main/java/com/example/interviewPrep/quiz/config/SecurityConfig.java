@@ -2,9 +2,13 @@ package com.example.interviewPrep.quiz.config;
 
 import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -16,7 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .headers().frameOptions().disable() // H2 데이터 베이스 콘솔에 접근
+                .cors().configurationSource(corsConfigurationSource())
+//                .headers().frameOptions().disable() // H2 데이터 베이스 콘솔에 접근
                 .and()
                 .authorizeRequests() //url별 권한 접근제어 관리 옵션 시작점
                 .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**").permitAll() //권한 관리 대상 지정
@@ -30,5 +35,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .oauth2Login()//OAuth2 로그인 설정의 진입점
                 .userInfoEndpoint()//로그인 성공 이후 사용자 정보 가져올때의 설정 담당
                 .userService(customOAuth2UserService);
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
