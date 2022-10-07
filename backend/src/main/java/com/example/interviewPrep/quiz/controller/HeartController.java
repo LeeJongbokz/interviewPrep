@@ -4,6 +4,7 @@ import com.example.interviewPrep.quiz.service.HeartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,4 +30,17 @@ public class HeartController {
             return RESPONSE_SERVER_ERROR;
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        Long answerId = id;
+        try {
+            heartService.deleteHeart(answerId);
+            return RESPONSE_CREATED;
+        } catch (Exception e) {
+            return RESPONSE_SERVER_ERROR;
+        }
+    }
+
+
 }
