@@ -6,11 +6,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Repository
-@Transactional
 @Primary
 public interface JpaMemberRepository extends MemberRepository, JpaRepository<Member, Long> {
 
