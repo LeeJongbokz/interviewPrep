@@ -3,8 +3,13 @@ package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.dto.LoginRequestDTO;
 import com.example.interviewPrep.quiz.dto.LoginResponseDTO;
+import com.example.interviewPrep.quiz.dto.SignUpRequestDTO;
 import com.example.interviewPrep.quiz.service.AuthenticationService;
+import com.example.interviewPrep.quiz.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,20 +17,49 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 
-@RestController
+@RestController("/members/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://52.3.173.210")
+@Slf4j
 public class MemberController {
     private final AuthenticationService authService;
-    @PostMapping("/login")
-    public LoginResponseDTO login(@RequestBody @NotNull LoginRequestDTO member){
+    private final MemberService memberService;
 
-        String email = member.getEmail();
-        String password = member.getPassword();
+    @PostMapping("signup")
+    public ResponseEntity<Void> signUp(@RequestBody @NotNull SignUpRequestDTO member){
 
-        String token = authService.login(email, password);
+        if(member.hasNullDataBeforeSignup(member)){
+            throw new NullPointerException("회원가입시 필수 데이터를 모두 입력해야 합니다.");
+        }
+        memberService.createMember(member);
 
-        return toResponse(token);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+    @PostMapping("login")
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @NotNull LoginRequestDTO member){
+
+        ResponseEntity<LoginResponseDTO> responseEntity = null;
+        String token = "";
+
+        if(member == null){
+            responseEntity = new ResponseEntity<>(toResponse(token), HttpStatus.UNAUTHORIZED);
+        }else{
+
+            try {
+                String email = member.getEmail();
+                String password = member.getPassword();
+
+                token = authService.login(email, password);
+                responseEntity = new ResponseEntity<>(toResponse(token), HttpStatus.OK);
+            }catch(RuntimeException re){
+                log.error("login Error:" + responseEntity);
+            }
+        }
+
+
+        return responseEntity;
     }
 
     private LoginResponseDTO toResponse(String token){
