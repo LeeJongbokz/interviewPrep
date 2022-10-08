@@ -4,7 +4,7 @@ import Layout from './layout/Layout';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import TestListPage from './pages/TestListPage';
-import SignUpPage from './pages/SingUpPage';
+import SignUpPage from './pages/SignUpPage';
 function App() {
   return (
     <div className="App">
@@ -15,7 +15,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/test" element={<TestListPage />} />
             <Route path="/test/:subject" element={<TestScreen />} />
-            <Route path="/singup" element={<SignUpPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
           </Route>
         </Routes>
       </Router>

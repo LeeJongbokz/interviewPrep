@@ -1,18 +1,28 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-
-const SingUp = () => {
+import * as API from '../utils/api';
+const SignUp = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfrimPassword] = useState();
-  const [nickName, setNickName] = useState();
+  const [name, setName] = useState();
   const onSubmit = e => {
     e.preventDefault();
-    console.log(e.target.vaule);
+    const res = API.post('members/signup');
   };
   return (
     <>
       <InputBoxes onSubmit={e => onSubmit(e)}>
+        <H4>이름</H4>
+        <Input
+          type="text"
+          placeholder="Enter NickName"
+          name="nickname"
+          id="nickname"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
+
         <H4>이메일</H4>
         <Input
           type="email"
@@ -40,15 +50,6 @@ const SingUp = () => {
           value={confirmPassword}
           onChange={e => setConfrimPassword(e.target.value)}
         />
-        <H4>닉네임</H4>
-        <Input
-          type="text"
-          placeholder="Enter NickName"
-          name="nickname"
-          id="nickname"
-          value={nickName}
-          onChange={e => setNickName(e.target.value)}
-        />
 
         <Button margin="30px" color="skyblue">
           회원가입
@@ -58,7 +59,7 @@ const SingUp = () => {
   );
 };
 
-export default SingUp;
+export default SignUp;
 
 const InputBoxes = styled.form`
   width: 500px;

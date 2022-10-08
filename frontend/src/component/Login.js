@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import * as API from '../utils/api';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,21 +19,17 @@ const Login = () => {
   };
 
   const onSubmit = () => {
-    console.log('여기 잘 넘어감');
-    axios
-      .post('http://52.3.173.210:8080/login', {
-        email: email,
-        password: password,
-      })
-      .then(function (response) {
-        console.log(response);
-        if (response.status === 200) {
-          window.location.href = '/test';
-        }
-      })
-      .catch(function (error) {
-        alert('이메일 혹은 비밀번호가 잘못 입력되었습니다.');
+    try {
+      const res = API.post('login', {
+        email,
+        password,
       });
+      if (res.status === 200) {
+        window.location.href = '/test';
+      }
+    } catch (error) {
+      alert('이메일 혹은 비밀번호가 잘못 입력되었습니다.');
+    }
   };
 
   return (
@@ -55,7 +51,7 @@ const Login = () => {
         onChange={handlePasswordChange}
       />
       <Button onClick={onSubmit}>로그인</Button>
-      <Button onClick={() => navigate('/singup')} margin="30px" color="skyblue">
+      <Button onClick={() => navigate('/signup')} margin="30px" color="skyblue">
         회원가입
       </Button>
       <SNSButton back={'/kakao_login.png'}></SNSButton>

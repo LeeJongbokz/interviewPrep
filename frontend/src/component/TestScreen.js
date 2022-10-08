@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { subjects } from '../utils/data';
-
+import * as API from '../utils/api';
 const TestScreen = () => {
   const [questions, setQuestions] = useState([]);
   const [answerDTOs] = useState([]);
@@ -28,35 +28,31 @@ const TestScreen = () => {
 
   const onSubmit = () => {
     if (window.confirm('답안을 제출하시겠습니까?')) {
-      axios
-        .post('http://localhost:8080/answer', {
+      try {
+        const res = API.post('answer', {
           answers: answerDTOs,
-        })
-        .then(function (response) {
-          if (response.status === 200) {
-            alert('답안 제출이 완료되었습니다.');
-            // window.location.href="/test";
-          }
-        })
-        .catch(function (error) {
-          alert('답안이 제출되지 않았습니다.');
         });
+        if (res.status === 200) {
+          alert('답안 제출이 완료되었습니다.');
+          // window.location.href="/test";
+        }
+      } catch (error) {
+        alert('답안이 제출되지 않았습니다.');
+      }
     }
   };
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8080/question/' + type, {})
-      .then(async function (response) {
-        if (response.status === 200) {
-          if (questions.length === 0) {
-            await setQuestions(response.data);
-          }
+    try {
+      const res = API.get('question/' + type, {});
+      if (res.status === 200) {
+        if (questions.length === 0) {
+          setQuestions(response.data);
         }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }, [questions]);
 
   return (
