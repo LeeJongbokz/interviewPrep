@@ -2,40 +2,24 @@ import styled from 'styled-components';
 
 const Problem = ({ problem }) => {
   return (
-    <Tbody>
-      <Trow>
-        <td>{problem[0]}</td>
-      </Trow>
-      <Trow>
-        <td style={{ minWidth: '150PX' }}>{problem[1]}</td>
-      </Trow>
-      <Trow>
-        <td style={{ minWidth: '150PX' }}>{problem[2]}</td>
-      </Trow>
-      <Trow>
-        <td style={{ minWidth: '150PX' }}>{problem[3]}</td>
-      </Trow>
-    </Tbody>
+    <Card>
+      <p>
+        <span>
+          <p>분류: {problem[0]}</p>
+          문제: {problem[1]}
+        </span>
+      </p>
+      <p> 문제 난이도 : {problem[2]}</p>
+      <p>푼 사람 수: {problem[3]}</p>
+    </Card>
   );
 };
 
 export default Problem;
 
-const Tbody = styled.tbody`
-  display: flex;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  background-color: #ffffff;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-const Trow = styled.tr`
-  display: flex;
-  justify-content: center;
-  flex: 1 1 0%;
-
-  min-width: 150px;
+const Card = styled.div`
+  margin: 30px auto;
+  width: 60%;
+  border: 3px solid;
+  border-radius: 15px;
 `;

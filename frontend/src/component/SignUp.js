@@ -8,7 +8,12 @@ const SignUp = () => {
   const [name, setName] = useState();
   const onSubmit = e => {
     e.preventDefault();
-    const res = API.post('members/signup');
+    try {
+      const res = API.post('members/signup');
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>
@@ -16,9 +21,9 @@ const SignUp = () => {
         <H4>이름</H4>
         <Input
           type="text"
-          placeholder="Enter NickName"
-          name="nickname"
-          id="nickname"
+          placeholder="Enter Name"
+          name="name"
+          id="name"
           value={name}
           onChange={e => setName(e.target.value)}
         />

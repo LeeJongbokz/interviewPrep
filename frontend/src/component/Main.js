@@ -32,19 +32,18 @@ const TextBox = styled.span`
 `;
 
 const H1 = styled.h1`
-  padding-top: 50px;
+  padding-top: 25px;
 `;
 
-const H2 = styled.h2`
-  margin-top: 20px;
-`;
+const H2 = styled.h2``;
 
 const P = styled.p`
-  font-size: 20px;
+  font-size: 25px;
 `;
 
 const LinkBox = styled.div`
   margin-top: 50px;
+  padding-bottom: 70px;
 `;
 
 export default Main;

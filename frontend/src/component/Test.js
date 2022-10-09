@@ -14,46 +14,18 @@ const Test = () => {
   ];
 
   return (
-    <Table>
-      <Thead>
-        <TRow>
-          <Tcol>과목</Tcol>
-          <Tcol>문제 이름</Tcol>
-          <Tcol>문제 난이도</Tcol>
-          <Tcol>푼 사람 수</Tcol>
-        </TRow>
-      </Thead>
+    <Container>
       {problems.map((problem, index) => {
         return <Problem key={index} problem={problem} />;
       })}
-    </Table>
+    </Container>
   );
 };
 
-const TRow = styled.tr`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  min-width: 150px;
-`;
-const Tcol = styled.th`
-  display: flex;
-  flex: 1 1 0%;
-  justify-content: center;
-`;
-const Thead = styled.thead`
-  display: flex;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  width: 100%;
-`;
-
-const Table = styled.table`
-  background-color: #e5e7eb;
-  width: 100%;
-  border-style: solid;
-`;
-
 export default Test;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+`;

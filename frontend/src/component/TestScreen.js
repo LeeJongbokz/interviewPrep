@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
 import styled from 'styled-components';
 import { subjects } from '../utils/data';
 import * as API from '../utils/api';
@@ -47,7 +46,7 @@ const TestScreen = () => {
       const res = API.get('question/' + type, {});
       if (res.status === 200) {
         if (questions.length === 0) {
-          setQuestions(response.data);
+          setQuestions(res.data);
         }
       }
     } catch (err) {
