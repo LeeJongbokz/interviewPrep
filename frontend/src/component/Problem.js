@@ -19,7 +19,7 @@ export default Problem;
 
 const Card = styled.div`
   margin: 30px auto;
-  width: 60%;
+  width: 20%;
   border: 3px solid;
   border-radius: 15px;
 `;

@@ -2,12 +2,13 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import * as API from '../utils/api';
 const SignUp = () => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfrimPassword] = useState();
-  const [name, setName] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfrimPassword] = useState('');
+  const [name, setName] = useState('');
   const onSubmit = e => {
     e.preventDefault();
+
     try {
       const res = API.post('members/signup');
       console.log(res);
@@ -15,28 +16,32 @@ const SignUp = () => {
       console.log(err);
     }
   };
+
+  function HandleChange(e) {
+    switch (e.target.name) {
+      case 'name':
+        setName(e.target.value);
+        break;
+      case 'confirmpassword':
+        setConfrimPassword(e.target.value);
+        break;
+      case 'password':
+        setPassword(e.target.value);
+        break;
+      case 'email':
+        setEmail(e.target.value);
+        break;
+      default:
+    }
+  }
   return (
     <>
-      <InputBoxes onSubmit={e => onSubmit(e)}>
+      <InputBoxes onChange={e => HandleChange(e)} onSubmit={e => onSubmit(e)}>
         <H4>이름</H4>
-        <Input
-          type="text"
-          placeholder="Enter Name"
-          name="name"
-          id="name"
-          value={name}
-          onChange={e => setName(e.target.value)}
-        />
+        <Input type="text" placeholder="Enter Name" name="name" id="name" value={name} />
 
         <H4>이메일</H4>
-        <Input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Enter email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
+        <Input type="email" id="email" name="email" placeholder="Enter email" value={email} />
         <H4>비밀번호</H4>
         <Input
           type="password"
@@ -44,7 +49,6 @@ const SignUp = () => {
           name="password"
           placeholder="Password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
         />
         <H4>비밀번호확인</H4>
         <Input
@@ -53,7 +57,6 @@ const SignUp = () => {
           name="confirmpassword"
           placeholder="Password"
           value={confirmPassword}
-          onChange={e => setConfrimPassword(e.target.value)}
         />
 
         <Button margin="30px" color="skyblue">
