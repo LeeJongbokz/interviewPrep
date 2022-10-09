@@ -2,6 +2,7 @@ package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.service.HeartService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 @RequestMapping("/heart")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
+@Log4j2
 public class HeartController {
     private final HeartService heartService;
 
