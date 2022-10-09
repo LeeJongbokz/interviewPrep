@@ -14,7 +14,7 @@ const Layout = () => {
 };
 const Main = styled.main`
   height: 100%;
-  background-color: #e9e9e9;
+  background-color: rgba(135, 206, 235, 0.3);
   padding-bottom: 30px;
 `;
 
