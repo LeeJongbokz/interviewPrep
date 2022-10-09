@@ -8,6 +8,10 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const onSubmit = e => {
     e.preventDefault();
+    console.log(e.target.email.value);
+    console.log(e.target.password.value);
+    console.log(e.target.confirmpassword.value);
+    console.log(e.target.name.value);
 
     try {
       const res = API.post('members/signup');
@@ -38,17 +42,23 @@ const SignUp = () => {
     <>
       <InputBoxes onChange={e => HandleChange(e)} onSubmit={e => onSubmit(e)}>
         <H4>이름</H4>
-        <Input type="text" placeholder="Enter Name" name="name" id="name" value={name} />
+        <Input type="text" placeholder="Enter Name" name="name" id="name" defaultValue={name} />
 
         <H4>이메일</H4>
-        <Input type="email" id="email" name="email" placeholder="Enter email" value={email} />
+        <Input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter email"
+          defaultValue={email}
+        />
         <H4>비밀번호</H4>
         <Input
           type="password"
           id="password"
           name="password"
           placeholder="Password"
-          value={password}
+          defaultValue={password}
         />
         <H4>비밀번호확인</H4>
         <Input
@@ -56,7 +66,7 @@ const SignUp = () => {
           id="confirmpassword"
           name="confirmpassword"
           placeholder="Password"
-          value={confirmPassword}
+          defaultValue={confirmPassword}
         />
 
         <Button margin="30px" color="skyblue">

@@ -7,18 +7,9 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleEmailChange = e => {
-    console.log(e.target.value);
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = e => {
-    console.log(e.target.value);
-
-    setPassword(e.target.value);
-  };
-
-  const onSubmit = () => {
+  const onSubmit = e => {
+    e.preventDefault();
+    console.log(email, password);
     try {
       const res = API.post('login', {
         email,
@@ -31,37 +22,38 @@ const Login = () => {
       alert('이메일 혹은 비밀번호가 잘못 입력되었습니다.');
     }
   };
-
+  function HandleChange(e) {
+    console.log(e.target.id);
+    switch (e.target.id) {
+      case 'password':
+        setPassword(e.target.value);
+        break;
+      case 'email':
+        setEmail(e.target.value);
+        break;
+      default:
+    }
+  }
   return (
-    <InputBoxes>
-      <H4>이메일</H4>
-      <Input
-        type="email"
-        id="email"
-        placeholder="Enter email"
-        value={email}
-        onChange={handleEmailChange}
-      />
-      <H4>비밀번호</H4>
-      <Input
-        type="password"
-        id="password"
-        placeholder="Password"
-        value={password}
-        onChange={handlePasswordChange}
-      />
-      <Button onClick={onSubmit}>로그인</Button>
-      <Button onClick={() => navigate('/signup')} margin="30px" color="skyblue">
-        회원가입
-      </Button>
-      <SNSButton back={'/kakao_login.png'}></SNSButton>
-      <SNSButton back={'/naver_login.png'}></SNSButton>
-      <SNSButton back={'/google_login.png'}></SNSButton>
-    </InputBoxes>
+    <>
+      <InputBoxes onChange={e => HandleChange(e)} onSubmit={e => onSubmit(e)}>
+        <H4>이메일</H4>
+        <Input type="email" id="email" placeholder="Enter email" defaultValue={email} />
+        <H4>비밀번호</H4>
+        <Input type="password" id="password" placeholder="Password" defaultValue={password} />
+        <Button>로그인</Button>
+        <Button onClick={() => navigate('/signup')} margin="30px" color="skyblue">
+          회원가입
+        </Button>
+        <SNSButton back={'/kakao_login.png'}></SNSButton>
+        <SNSButton back={'/naver_login.png'}></SNSButton>
+        <SNSButton back={'/google_login.png'}></SNSButton>
+      </InputBoxes>
+    </>
   );
 };
 
-const InputBoxes = styled.div`
+const InputBoxes = styled.form`
   width: 500px;
   display: flex;
   flex-direction: column;
