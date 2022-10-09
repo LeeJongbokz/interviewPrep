@@ -1,5 +1,8 @@
 package com.example.interviewPrep.quiz.domain;
 
+import java.util.List;
+
 public interface HeartRepository {
-    int findByAnswerId(Long id);
+    List<Heart> findByAnswerId(Long id);
+    int countHeartByAnswerId(long id);
 }
