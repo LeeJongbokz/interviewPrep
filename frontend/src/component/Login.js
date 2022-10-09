@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import * as API from '../utils/api';
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -32,18 +32,27 @@ const Login = () => {
       default:
     }
   }
+  function ClickHander() {
+    const res = API.get(
+      `oauth/authorize?client_id=7631d083ab97ccae8103b0aed5d67b05&redirect_uri=http://52.3.173.210:8080/oauth2/code/kakao&response_type=code`
+    );
+    console.log(res);
+  }
   return (
     <>
       <InputBoxes onChange={e => HandleChange(e)} onSubmit={e => onSubmit(e)}>
         <H4>이메일</H4>
         <Input type="email" id="email" placeholder="Enter email" defaultValue={email} />
         <H4>비밀번호</H4>
-        <Input type="password" id="password" placeholder="Password" defaultValue={password} />
+        <Input type="password" id="password" placeholder="Enter password" defaultValue={password} />
         <Button>로그인</Button>
         <Button onClick={() => navigate('/signup')} margin="30px" color="skyblue">
           회원가입
         </Button>
-        <SNSButton back={'/kakao_login.png'}></SNSButton>
+        <Link onClick={ClickHander}>
+          <SNSButton back={'/kakao_login.png'}></SNSButton>
+        </Link>
+
         <SNSButton back={'/naver_login.png'}></SNSButton>
         <SNSButton back={'/google_login.png'}></SNSButton>
       </InputBoxes>
