@@ -1,10 +1,7 @@
 package com.example.interviewPrep.quiz.Heart.repository;
 
-import com.example.interviewPrep.quiz.domain.AnswerRepository;
 import com.example.interviewPrep.quiz.domain.Heart;
-import com.example.interviewPrep.quiz.domain.HeartRepository;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import com.example.interviewPrep.quiz.infra.JpaHeartRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Rollback(value = false)
 public class HeartRepositotyTest {
     @Autowired
-    HeartRepository heartRepository;
+    JpaHeartRepository heartRepository;
 
     @Test
     void saveTest() {
