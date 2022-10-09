@@ -9,7 +9,6 @@ const Login = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log(email, password);
     try {
       const res = API.post('login', {
         email,
@@ -23,7 +22,6 @@ const Login = () => {
     }
   };
   function HandleChange(e) {
-    console.log(e.target.id);
     switch (e.target.id) {
       case 'password':
         setPassword(e.target.value);
