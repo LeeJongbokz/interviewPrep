@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_CREATED;
+import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_OK;
 import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_SERVER_ERROR;
 
 @RestController
@@ -36,7 +37,7 @@ public class HeartController {
         Long answerId = id;
         try {
             heartService.deleteHeart(answerId);
-            return RESPONSE_CREATED;
+            return RESPONSE_OK;
         } catch (Exception e) {
             return RESPONSE_SERVER_ERROR;
         }
