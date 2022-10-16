@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -23,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 
 @SpringBootTest
-@Transactional
 @Rollback(value = false)
 public class HeartServiceTest {
     @Autowired
@@ -75,7 +73,7 @@ public class HeartServiceTest {
     }
 
     @Test
-    @DisplayName("하나의 답변에 동시에 좋아요가 눌렸을때")
+    @DisplayName("하나의 답변에 동시에 좋아요가 눌렸을때, ")
     void concurrency_test() throws InterruptedException {
         int threadCount = 100;
         ExecutorService executorService = Executors.newFixedThreadPool(32);
@@ -84,7 +82,7 @@ public class HeartServiceTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.execute(() -> {
                 try {
-                    heartService.createHeart(answer.getId());
+                    heartService.createHeart(answer);
                 } finally {
                     latch.countDown();
                 }
@@ -93,5 +91,6 @@ public class HeartServiceTest {
         }
         latch.await();
 
+        assertThat(heartRepository.countHeartByAnswerId(answer.getId())).isEqualTo(100);
     }
 }
