@@ -1,20 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
-import { BrowserRouter as Router, Route} from 'react-router-dom';
-import Login from "./component/Login";
-import Main from "./component/Main";
-import Test from "./component/Test";
-import TestScreen from "./component/TestScreen";
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import TestScreen from './component/TestScreen';
+import Layout from './layout/Layout';
+import MainPage from './pages/MainPage';
+import LoginPage from './pages/LoginPage';
+import TestListPage from './pages/TestListPage';
+import SignUpPage from './pages/SignUpPage';
 function App() {
   return (
     <div className="App">
-    <Router>
-        <Route path="/" component={Main} exact={true} />
-        <Route path="/login" component={Login} />
-        <Route path="/test" component={Test} exact={true}/>
-        <Route path="/test/:subject" component={TestScreen} exact={true}/>
-    </Router>
+      <Router>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/test" element={<TestListPage />} />
+            <Route path="/test/:subject" element={<TestScreen />} />
+            <Route path="/signup" element={<SignUpPage />} />
+          </Route>
+        </Routes>
+      </Router>
     </div>
   );
 }

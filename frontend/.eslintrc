@@ -1,0 +1,7 @@
+{
+  "extends": ["react-app", "eslint:recommended"],
+  "rules": {
+    "eqeqeq": "error", // 일치 연산자 사용 필수
+    "dot-notation": "error" // 가능하다면 dot notation 사용
+  }
+}

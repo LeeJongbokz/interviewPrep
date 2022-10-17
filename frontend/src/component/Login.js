@@ -1,119 +1,112 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Layout from "../layout/Layout";
-import styled from "styled-components";
-
-
-const Div = styled.div`
-    height: 999px;
-    background-color: #e9e9e9;
-`
-
-const InputBoxes = styled.div`
-    width: 500px;
-    height: 600px;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    padding-top: 120px;
-`
-
-const H4 = styled.h4`
-    font-weight: bold;
-    height: 10px;
-`
-
-const Input = styled.input`
-    width: 300px;
-    height: 30px;
-    margin-left: 100px;
-    border-color: grey;
-    border-width: 1px;
-    border-radius: 3px;
-    padding-left: 2px;
-`
-
-const Button = styled.button`
-    width: 305px;
-    height: 35px;
-    margin-top: 40px;
-    margin-left: 100px;
-    cursor: pointer;
-    background-color: dodgerblue; 
-    border-radius: 3px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: dodgerblue;
-    color: white;
-    font-weight: bold;
-`
-
-
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { useNavigate, Link } from 'react-router-dom';
+import * as API from '../utils/api';
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-    
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
+  const onSubmit = e => {
+    e.preventDefault();
+    try {
+      const res = API.post('login', {
+        email,
+        password,
+      });
+      if (res.status === 200) {
+        window.location.href = '/test';
+      }
+    } catch (error) {
+      alert('이메일 혹은 비밀번호가 잘못 입력되었습니다.');
     }
-
-    
-    const handlePasswordChange = (e) => {
+  };
+  function HandleChange(e) {
+    switch (e.target.id) {
+      case 'password':
         setPassword(e.target.value);
+        break;
+      case 'email':
+        setEmail(e.target.value);
+        break;
+      default:
     }
-
-
-    useEffect(() =>{
-       
-
-    });
-
-    const onSubmit = () => {
-        axios.post("http://localhost:8080/login", {
-            email: email,
-            password: password,
-        }).then(function (response) {
-            console.log(response);
-            if(response.status === 200){
-                window.location.href="/test";
-            }
-        }).catch(function (error) {
-            alert("이메일 혹은 비밀번호가 잘못 입력되었습니다.");
-        });
-    }
-
-
-    return(
-        <Layout>
-            <Div>
-                <InputBoxes>
-                    <H4>이메일</H4>
-                    <Input
-                    type="email"
-                    id="email"
-                    placeholder="Enter email"
-                    value={email}
-                    onChange={handleEmailChange}
-                    />
-                    <H4>비밀번호</H4>
-                    <Input
-                    type="password"
-                    id="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                    />
-                    <Button onClick={onSubmit}>로그인</Button>
-                </InputBoxes>
-            </Div>
-      </Layout>
+  }
+  function ClickHander() {
+    const res = API.get(
+      `oauth/authorize?client_id=7631d083ab97ccae8103b0aed5d67b05&redirect_uri=http://52.3.173.210:8080/oauth2/code/kakao&response_type=code`
     );
+    console.log(res);
+  }
+  return (
+    <>
+      <InputBoxes onChange={e => HandleChange(e)} onSubmit={e => onSubmit(e)}>
+        <H4>이메일</H4>
+        <Input type="email" id="email" placeholder="Enter email" defaultValue={email} />
+        <H4>비밀번호</H4>
+        <Input type="password" id="password" placeholder="Enter password" defaultValue={password} />
+        <Button>로그인</Button>
+        <Button onClick={() => navigate('/signup')} margin="30px" color="skyblue">
+          회원가입
+        </Button>
+        <Link onClick={ClickHander}>
+          <SNSButton back={'/kakao_login.png'}></SNSButton>
+        </Link>
 
-
+        <SNSButton back={'/naver_login.png'}></SNSButton>
+        <SNSButton back={'/google_login.png'}></SNSButton>
+      </InputBoxes>
+    </>
+  );
 };
 
+const InputBoxes = styled.form`
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+`;
+
+const H4 = styled.span`
+  font-weight: bold;
+  text-align: center;
+  margin: 10px;
+`;
+
+const Input = styled.input`
+  width: 250px;
+  height: 30px;
+  border-color: grey;
+  border-width: 1px;
+  border-radius: 3px;
+  padding-left: 2px;
+`;
+
+const Button = styled.button`
+  width: 200px;
+  height: 35px;
+  margin-top: ${props => (props.margin ? props.margin : '50px')};
+  cursor: pointer;
+  background-color: ${props => (props.color ? props.color : 'dodgerblue')};
+  border-radius: 3px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: ${props => (props.color ? props.color : 'dodgerblue')};
+  color: white;
+  font-weight: bold;
+  background-image: ${props => (props.back ? props.back : '')};
+`;
+const SNSButton = styled.div`
+  background-image: url(${props => (props.back ? props.back : '')});
+  width: 200px;
+  height: 50px;
+  margin-top: 30px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+`;
 
 export default Login;
