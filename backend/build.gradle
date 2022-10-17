@@ -76,6 +76,9 @@ dependencies {
 
 	//aop
 	implementation 'org.springframework:spring-aop'
+
+	//redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {

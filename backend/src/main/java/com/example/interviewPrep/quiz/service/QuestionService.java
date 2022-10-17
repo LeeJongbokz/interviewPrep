@@ -5,6 +5,8 @@ import com.example.interviewPrep.quiz.domain.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.exception.QuestionNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class QuestionService {
         return questionRepository.findAll();
     }
 
+    //@Cacheable(value = "question", key="#id")
     public Question getQuestion(Long id) {
         return findQuestion(id);
     }
@@ -57,10 +61,9 @@ public class QuestionService {
         return questionRepository.findByType(type);
     }
 
-
+    @Cacheable(value = "questionDTO", key="#pageable.pageSize.toString().concat('-').concat(#pageable.pageNumber)")
     public Optional<Page<QuestionDTO>> findByType(String type, Pageable pageable){
         Page<Question> questions = questionRepository.findByType(type, pageable); //문제 타입과 페이지 조건 값을 보내어 question 조회, 반환값 page
-
         return Optional.of(questions.map(q -> QuestionDTO.builder()   //question list 값들을 dto로 변경
                                                 .id(q.getId())
                                                 .type(q.getType())
@@ -74,12 +77,13 @@ public class QuestionService {
     }
 
 
+    //@Cacheable(value = "questionDTO", key="#p0.id")
     public QuestionDTO domainToDTO(Question question){
         QuestionDTO questionDTO = QuestionDTO.builder()
+                                .id(question.getId())
                                 .title(question.getTitle())
                                 .type(question.getType())
                                 .build();
-
         return questionDTO;
     }
 }

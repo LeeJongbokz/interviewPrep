@@ -1,5 +1,6 @@
 package com.example.interviewPrep.quiz.controller;
 
+import com.example.interviewPrep.quiz.aop.Timer;
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.service.QuestionService;
@@ -26,6 +27,8 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 public class QuestionController {
     @Autowired
     private final QuestionService questionService;
+
+    @Timer
     @GetMapping("/{type}")
     public ResponseEntity<?> getQuestionType(@PathVariable String type, @PageableDefault(size=10) Pageable pageable){
 
