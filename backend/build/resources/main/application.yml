@@ -1,29 +1,36 @@
 spring:
   datasource:
-gi    url: jdbc:mariadb://mariadb:3306/test
-    username: root
-    password: root1234
+    url: jdbc:h2:tcp://localhost/~/interviewPrep
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
 
   jpa:
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        #        show_sql: true
-        format_sql: true
-#        default_batch_fetch_size: 100
+
+  profiles:
+    include: oauth
+
+  redis:
+    host: localhost
+    port: 6379
 
 logging:
   level:
     org.hibernate.SQL: debug
 #    org.hibernate.type: trace
 
----
+jwt:
+  secret: "12345678901234567890123456789010"
 
-# mariadb profile
-spring:
-  profiles: mariadb
-  datasource:
-    url: jdbc:mariadb://mariadb:3306/test
-    username: root
-    password: root1234
+
+
+  #url: jdbc:h2:tcp://localhost/~/interviewPrep
+  #    username: sa
+  #    password:
+  #    driver-class-name: org.h2.Driver
+  #url: jdbc:mariadb://mariadb:3306/test
+  #    username: root
+  #    password: root1234
