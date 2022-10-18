@@ -3,14 +3,14 @@ package com.example.interviewPrep.quiz.Heart.repository;
 import com.example.interviewPrep.quiz.domain.Answer;
 import com.example.interviewPrep.quiz.domain.Heart;
 import com.example.interviewPrep.quiz.domain.Member;
-import com.example.interviewPrep.quiz.infra.HeartRepository;
+import com.example.interviewPrep.quiz.infra.JpaHeartRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class HeartRepositoryTest {
-    HeartRepository heartRepository;
+    JpaHeartRepository heartRepository;
 
     @MockBean
     Answer answer;

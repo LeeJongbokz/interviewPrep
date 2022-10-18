@@ -82,7 +82,7 @@ public class HeartServiceTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.execute(() -> {
                 try {
-                    heartService.createHeart(answer);
+                    heartService.createHeart(answer.getId());
                 } finally {
                     latch.countDown();
                 }
