@@ -18,10 +18,10 @@ public class HeartTest {
     @DisplayName("좋아요 생성 테스트")
     void creationWithId() {
         Heart heart = Heart.builder()
-                .id(1L)
-                .answer(answer)
-                .member(member)
-                .build();
+            .id(1L)
+            .answer(answer)
+            .member(member)
+            .build();
         assertThat(heart.getId()).isEqualTo(1L);
     }
 }
