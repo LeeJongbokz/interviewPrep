@@ -1,18 +1,17 @@
 package com.example.interviewPrep.quiz.Heart.service;
 
 import com.example.interviewPrep.quiz.domain.Answer;
-import com.example.interviewPrep.quiz.domain.AnswerRepository;
+import com.example.interviewPrep.quiz.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.domain.Heart;
 import com.example.interviewPrep.quiz.exception.AnswerNotFoundException;
 import com.example.interviewPrep.quiz.exception.HeartNotFountException;
-import com.example.interviewPrep.quiz.infra.JpaHeartRepository;
+import com.example.interviewPrep.quiz.repository.HeartRepository;
 import com.example.interviewPrep.quiz.service.HeartService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -20,12 +19,12 @@ import java.util.concurrent.Executors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.mock;
 
 @SpringBootTest
-@Rollback(value = false)
 public class HeartServiceTest {
-    @Autowired
-    JpaHeartRepository heartRepository;
+
+    HeartRepository heartRepository;
     @Autowired
     AnswerRepository answerRepository;
     HeartService heartService;
@@ -34,6 +33,7 @@ public class HeartServiceTest {
 
     @BeforeEach
     void setUp() {
+        heartRepository = mock(HeartRepository.class);
         answer = Answer.builder().build();
         answerRepository.save(answer);
         heartService = new HeartService(heartRepository, answerRepository);
@@ -82,7 +82,7 @@ public class HeartServiceTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.execute(() -> {
                 try {
-                    heartService.createHeart(answer);
+                    heartService.createHeart(answer.getId());
                 } finally {
                     latch.countDown();
                 }
