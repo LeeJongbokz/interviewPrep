@@ -26,7 +26,7 @@ public class MemberController {
     @PostMapping("signup")
     public ResponseEntity<Void> signUp(@RequestBody @NotNull SignUpRequestDTO member){
 
-        if(member.hasNullDataBeforeSignup(member)){
+        if(SignUpRequestDTO.hasNullDataBeforeSignup(member)){
             throw new NullPointerException("회원가입시 필수 데이터를 모두 입력해야 합니다.");
         }
         memberService.createMember(member);
