@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/interviewPrep
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mariadb://mariadb:3306/test
+    username: root
+    password: root1234
+
 
   jpa:
     hibernate:
@@ -12,7 +12,24 @@ spring:
   profiles:
     include: oauth
 
+  redis:
+    host: localhost
+    port: 6379
+
 logging:
   level:
     org.hibernate.SQL: debug
 #    org.hibernate.type: trace
+
+jwt:
+  secret: "12345678901234567890123456789010"
+
+
+
+  #url: jdbc:h2:tcp://localhost/~/interviewPrep
+  #    username: sa
+  #    password:
+  #    driver-class-name: org.h2.Driver
+  #url: jdbc:mariadb://mariadb:3306/test
+  #    username: root
+  #    password: root1234
