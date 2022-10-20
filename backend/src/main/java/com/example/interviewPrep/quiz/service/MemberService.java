@@ -30,6 +30,7 @@ public class MemberService {
 
             Member member = Member.builder()
                 .email(memberDTO.getEmail())
+                .name(memberDTO.getName())
                 .password(encryptedPassword)
                 .build();
 
