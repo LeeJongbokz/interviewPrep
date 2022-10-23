@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.infra;
 
 import com.example.interviewPrep.quiz.domain.Member;
-import com.example.interviewPrep.quiz.domain.MemberRepository;
+import com.example.interviewPrep.quiz.repository.MemberRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
