@@ -1,18 +1,19 @@
 package com.example.interviewPrep.quiz.service;
 
 import com.example.interviewPrep.quiz.domain.Answer;
-import com.example.interviewPrep.quiz.domain.AnswerRepository;
+import com.example.interviewPrep.quiz.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.domain.Heart;
 import com.example.interviewPrep.quiz.exception.AnswerNotFoundException;
 import com.example.interviewPrep.quiz.exception.HeartNotFountException;
 import com.example.interviewPrep.quiz.infra.JpaHeartRepository;
+import com.example.interviewPrep.quiz.repository.HeartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class HeartService {
-    private final JpaHeartRepository heartRepository;
+    private final HeartRepository heartRepository;
     private final AnswerRepository answerRepository;
 
     public Heart createHeart(Long answerId) {
