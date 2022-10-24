@@ -2,6 +2,8 @@ package com.example.interviewPrep.quiz.Question.controller;
 
 import com.example.interviewPrep.quiz.controller.QuestionController;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
+import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,10 +22,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(QuestionController.class)
+@WithMockCustomOAuth2Account()
 public class QuestionCreateWebControllerTest {
 
     @MockBean
     QuestionService questionService;
+
+
+    @MockBean
+    CustomOAuth2UserService customOAuth2UserService;
 
     @Autowired
     MockMvc mockMvc;
@@ -51,7 +58,10 @@ public class QuestionCreateWebControllerTest {
         mockMvc.perform(post("/question")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest)
+                        .content(
+                                "{\"title\":\"problem1\",\"type\":\"java\"," +
+                                        "\"id\":1L}"
+                        )
                 )
                 .andDo(print())
                 .andExpect(status().isCreated());
