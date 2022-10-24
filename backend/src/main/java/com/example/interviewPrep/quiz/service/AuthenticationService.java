@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.service;
 
 import com.example.interviewPrep.quiz.domain.Member;
-import com.example.interviewPrep.quiz.domain.MemberRepository;
+import com.example.interviewPrep.quiz.repository.MemberRepository;
 import com.example.interviewPrep.quiz.exception.LoginFailureException;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import com.example.interviewPrep.quiz.utils.PasswordCheck;
