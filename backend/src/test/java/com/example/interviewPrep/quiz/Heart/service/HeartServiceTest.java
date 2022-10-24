@@ -33,9 +33,6 @@ public class HeartServiceTest {
 
     @BeforeEach
     void setUp() {
-        heartRepository = mock(HeartRepository.class);
-        answerRepository = mock(AnswerRepository.class);
-
         heartService = new HeartService(heartRepository, answerRepository);
 
         Answer answer = Answer.builder()
