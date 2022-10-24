@@ -99,6 +99,6 @@ public class HeartServiceTest {
         }
         latch.await();
 
-        // assertThat(heartRepository.countHeartByAnswerId(answer.getId())).isEqualTo(100);
+        // assertEquals(heartRepository.countHeartByAnswerId(answer.getId())).isEqualTo(100);
     }
 }
