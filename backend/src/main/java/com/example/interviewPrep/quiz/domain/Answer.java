@@ -5,7 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -32,8 +40,18 @@ public class Answer {
     @JoinColumn(name = "MEMBER_ID")
     Member member;
 
-    public void change(String content){
+    private int countHeart;
+
+    @Version
+    private Long version;
+
+    public void change(String content) {
         this.content = content;
+    }
+
+    public int increase() {
+        this.countHeart = this.countHeart + 1;
+        return this.countHeart;
     }
 
 }
