@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class HeartService {
     private final HeartRepository heartRepository;
     private final AnswerRepository answerRepository;
-    private final OptimisticLockHeartFacade optimisticLockHeartFacade;
 
     public Heart createHeart(Long answerId) throws InterruptedException {
         Answer answer = answerRepository.findById(answerId).orElseThrow(() ->
@@ -26,7 +25,7 @@ public class HeartService {
             .answer(answer)
             .build();
 
-        optimisticLockHeartFacade.increaseHeartWithOptimisticLock(answer.getId());
+        increaseHeartFacade(answer.getId());
 
         heartRepository.save(heart);
         return heart;
@@ -50,5 +49,16 @@ public class HeartService {
         answer.increase();
 
         answerRepository.saveAndFlush(answer);
+    }
+
+    public void increaseHeartFacade(Long answerId) throws InterruptedException {
+        while (true) {
+            try {
+                increaseHeartWithOptimisticLock(answerId);
+                break;
+            } catch (Exception e) {
+                Thread.sleep(50);
+            }
+        }
     }
 }
