@@ -15,8 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class HeartService {
     private final HeartRepository heartRepository;
     private final AnswerRepository answerRepository;
+    private final OptimisticLockHeartFacade optimisticLockHeartFacade;
 
-    public Heart createHeart(Long answerId) {
+    public Heart createHeart(Long answerId) throws InterruptedException {
         Answer answer = answerRepository.findById(answerId).orElseThrow(() ->
             new AnswerNotFoundException("답변 정보를 찾을 수 없어 좋아요를 누를 수 없습니다."));
         //TODO 멤버 정보 가져오기 - 좋아요 기록 검증
@@ -25,7 +26,7 @@ public class HeartService {
             .answer(answer)
             .build();
 
-        increaseHeartWithOptimisticLock(answer.getId());
+        optimisticLockHeartFacade.increaseHeartWithOptimisticLock(answer.getId());
 
         heartRepository.save(heart);
         return heart;
