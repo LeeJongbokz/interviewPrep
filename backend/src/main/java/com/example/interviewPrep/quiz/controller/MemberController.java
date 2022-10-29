@@ -38,11 +38,11 @@ public class MemberController {
     @PostMapping("login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @NotNull LoginRequestDTO member){
 
-        ResponseEntity<LoginResponseDTO> responseEntity = null;
-        String token = "";
+        ResponseEntity<LoginResponseDTO> responseEntity;
+        String token;
 
         if(member == null){
-            responseEntity = new ResponseEntity<>(toResponse(token), HttpStatus.UNAUTHORIZED);
+            responseEntity = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }else{
 
             try {
@@ -52,6 +52,7 @@ public class MemberController {
                 token = authService.login(email, password);
                 responseEntity = new ResponseEntity<>(toResponse(token), HttpStatus.OK);
             }catch(RuntimeException re){
+                responseEntity = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 log.error("login Error:" + responseEntity);
             }
         }

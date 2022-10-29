@@ -26,7 +26,8 @@ public class JwtUtil {
     public String makeJWTtoken(String email){
 
         Date now = new Date();
-        return Jwts.builder()
+
+        String token = Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer("fresh")
                 .setIssuedAt(now)
@@ -34,6 +35,8 @@ public class JwtUtil {
                 .claim("email", email)
                 .signWith(key)
                 .compact();
+
+        return token;
     }
 
     public Claims decode(String token){
