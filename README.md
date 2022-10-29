@@ -16,4 +16,4 @@ Java 11, SpringBoot 2.3, Gradle, MySql, Redis, AWS EC2, Docker
 React
 <br><br>
 ### 📝 프로젝트 구성도(백엔드)
-![스크린샷 2022-10-29 오후 10 02 44](https://user-images.githubusercontent.com/38105420/198833068-f9431d5a-7f58-468a-98b8-de3eabc71933.png)
+![스크린샷 2022-10-29 오후 10 10 33](https://user-images.githubusercontent.com/38105420/198833377-6eca4782-1bc7-4f20-9f88-8047158be694.png)
