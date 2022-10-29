@@ -19,7 +19,7 @@ const Test = () => {
 
   return (
     <Container>
-      <div justifyContent={"center"}>
+      <div>
       <Grid 
         container 
         spacing={1} 
@@ -27,8 +27,8 @@ const Test = () => {
       >
         {problems.map((problem, index) => {
           return (
-            <Grid item xs={12} sm={6} md={3}>
-              <Problem key={index} problem={problem} />
+            <Grid key={index} item xs={12} sm={6} md={3}>
+              <Problem problem={problem} />
             </Grid>
            )
         })}
