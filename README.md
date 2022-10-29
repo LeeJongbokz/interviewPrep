@@ -10,7 +10,10 @@
 - 답변을 공유하고 다른 답변과 비교할 수 있습니다. <br>
 - 마음에 드는 답변을 추천하고, 최고의 답변을 공부할 수 있습니다. <br><br>
 ### 🛠️ 기술 스택
+#### 백엔드
 Java 11, SpringBoot 2.3, Gradle, MySql, Redis, AWS EC2, Docker
+#### 프론트엔드
+React
 <br><br>
-### 📝 프로젝트 구성도
+### 📝 프로젝트 구성도(백엔드)
 ![스크린샷 2022-10-29 오후 10 02 44](https://user-images.githubusercontent.com/38105420/198833068-f9431d5a-7f58-468a-98b8-de3eabc71933.png)
