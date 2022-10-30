@@ -12,6 +12,8 @@ public interface HeartRepository {
 
     void delete(Heart heart);
 
+    Optional<Heart> findByAnswerIdAndMemberId(Long answerId, Long memberId);
+
     List<Heart> findByAnswerId(Long id);
 
     int countHeartByAnswerId(long id);

@@ -16,8 +16,11 @@ public interface JpaHeartRepository extends HeartRepository, JpaRepository<Heart
 
     Optional<Heart> findById(Long id);
 
+    Optional<Heart> findByAnswerIdAndMemberId(Long answerId, Long memberId);
+
     void delete(Heart heart);
 
     List<Heart> findByAnswerId(Long id);
+
     int countHeartByAnswerId(long id);
 }
