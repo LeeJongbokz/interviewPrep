@@ -56,10 +56,10 @@ const TestScreen = () => {
       // } catch (err) {
       //   console.log(err);
       // }
-      console.log(type);
       setQuestions([{title:"title"},{title:"titie12"}]);
   }, []);
-
+  console.log(type);
+      
   return (
     <Container>
       <Typography variant="h3" gutterBottom>
