@@ -5,10 +5,11 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter
 @Builder
-@NoArgsConstructor
+@Getter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AnswerDTO {
 
     private Long id;
