@@ -45,4 +45,9 @@ public class Answer {
         this.countHeart = this.countHeart + 1;
         return this.countHeart;
     }
+
+    public int decrease() {
+        this.countHeart = this.countHeart - 1;
+        return this.countHeart;
+    }
 }
