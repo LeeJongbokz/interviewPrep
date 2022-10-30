@@ -42,11 +42,11 @@ public class HeartService {
         return heart;
     }
 
-    public Heart deleteHeart(Long heartId) {
-        Heart heart = heartRepository.findById(heartId).orElseThrow(() ->
+    public Heart deleteHeart(HeartDTO heartDTO) throws InterruptedException {
+        Heart heart = heartRepository.findByAnswerIdAndMemberId(heartDTO.getAnswerId(), heartDTO.getMemberId()).orElseThrow(() ->
             new HeartNotFountException("좋아요를 누른 기록이 없어 좋아요 취소를 할 수 없습니다."));
-
         //TODO 멤버 정보 가져오기 - 좋아요 기록 검증
+        decreaseHeartFacade(heartDTO.getAnswerId());
         heartRepository.delete(heart);
 
         return heart;
@@ -62,10 +62,31 @@ public class HeartService {
         answerRepository.saveAndFlush(answer);
     }
 
+    @Transactional
+    public void decreaseHeartWithOptimisticLock(Long answerId) {
+        Answer answer = answerRepository.findByIdWithOptimisticLock(answerId).orElseThrow(() ->
+            new AnswerNotFoundException("답변 정보를 찾을 수 없어 좋아요를 누를 수 없습니다."));
+
+        answer.decrease();
+
+        answerRepository.saveAndFlush(answer);
+    }
+
     public void increaseHeartFacade(Long answerId) throws InterruptedException {
         while (true) {
             try {
                 increaseHeartWithOptimisticLock(answerId);
+                break;
+            } catch (Exception e) {
+                Thread.sleep(50);
+            }
+        }
+    }
+
+    public void decreaseHeartFacade(Long answerId) throws InterruptedException {
+        while (true) {
+            try {
+                decreaseHeartWithOptimisticLock(answerId);
                 break;
             } catch (Exception e) {
                 Thread.sleep(50);

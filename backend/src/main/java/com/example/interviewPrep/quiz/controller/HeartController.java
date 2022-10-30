@@ -39,7 +39,7 @@ public class HeartController {
     public ResponseEntity<Void> delete(@RequestBody @NotNull HeartDTO heartDTO) {
         Long answerId = heartDTO.getAnswerId();
         try {
-            heartService.deleteHeart(answerId);
+            heartService.deleteHeart(heartDTO);
             return RESPONSE_OK;
         } catch (Exception e) {
             return RESPONSE_SERVER_ERROR;
