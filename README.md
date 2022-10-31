@@ -16,7 +16,11 @@ Java 11, SpringBoot 2.3, Gradle, MySql, Redis, AWS EC2, Docker
 React
 
 
-### 브랜치 관리 전략
+### 🔲 브랜치 관리 전략
+
+
+
+
 
 ### ERD
 <img width="1074" alt="스크린샷 2022-10-30 오전 10 40 29" src="https://user-images.githubusercontent.com/38105420/198858782-139341d1-c8c7-4001-b506-6749f8df0b16.png">
