@@ -16,10 +16,11 @@ Java 11, SpringBoot 2.3, Gradle, MySql, Redis, AWS EC2, Docker
 React
 
 
-### ⚠️ 기술적 issue 해결 과정
+## ⚠️ 기술적 issue 해결 과정
 1. 좋아요(추천) 기능 구현 및 동시성이슈 <br>
 [종복] https://bryandev.tistory.com/1116 <br> 
-
+2. Ngrinder를 이용해 성능테스트 <br> 
+[종복] https://bryandev.tistory.com/1117 <br> 
 
 
 
