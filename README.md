@@ -16,8 +16,9 @@
 2. Ngrinder를 이용해 성능 테스트 <br> 
 [종복] https://bryandev.tistory.com/1117 <br> 
 3. 로그인 상태 유지를 위한 JWT 토큰 적용 <br> 
-[종복] https://bryandev.tistory.com/1117 <br> 
-
+[종복] https://bryandev.tistory.com/1118 <br> 
+4. JUnit과 Mockito로 고립된 단위 테스트 작성 <br> 
+[종복] https://bryandev.tistory.com/1119 <br> 
 
 
 ## 🔲 브랜치 관리 전략
