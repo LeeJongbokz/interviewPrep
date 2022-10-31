@@ -1,50 +1,53 @@
 package com.example.interviewPrep.quiz.Heart.service;
 
 import com.example.interviewPrep.quiz.domain.Answer;
-import com.example.interviewPrep.quiz.domain.AnswerRepository;
 import com.example.interviewPrep.quiz.domain.Heart;
 import com.example.interviewPrep.quiz.exception.AnswerNotFoundException;
 import com.example.interviewPrep.quiz.exception.HeartNotFountException;
-import com.example.interviewPrep.quiz.infra.JpaHeartRepository;
+import com.example.interviewPrep.quiz.repository.AnswerRepository;
+import com.example.interviewPrep.quiz.repository.HeartRepository;
 import com.example.interviewPrep.quiz.service.HeartService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@Rollback(value = false)
 public class HeartServiceTest {
-    @Autowired
-    JpaHeartRepository heartRepository;
-    @Autowired
-    AnswerRepository answerRepository;
-    HeartService heartService;
 
-    Answer answer;
+    @Mock
+    HeartRepository heartRepository;
+    @Mock
+    AnswerRepository answerRepository;
+
+    HeartService heartService;
 
     @BeforeEach
     void setUp() {
-        answer = Answer.builder().build();
-        answerRepository.save(answer);
         heartService = new HeartService(heartRepository, answerRepository);
+
+        Answer answer = Answer.builder()
+            .id(1L)
+            .build();
+
+        when(answerRepository.findById(1L)).thenReturn(Optional.of(answer));
     }
 
     @Test
     @DisplayName("좋아요 테스트")
     void create() {
-        Heart savedHeart = heartService.createHeart(answer.getId());
+        Heart savedHeart = heartService.createHeart(1L);
 
-        assertThat(heartRepository.findById(savedHeart.getId())).isPresent();
+        verify(heartRepository).save(savedHeart);
     }
 
     @Test
@@ -58,10 +61,14 @@ public class HeartServiceTest {
     @Test
     @DisplayName("좋아요 취소 테스트")
     void delete() {
-        Heart savedHeart = heartService.createHeart(answer.getId());
-        Heart deletedHeart = heartService.deleteHeart(savedHeart.getId());
+        Heart heart = Heart.builder()
+            .id(1L)
+            .build();
+        when(heartRepository.findById(1L)).thenReturn(Optional.of(heart));
 
-        assertThat(heartRepository.findById(deletedHeart.getId())).isEmpty();
+        heartService.deleteHeart(1L);
+
+        verify(heartRepository).delete(any(Heart.class));
     }
 
     @Test
@@ -70,27 +77,5 @@ public class HeartServiceTest {
         assertThrows(HeartNotFountException.class, () -> {
             heartService.deleteHeart(-1L);
         });
-    }
-
-    @Test
-    @DisplayName("하나의 답변에 동시에 좋아요가 눌렸을때, ")
-    void concurrency_test() throws InterruptedException {
-        int threadCount = 100;
-        ExecutorService executorService = Executors.newFixedThreadPool(32);
-        CountDownLatch latch = new CountDownLatch(threadCount);
-
-        for (int i = 0; i < threadCount; i++) {
-            executorService.execute(() -> {
-                try {
-                    heartService.createHeart(answer.getId());
-                } finally {
-                    latch.countDown();
-                }
-            });
-
-        }
-        latch.await();
-
-        assertThat(heartRepository.countHeartByAnswerId(answer.getId())).isEqualTo(100);
     }
 }

@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping("/members/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://52.3.173.210")
+@CrossOrigin(origins = "*")
 @Slf4j
 public class MemberController {
     private final AuthenticationService authService;
@@ -26,7 +26,7 @@ public class MemberController {
     @PostMapping("signup")
     public ResponseEntity<Void> signUp(@RequestBody @NotNull SignUpRequestDTO member){
 
-        if(member.hasNullDataBeforeSignup(member)){
+        if(SignUpRequestDTO.hasNullDataBeforeSignup(member)){
             throw new NullPointerException("회원가입시 필수 데이터를 모두 입력해야 합니다.");
         }
         memberService.createMember(member);
@@ -38,11 +38,11 @@ public class MemberController {
     @PostMapping("login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @NotNull LoginRequestDTO member){
 
-        ResponseEntity<LoginResponseDTO> responseEntity = null;
-        String token = "";
+        ResponseEntity<LoginResponseDTO> responseEntity;
+        String token;
 
         if(member == null){
-            responseEntity = new ResponseEntity<>(toResponse(token), HttpStatus.UNAUTHORIZED);
+            responseEntity = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }else{
 
             try {
@@ -52,6 +52,7 @@ public class MemberController {
                 token = authService.login(email, password);
                 responseEntity = new ResponseEntity<>(toResponse(token), HttpStatus.OK);
             }catch(RuntimeException re){
+                responseEntity = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 log.error("login Error:" + responseEntity);
             }
         }

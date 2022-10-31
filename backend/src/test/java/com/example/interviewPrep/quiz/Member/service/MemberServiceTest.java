@@ -28,13 +28,19 @@ public class MemberServiceTest {
         memberDTO = MemberDTO.builder()
                 .email("hello@gmail.com")
                 .password("1234")
-                .type("mentee")
+                .type("normal")
                 .build();
-
-        email = memberDTO.getEmail();
-        password = memberDTO.getPassword();
-        type = memberDTO.getType();
     }
+
+
+
+    @Test
+    @DisplayName("멤버 회원가입 중복 검사")
+    void duplicateMember() {
+
+
+    }
+
 
     @Test
     @DisplayName("멤버 로그인")
@@ -46,9 +52,9 @@ public class MemberServiceTest {
                 .type(type)
                 .build();
 
-        assertThat(member.getEmail()).isEqualTo(email);
-        assertThat(member.getPassword()).isEqualTo(password);
-        assertThat(member.getType()).isEqualTo(type);
+        assertThat(member.getEmail()).isEqualTo("hello@gmail.com");
+        assertThat(member.getPassword()).isEqualTo("1234");
+        assertThat(member.getType()).isEqualTo("normal");
     }
 
 }
