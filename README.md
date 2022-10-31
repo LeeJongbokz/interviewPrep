@@ -23,8 +23,10 @@
 [종복] https://bryandev.tistory.com/1117 <br> 
 3. 로그인 상태 유지를 위한 JWT 토큰 적용 <br> 
 [종복] https://bryandev.tistory.com/1118 <br> 
-4. JUnit과 Mockito로 고립된 단위 테스트 작성 <br> 
+4. 문제 필터링 시 서버 부하를 고려한 캐시 전략 <br> 
 [종복] https://bryandev.tistory.com/1119 <br> 
+5. JUnit과 Mockito로 고립된 단위 테스트 작성 <br> 
+[종복] https://bryandev.tistory.com/1120 <br> 
 
 
 ## 🔲 브랜치 관리 전략
