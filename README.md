@@ -16,6 +16,13 @@ Java 11, SpringBoot 2.3, Gradle, MySql, Redis, AWS EC2, Docker
 React
 
 
+### ⚠️ 기술적 issue 해결 과정
+좋아요(추천) 기능 구현 및 동시성이슈
+해결 : https://github.com/LeeJongbokz/interviewPrep/pull/100
+
+
+
+
 ### 🔲 브랜치 관리 전략
 
 
@@ -51,7 +58,3 @@ https://tarry-minibus-78a.notion.site/API-38be066e369744c186225d11f64a0f71
 ### 📝 프로젝트 구성도(백엔드)
 ![스크린샷 2022-10-29 오후 10 10 33](https://user-images.githubusercontent.com/38105420/198833377-6eca4782-1bc7-4f20-9f88-8047158be694.png)
 <br>
-### ⚠️ 기술적 issue 해결 과정
-좋아요(추천) 기능 구현 및 동시성이슈
-해결 : https://github.com/LeeJongbokz/interviewPrep/pull/100
-
