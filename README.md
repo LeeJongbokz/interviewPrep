@@ -9,7 +9,7 @@
 - **기술면접을 준비하는 개발자를 위한 플랫폼입니다.** <br>
 - 답변을 공유하고 다른 답변과 비교할 수 있습니다. <br>
 - 마음에 드는 답변을 추천하고, 최고의 답변을 공부할 수 있습니다. <br><br>
-### 🛠️ 기술 스택
+## 🛠️ 기술 스택
 #### 백엔드
 Java 11, SpringBoot 2.3, Gradle, MySql, Redis, AWS EC2, Docker
 #### 프론트엔드
@@ -24,19 +24,19 @@ React
 
 
 
-### 🔲 브랜치 관리 전략
+## 🔲 브랜치 관리 전략
 
 
 
 
 
-### ERD
+## ERD
 <img width="1074" alt="스크린샷 2022-10-30 오전 10 40 29" src="https://user-images.githubusercontent.com/38105420/198858782-139341d1-c8c7-4001-b506-6749f8df0b16.png">
 
 <br>
 
 
-### API 명세
+## API 명세
 https://tarry-minibus-78a.notion.site/API-38be066e369744c186225d11f64a0f71
 
 <br>
