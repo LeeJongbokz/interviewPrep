@@ -17,8 +17,8 @@ React
 
 
 ### ⚠️ 기술적 issue 해결 과정
-좋아요(추천) 기능 구현 및 동시성이슈
-해결 : https://github.com/LeeJongbokz/interviewPrep/pull/100
+1. 좋아요(추천) 기능 구현 및 동시성이슈
+[종복] https://bryandev.tistory.com/1116
 
 
 
