@@ -106,7 +106,7 @@ public class AnswerWebControllerTest {
     @DisplayName("answer valid create")
     void createValidAnswer() throws Exception{
         //when
-        mockMvc.perform(post("/answer/1")
+        mockMvc.perform(post("/answer")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"content\":\"새 답안입니다\"," +
@@ -124,7 +124,7 @@ public class AnswerWebControllerTest {
     @DisplayName("answer invalid create")
     void createInvalidAnswer() throws Exception{
         //when
-        mockMvc.perform(post("/answer/1")
+        mockMvc.perform(post("/answer")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"content\":\"\"," +

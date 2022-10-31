@@ -28,8 +28,8 @@ public class QuestionService {
     }
 
     //@Cacheable(value = "question", key="#id")
-    public Question getQuestion(Long id) {
-        return findQuestion(id);
+    public Optional<Question> getQuestion(Long id) {
+        return questionRepository.findById(id);
     }
 
     public Question createQuestion(QuestionDTO questionDTO){
@@ -42,12 +42,12 @@ public class QuestionService {
         return question;
     }
 
-    public Question updateQuestion(Long id, QuestionDTO questionDTO){
+    public Optional<Question> updateQuestion(Long id, QuestionDTO questionDTO){
 
-        Question question = findQuestion(id);
+        Optional<Question> question = questionRepository.findById(id);
+        if(question.isEmpty()) return question;
 
-        question.change(questionDTO.getTitle(), questionDTO.getType());
-
+        question.get().change(questionDTO.getTitle(), questionDTO.getType());
         return question;
     }
 

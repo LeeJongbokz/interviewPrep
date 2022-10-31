@@ -26,18 +26,14 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@Transactional
+
 public class QuestionServiceTest {
 
     private QuestionService questionService;
 
-    @Autowired
     private final QuestionRepository questionRepository = mock(JpaQuestionRepository.class);
 
     Question question;
-    QuestionDTO questionDTO;
 
     @BeforeEach
     void setUp(){
@@ -83,7 +79,7 @@ public class QuestionServiceTest {
                                 .type("자바")
                                 .build();
 
-       Question updatedQuestion = questionService.updateQuestion(questionDTO.getId(), questionDTO);
+       Question updatedQuestion = questionService.updateQuestion(questionDTO.getId(), questionDTO).get();
 
        assertThat(updatedQuestion.getId()).isEqualTo(1L);
        assertThat(updatedQuestion.getTitle()).isEqualTo("문제 1번");
@@ -99,8 +95,9 @@ public class QuestionServiceTest {
                                 .type("자바")
                                 .build();
 
-        assertThatThrownBy(() -> questionService.updateQuestion(questionDTO.getId(), questionDTO))
-                        .isInstanceOf(QuestionNotFoundException.class);
+        Optional<Question> question = questionService.updateQuestion(questionDTO.getId(), questionDTO);
+        assertThat(question).isEqualTo(Optional.empty());
+
     }
 
 

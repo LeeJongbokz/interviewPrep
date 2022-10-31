@@ -2,6 +2,8 @@ package com.example.interviewPrep.quiz.Question.controller;
 
 import com.example.interviewPrep.quiz.controller.QuestionController;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
+import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,11 +21,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@WithMockCustomOAuth2Account()
 @WebMvcTest(QuestionController.class)
 public class QuestionCreateWebControllerTest {
 
     @MockBean
     QuestionService questionService;
+
+    @MockBean
+    CustomOAuth2UserService customOAuth2UserService;
 
     @Autowired
     MockMvc mockMvc;

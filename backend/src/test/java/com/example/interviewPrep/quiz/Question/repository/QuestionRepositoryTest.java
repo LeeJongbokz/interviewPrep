@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.mockito.BDDMockito.given;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 @RunWith(SpringRunner.class)
@@ -40,10 +40,11 @@ class QuestionRepositoryTest {
     @DisplayName("Question을 DB에 저장")
     public void save(){
 
-        questionRepository.save(question);
+        Question question2 = questionRepository.save(question);
 
         Long savedId = question.getId();
-        given(questionRepository.findById(savedId)).willReturn(Optional.of(question));
+        assertEquals(question.getId(), question2.getId());
+
 
     }
 
@@ -55,8 +56,11 @@ class QuestionRepositoryTest {
         questionRepository.save(question);
         // When
         questionRepository.delete(question);
+        Optional<Question> question2 = questionRepository.findById(question.getId());
         // Then
-        given(questionRepository.findById(1L)).willReturn(Optional.of(question));
+        assertEquals(question2, Optional.empty());
+
+        //given(questionRepository.findById(1L)).willReturn(Optional.of(question));
 
     }
 
@@ -67,22 +71,23 @@ class QuestionRepositoryTest {
 
         // When
         questionRepository.save(question);
+        Question question2 = questionRepository.findById(question.getId()).get();
 
         // Then
-        given(questionRepository.findById(1L)).willReturn(Optional.of(question));
+        assertEquals(question.getId(),question2.getId() );
     }
 
 
-    @Test
-    @DisplayName("Question을 type으로 검색")
-    public void findByTitle(){
-
-        // When
-        questionRepository.save(question);
-
-        // Then
-        given(questionRepository.findByTitle("problem313")).willReturn(Optional.of(question));
-    }
+//    @Test
+//    @DisplayName("Question을 type으로 검색")
+//    public void findByTitle(){
+//
+//        // When
+//        questionRepository.save(question);
+//
+//        // Then
+//        given(questionRepository.findByTitle("problem313")).willReturn(Optional.of(question));
+//    }
 
     /*
     @Test

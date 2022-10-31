@@ -2,14 +2,14 @@ package com.example.interviewPrep.quiz.Question.controller;
 
 import com.example.interviewPrep.quiz.controller.QuestionController;
 import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.domain.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
+import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -28,12 +28,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@AutoConfigureMockMvc(addFilters = false)
+@WithMockCustomOAuth2Account()
 @WebMvcTest(QuestionController.class)
 public class QuestionReadWebControllerTest {
 
     @MockBean
     QuestionService questionService;
+
+    @MockBean
+    CustomOAuth2UserService customOAuth2UserService;
 
     @Autowired
     MockMvc mockMvc;
@@ -66,8 +69,10 @@ public class QuestionReadWebControllerTest {
 
         pageable = PageRequest.of(0, 10);
         Page<QuestionDTO> questions = new PageImpl<>(questionDTOS);
-        when(questionService.findByType("java", pageable)).thenReturn(Optional.of(questions));
 
+        when(questionService.findByType("java", pageable)).thenReturn(Optional.of(questions));
+        when(questionService.getQuestion(10L)).thenReturn(Optional.ofNullable(question));
+        when(questionService.domainToDTO(question)).thenReturn(questionDTO);
 
     }
 
@@ -75,7 +80,7 @@ public class QuestionReadWebControllerTest {
 
 
     @Test
-    @DisplayName("Question valid type 조회")
+    @DisplayName("Question valid type inquiry")
     void findByValidType() throws Exception{
         //given
         String type ="java";
@@ -93,7 +98,7 @@ public class QuestionReadWebControllerTest {
 
 
     @Test
-    @DisplayName("Question invalid type 조회")
+    @DisplayName("Question invalid type inquiry")
     void findByInvalidType() throws Exception{
         //given
         String type ="c++";
@@ -112,7 +117,7 @@ public class QuestionReadWebControllerTest {
 
 
     @Test
-    @DisplayName("Question valid id 조회")
+    @DisplayName("Question valid id inquiry")
     void findByValidSingleId() throws Exception{
         //given
         Long id = 10L;
@@ -124,13 +129,12 @@ public class QuestionReadWebControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(questionService).findQuestion(id);
 
     }
 
 
     @Test
-    @DisplayName("Question invalid id 조회")
+    @DisplayName("Question invalid id inquiry")
     void findByInvalidSingleId() throws Exception{
         //given
         Long id = 11L;
@@ -142,7 +146,6 @@ public class QuestionReadWebControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
-        verify(questionService).findQuestion(id);
 
     }
 

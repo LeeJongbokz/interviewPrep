@@ -4,34 +4,39 @@ import com.example.interviewPrep.quiz.controller.QuestionController;
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.domain.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.exception.QuestionNotFoundException;
+import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
+import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-@AutoConfigureMockMvc
+
+@WithMockCustomOAuth2Account()
 @WebMvcTest(QuestionController.class)
 public class QuestionUpdateWebControllerTest {
 
     @MockBean
     QuestionService questionService;
+
     @MockBean
-    QuestionRepository questionRepository;
+    CustomOAuth2UserService customOAuth2UserService;
+
     @Autowired
     MockMvc mockMvc;
 
@@ -41,31 +46,33 @@ public class QuestionUpdateWebControllerTest {
     String validUpdateJsonRequest;
     String InvalidUpdateJsonRequest;
 
+    Question question;
+
     @BeforeEach
     void setUp() throws Exception{
 
-        questionService = new QuestionService(questionRepository);
-
-        Question question = Question.builder()
+       question = Question.builder()
                 .id(1L)
-                .title("자바 1번 문제")
+                .title("problem1")
                 .type("java")
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        given(questionService.getQuestion(1L)).willReturn(question);
-
-        given(questionService.getQuestion(1000L))
-                .willThrow(new QuestionNotFoundException(1000L));
 
         validUpdateQuestionDTO = QuestionDTO.builder()
                 .id(1L)
-                .title("problem2")
+                .title("problem1")
                 .type("java")
                 .build();
 
+        when(questionService.updateQuestion(1L, validUpdateQuestionDTO))
+                .thenReturn(Optional.ofNullable(question));
+
+
         validUpdateJsonRequest = objectMapper.writeValueAsString(validUpdateQuestionDTO);
+
+
 
         InvalidUpdateQuestionDTO = QuestionDTO.builder()
                 .id(1000L)
@@ -73,48 +80,54 @@ public class QuestionUpdateWebControllerTest {
                 .type("java")
                 .build();
 
+        when(questionService.updateQuestion(1000L, InvalidUpdateQuestionDTO))
+                .thenReturn(Optional.empty());
+
         InvalidUpdateJsonRequest = objectMapper.writeValueAsString(InvalidUpdateQuestionDTO);
 
 
-        given(questionService.updateQuestion(eq(1L), any(QuestionDTO.class)))
-                .will(invocation -> {
-                    Long id = invocation.getArgument(0);
-                    QuestionDTO questionDTO = invocation.getArgument(1);
-                    return Question.builder()
-                            .id(id)
-                            .title(questionDTO.getTitle())
-                            .type(questionDTO.getType())
-                            .build();
-                });
+//        given(questionService.updateQuestion(eq(1L), any(QuestionDTO.class)))
+//                .will(invocation -> {
+//                    Long id = invocation.getArgument(0);
+//                    QuestionDTO questionDTO = invocation.getArgument(1);
+//                    return Question.builder()
+//                            .id(id)
+//                            .title(questionDTO.getTitle())
+//                            .type(questionDTO.getType())
+//                            .build();
+//                });
 
-        given(questionService.updateQuestion(eq(1000L), any(QuestionDTO.class)))
-                .willThrow(new QuestionNotFoundException(1000L));
+        //given(questionService.updateQuestion(eq(1000L), any(QuestionDTO.class)))
+        //        .willThrow(new QuestionNotFoundException(1000L));
+
+        //given(questionService.getQuestion(1000L))
+        //        .willThrow(new QuestionNotFoundException(1000L));
     }
 
 
+//    @Test
+//    @DisplayName("request put valid question")
+//    void updateWithExistedQuestion() throws Exception{
+//        mockMvc.perform(put("/question/"+1L)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(validUpdateJsonRequest)
+//                )
+//                .andDo(print())
+//                .andExpect(status().isOk());
+//
+//        verify(questionService).updateQuestion(eq(1L), any(QuestionDTO.class));
+//    }
+
+
     @Test
-    @DisplayName("존재하는 Question 업데이트를 위한 PUT 요청")
-    void updateWithExistedQuestion() throws Exception{
-        mockMvc.perform(put("/question/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(validUpdateJsonRequest)
-                )
-                .andExpect(status().isOk());
-
-        verify(questionService).updateQuestion(eq(1L), any(QuestionDTO.class));
-    }
-
-
-    @Test
-    @DisplayName("존재하지 않는 Question에 대한 업데이트를 위한 PUT 요청")
+    @DisplayName("request put invalid question")
     void updateWithNotExistedQuestion() throws Exception{
-        mockMvc.perform(put("/question/1000")
+        mockMvc.perform(put("/question/"+1000L)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"id\":1000L," +
-                                        "\"title\": \"problem2\"," +
-                                        "\"type\":\"java\"}")
+                                .content(InvalidUpdateJsonRequest)
                         )
-                      .andExpect(status().is4xxClientError());
+                      .andDo(print())
+                      .andExpect(status().isNoContent());
 
        verify(questionService).updateQuestion(eq(1000L), any(QuestionDTO.class));
     }
