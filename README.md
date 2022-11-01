@@ -28,7 +28,10 @@
 [종복] https://bryandev.tistory.com/1119 <br> 
 5. JUnit과 Mockito로 고립된 단위 테스트 작성 <br> 
 [종복] https://bryandev.tistory.com/1120 <br> 
-
+6. Spring Security를 활용한 Oauth2 적용 <br> 
+[종복] https://bryandev.tistory.com/1121 <br>
+7. AOP를 적용한 공통 관심사 분리 <br>
+[종복] https://bryandev.tistory.com/1122 <br>
 
 ## 🔲 브랜치 관리 전략
 
