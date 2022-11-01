@@ -21,7 +21,7 @@
 1. 좋아요(추천) 기능 구현 및 동시성이슈 <br>
 [종복] https://bryandev.tistory.com/1116 <br> 
 2. Ngrinder를 이용해 성능 테스트 <br> 
-[종복] https://bryandev.tistory.com/1117 <br> 
+[종복] https://bryandev.tistory.com/1117 (작성중) <br> 
 3. 로그인 상태 유지를 위한 JWT 토큰 적용 <br> 
 [종복] https://bryandev.tistory.com/1118 <br> 
 4. 문제 필터링 시 서버 부하를 고려한 캐시 전략 <br> 
