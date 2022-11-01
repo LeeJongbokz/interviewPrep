@@ -31,7 +31,6 @@
 6. Spring Security를 활용한 Oauth2 적용 <br> 
 [종복] https://bryandev.tistory.com/1121 <br>
 7. AOP를 적용한 공통 관심사 분리 <br>
-[종복] https://bryandev.tistory.com/1122 <br>
 
 ## 🔲 브랜치 관리 전략
 
