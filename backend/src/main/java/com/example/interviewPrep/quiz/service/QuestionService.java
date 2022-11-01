@@ -42,12 +42,9 @@ public class QuestionService {
         return question;
     }
 
-    public Optional<Question> updateQuestion(Long id, QuestionDTO questionDTO){
-
-        Optional<Question> question = questionRepository.findById(id);
-        if(question.isEmpty()) return question;
-
-        question.get().change(questionDTO.getTitle(), questionDTO.getType());
+    public Question updateQuestion(Long id, QuestionDTO questionDTO){
+        Question question = findQuestion(id);
+        question.change(questionDTO.getTitle(), questionDTO.getType());
         return question;
     }
 

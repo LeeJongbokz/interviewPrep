@@ -79,7 +79,7 @@ public class QuestionServiceTest {
                                 .type("자바")
                                 .build();
 
-       Question updatedQuestion = questionService.updateQuestion(questionDTO.getId(), questionDTO).get();
+       Question updatedQuestion = questionService.updateQuestion(questionDTO.getId(), questionDTO);
 
        assertThat(updatedQuestion.getId()).isEqualTo(1L);
        assertThat(updatedQuestion.getTitle()).isEqualTo("문제 1번");
@@ -95,7 +95,7 @@ public class QuestionServiceTest {
                                 .type("자바")
                                 .build();
 
-        Optional<Question> question = questionService.updateQuestion(questionDTO.getId(), questionDTO);
+        Question question = questionService.updateQuestion(questionDTO.getId(), questionDTO);
         assertThat(question).isEqualTo(Optional.empty());
 
     }

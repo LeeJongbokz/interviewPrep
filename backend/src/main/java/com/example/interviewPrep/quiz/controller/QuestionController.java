@@ -22,12 +22,12 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.*;
 @RestController
 @RequestMapping("/question")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://52.3.173.210")
 public class QuestionController {
 
     private final QuestionService questionService;
 
-    @Timer
+    @Timer // redis 유무에 따른 api 응답시간을 체크를 위해 시간 측정 aop 사용
     @GetMapping("/{type}")
     public ResponseEntity<?> getQuestionType(@PathVariable String type, @PageableDefault(size=10) Pageable pageable){
 
@@ -60,15 +60,22 @@ public class QuestionController {
 
     @PutMapping("{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid QuestionDTO questionDTO){
-        Optional<Question> question = questionService.updateQuestion(id, questionDTO);
-        if(question.isEmpty()) return RESPONSE_NO_CONTENT;
-        return RESPONSE_OK;
+        try{
+            questionService.updateQuestion(id, questionDTO);
+            return RESPONSE_OK;
+        }catch(Exception e){
+            return RESPONSE_NO_CONTENT;
+        }
     }
 
     @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id){
-        questionService.deleteQuestion(id);
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        try{
+            questionService.deleteQuestion(id);
+            return RESPONSE_OK;
+        }catch (Exception e){
+            return RESPONSE_NO_CONTENT;
+        }
     }
 
     private List<QuestionDTO> getQuestionDTOs(List<Question> questions){
