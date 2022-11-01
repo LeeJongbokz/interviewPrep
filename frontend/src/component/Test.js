@@ -1,6 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
+//import styled from 'styled-components';
 import Problem from './Problem';
+
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Unstable_Grid2';
+
 const Test = () => {
   const problems = [
     ['네트워크', 'TCP와 UDP의 차이', '상', '35명'],
@@ -15,17 +19,29 @@ const Test = () => {
 
   return (
     <Container>
-      {problems.map((problem, index) => {
-        return <Problem key={index} problem={problem} />;
-      })}
+      <div>
+      <Grid 
+        container 
+        spacing={1} 
+        columns={{ xs:12 }}
+      >
+        {problems.map((problem, index) => {
+          return (
+            <Grid key={index} item xs={12} sm={6} md={3}>
+              <Problem problem={problem} />
+            </Grid>
+           )
+        })}
+      </Grid>
+      </div>
     </Container>
   );
 };
 
 export default Test;
 
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-`;
+// const Container = styled.div`
+//   display: flex;
+//   flex-wrap: wrap;
+//   text-align: center;
+// `;
