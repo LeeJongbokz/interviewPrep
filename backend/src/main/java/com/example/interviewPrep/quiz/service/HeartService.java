@@ -8,7 +8,7 @@ import com.example.interviewPrep.quiz.exception.MemberNotFoundException;
 import com.example.interviewPrep.quiz.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.domain.Heart;
 import com.example.interviewPrep.quiz.exception.AnswerNotFoundException;
-import com.example.interviewPrep.quiz.exception.HeartNotFountException;
+import com.example.interviewPrep.quiz.exception.HeartNotFoundException;
 import com.example.interviewPrep.quiz.repository.HeartRepository;
 import com.example.interviewPrep.quiz.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +28,6 @@ public class HeartService {
         Member member = memberRepository.findById(heartDTO.getMemberId()).orElseThrow(() ->
             new MemberNotFoundException("멤버 정보를 찾을 수 없어 좋아요를 누를 수 없습니다."));
 
-        if (heartRepository.findByAnswerIdAndMemberId(heartDTO.getAnswerId(), heartDTO.getMemberId()).isPresent()) {
-            throw new AlreadyHeartException("이미 추천을하여 중복으로 누를 수 없습니다.");
-        }
         Heart heart = Heart.builder()
             .answer(answer)
             .member(member)
@@ -44,7 +41,7 @@ public class HeartService {
 
     public Heart deleteHeart(HeartDTO heartDTO) throws InterruptedException {
         Heart heart = heartRepository.findByAnswerIdAndMemberId(heartDTO.getAnswerId(), heartDTO.getMemberId()).orElseThrow(() ->
-            new HeartNotFountException("좋아요를 누른 기록이 없어 좋아요 취소를 할 수 없습니다."));
+            new HeartNotFoundException("좋아요를 누른 기록이 없어 좋아요 취소를 할 수 없습니다."));
         //TODO 멤버 정보 가져오기 - 좋아요 기록 검증
         decreaseHeartFacade(heartDTO.getAnswerId());
         heartRepository.delete(heart);
