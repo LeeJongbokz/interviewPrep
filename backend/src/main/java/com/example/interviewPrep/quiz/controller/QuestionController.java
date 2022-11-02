@@ -53,9 +53,13 @@ public class QuestionController {
 
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Question create(@RequestBody @Valid QuestionDTO questionDTO){
-        return questionService.createQuestion(questionDTO);
+    public ResponseEntity<?> create(@RequestBody @Valid QuestionDTO questionDTO){
+        try{
+            questionService.createQuestion(questionDTO);
+            return RESPONSE_CREATED;
+        }catch(Exception e){
+            return RESPONSE_SERVER_ERROR;
+        }
     }
 
     @PutMapping("{id}")
