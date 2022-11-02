@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class HeartDTO {
+public class HeartRequestDTO {
     @NotNull
     private Long answerId;
 
