@@ -39,7 +39,8 @@
 
 
 ## ERD
-![스크린샷 2022-10-31 오후 6 02 49](https://user-images.githubusercontent.com/38105420/198971135-923f93dc-66ee-4656-8412-e89f5393aa01.png)
+<img width="759" alt="스크린샷 2022-11-02 오후 3 19 55" src="https://user-images.githubusercontent.com/38105420/199413050-040b95fa-d3a1-4e1a-940f-752ea046e22c.png">
+
 
 
 <br>
