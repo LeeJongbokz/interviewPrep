@@ -46,12 +46,12 @@ const Login = () => {
       default:
     }
   }
-  function ClickHander() {
-    const res = API.get(
-      `oauth/authorize?client_id=7631d083ab97ccae8103b0aed5d67b05&redirect_uri=http://52.3.173.210:8080/oauth2/code/kakao&response_type=code`
-    );
-    console.log(res);
-  }
+  // function ClickHander() {
+  //   const res = API.get(
+  //     `oauth/authorize?client_id=7631d083ab97ccae8103b0aed5d67b05&redirect_uri=http://52.3.173.210:8080/oauth2/code/kakao&response_type=code`
+  //   );
+  //   console.log(res);
+  // }
   return (
     <Container maxWidth="sm">
       <Grid
@@ -69,8 +69,8 @@ const Login = () => {
             Login
           </Typography>
           <form
-            // onChange={e => HandleChange(e)} 
-            // onSubmit={e => onSubmit(e)}
+            onChange={HandleChange} 
+            onSubmit={onSubmit}
             noValidate
           >
             <TextField 
