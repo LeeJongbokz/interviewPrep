@@ -1,5 +1,6 @@
 package com.example.interviewPrep.quiz.domain;
 
+import com.example.interviewPrep.quiz.exception.HeartExistException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,12 +43,13 @@ public class Answer {
     }
 
     public int increase() {
-        this.countHeart = this.countHeart + 1;
-        return this.countHeart;
+        return this.countHeart++;
     }
 
     public int decrease() {
-        this.countHeart = this.countHeart - 1;
-        return this.countHeart;
+        if (this.countHeart < 1) {
+            throw new HeartExistException("좋아요 수가 0보다 작아 좋아요 수를 감소시킬수 없습니다.")
+        }
+        return this.countHeart--;
     }
 }
