@@ -48,7 +48,7 @@ public class Answer {
 
     public int decrease() {
         if (this.countHeart <= 0) {
-            throw new HeartExistException("좋아요 수가 0보다 작아 좋아요 수를 감소시킬수 없습니다.")
+            throw new HeartExistException("좋아요 수가 0보다 작아 좋아요 수를 감소시킬수 없습니다.");
         }
         return --this.countHeart;
     }
