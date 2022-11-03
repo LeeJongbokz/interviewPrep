@@ -1,12 +1,16 @@
 package com.example.interviewPrep.quiz.controller;
 
-import com.example.interviewPrep.quiz.dto.AnswerDTO;
-import com.example.interviewPrep.quiz.dto.HeartDTO;
+import com.example.interviewPrep.quiz.dto.HeartRequestDTO;
 import com.example.interviewPrep.quiz.service.HeartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 
@@ -23,7 +27,7 @@ public class HeartController {
     private final HeartService heartService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @NotNull HeartDTO heartDTO) {
+    public ResponseEntity<Void> create(@RequestBody @NotNull HeartRequestDTO heartDTO) {
 
         Long answerId = heartDTO.getAnswerId();
         try {
@@ -36,7 +40,7 @@ public class HeartController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestBody @NotNull HeartDTO heartDTO) {
+    public ResponseEntity<Void> delete(@RequestBody @NotNull HeartRequestDTO heartDTO) {
         Long answerId = heartDTO.getAnswerId();
         try {
             heartService.deleteHeart(heartDTO);
