@@ -18,7 +18,7 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 @RestController
 @RequestMapping("/heart")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins =  "http://52.3.173.210")
 @Log4j2
 public class HeartController {
     private final HeartService heartService;
