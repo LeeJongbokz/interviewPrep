@@ -6,6 +6,7 @@ import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,7 +24,7 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 @RestController
 @RequestMapping("/question")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class QuestionController {
     @Autowired
     private final QuestionService questionService;
@@ -41,8 +42,9 @@ public class QuestionController {
         return new ResponseEntity<>(questionsDTO, HttpStatus.OK);
     }
 
-
+    @Timer
     @GetMapping("/single/{id}")
+    @Cacheable(value = "question", key="#id")
     public ResponseEntity<?> getQuestion(@PathVariable Long id){
 
         Question question = questionService.getQuestion(id);
