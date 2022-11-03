@@ -32,31 +32,81 @@ const Login = () => {
       default:
     }
   }
-  function ClickHander() {
-    const res = API.get(
-      `oauth/authorize?client_id=7631d083ab97ccae8103b0aed5d67b05&redirect_uri=http://52.3.173.210:8080/oauth2/code/kakao&response_type=code`
-    );
-    console.log(res);
-  }
+  // function ClickHander() {
+  //   const res = API.get(
+  //     `oauth/authorize?client_id=7631d083ab97ccae8103b0aed5d67b05&redirect_uri=http://52.3.173.210:8080/oauth2/code/kakao&response_type=code`
+  //   );
+  //   console.log(res);
+  // }
   return (
-    <>
-      <InputBoxes onChange={e => HandleChange(e)} onSubmit={e => onSubmit(e)}>
-        <H4>이메일</H4>
-        <Input type="email" id="email" placeholder="Enter email" defaultValue={email} />
-        <H4>비밀번호</H4>
-        <Input type="password" id="password" placeholder="Enter password" defaultValue={password} />
-        <Button>로그인</Button>
-        <Button onClick={() => navigate('/signup')} margin="30px" color="skyblue">
-          회원가입
-        </Button>
-        <Link onClick={ClickHander}>
-          <SNSButton back={'/kakao_login.png'}></SNSButton>
-        </Link>
-
-        <SNSButton back={'/naver_login.png'}></SNSButton>
-        <SNSButton back={'/google_login.png'}></SNSButton>
-      </InputBoxes>
-    </>
+    <Container maxWidth="sm">
+      <Grid
+        padding={4}
+        component={Paper}
+        square
+      >
+        <Box 
+          sx={{
+            display: "flex",
+            flexDirection: 'column',
+          }}
+          >
+          <Typography align='center' component="h1" variant="h5">
+            Login
+          </Typography>
+          <form
+            onChange={HandleChange} 
+            onSubmit={onSubmit}
+            noValidate
+          >
+            <TextField 
+              id="email" 
+              label="email"
+              type="email" 
+              margin="normal"
+              defaultValue={email}
+              required
+              fullWidth
+            />
+            <TextField 
+              id="password"
+              label="passwords"
+              type="password" 
+              margin="normal" 
+              defaultValue={password} 
+              required
+              fullWidth 
+            />
+            <ButtonGroup fullWidth>
+            <Button variant="contained">로그인</Button>
+            <Button variant="outlined"
+              onClick={() => navigate('/signup')}
+            >
+              회원가입
+            </Button>
+            </ButtonGroup> 
+          </form>
+          <Divider variant="middle" />
+          <Stack
+            sx={{
+              dislpay:"flex",
+              flexDirection:"column",
+            }}
+            mt={5}
+            spacing={1}
+          >
+            <Button variant="outlined">kakao_login</Button>
+            <Button variant="outlined">naver_login</Button>
+            <Button variant="outlined">google_login</Button>
+             {/* <Link onClick={ClickHander}> 
+               <SNSButton back={'/kakao_login.png'}></SNSButton> 
+             </Link> 
+            <SNSButton back={'/naver_login.png'}></SNSButton>
+            <SNSButton back={'/google_login.png'}></SNSButton> */}
+          </Stack>
+        </Box>
+      </Grid>
+    </Container>
   );
 };
 
