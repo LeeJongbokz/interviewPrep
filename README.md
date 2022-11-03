@@ -29,7 +29,7 @@
 5. JUnit과 Mockito로 고립된 단위 테스트 작성 <br> 
 [종복] https://bryandev.tistory.com/1120 <br> 
 6. Spring Security를 활용한 Oauth2 적용 <br> 
-[종복] https://bryandev.tistory.com/1129 <br>
+[종복] https://bryandev.tistory.com/1129 (작성중) <br>
 7. AOP를 적용한 공통 관심사 분리 <br>
 
 ## 🔲 브랜치 관리 전략
@@ -39,7 +39,8 @@
 
 
 ## ERD
-![스크린샷 2022-10-31 오후 6 02 49](https://user-images.githubusercontent.com/38105420/198971135-923f93dc-66ee-4656-8412-e89f5393aa01.png)
+<img width="759" alt="스크린샷 2022-11-02 오후 3 19 55" src="https://user-images.githubusercontent.com/38105420/199413050-040b95fa-d3a1-4e1a-940f-752ea046e22c.png">
+
 
 
 <br>
