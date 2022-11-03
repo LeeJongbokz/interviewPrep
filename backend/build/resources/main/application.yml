@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mariadb://mariadb:3306/test
-    username: root
-    password: root
-    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:h2:tcp://localhost/~/interviewPrep;MODE=LEGACY
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
@@ -24,12 +24,11 @@ logging:
 jwt:
   secret: "12345678901234567890123456789010"
 
-
-
-  #url: jdbc:h2:tcp://localhost/~/interviewPrep
-  #    username: sa
-  #    password:
-  #    driver-class-name: org.h2.Driver
-  #url: jdbc:mariadb://mariadb:3306/test
-  #    username: root
-  #    password: root1234
+---
+spring:
+  profiles: mariadb
+  datasource:
+    url: jdbc:mariadb://mariadb:3306/test
+    username: root
+    password: root1234
+    driver-class-name: org.mariadb.jdbc.Driver
