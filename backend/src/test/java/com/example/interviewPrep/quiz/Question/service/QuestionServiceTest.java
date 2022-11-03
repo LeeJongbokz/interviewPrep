@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.Question.service;
 
 import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
+import com.example.interviewPrep.quiz.domain.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.exception.QuestionNotFoundException;
 import com.example.interviewPrep.quiz.infra.JpaQuestionRepository;
@@ -26,18 +26,14 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@Transactional
+
 public class QuestionServiceTest {
 
     private QuestionService questionService;
 
-    @Autowired
     private final QuestionRepository questionRepository = mock(JpaQuestionRepository.class);
 
     Question question;
-    QuestionDTO questionDTO;
 
     @BeforeEach
     void setUp(){
@@ -99,8 +95,9 @@ public class QuestionServiceTest {
                                 .type("자바")
                                 .build();
 
-        assertThatThrownBy(() -> questionService.updateQuestion(questionDTO.getId(), questionDTO))
-                        .isInstanceOf(QuestionNotFoundException.class);
+        Question question = questionService.updateQuestion(questionDTO.getId(), questionDTO);
+        assertThat(question).isEqualTo(Optional.empty());
+
     }
 
 

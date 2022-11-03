@@ -21,7 +21,7 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.*;
 public class AnswerController {
 
     private final AnswerService answerService;
-    @PostMapping("/{id}")
+    @PostMapping()
     public ResponseEntity<?> createAnswer(@RequestBody @Valid AnswerDTO answerDTO){
 
         try {

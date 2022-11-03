@@ -6,15 +6,14 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class QuestionDTO {
 
-    private Long id;
+    private final Long id;
 
     @NotNull
-    private String title;
+    private final String title;
     @NotNull
-    private String type;
+    private final String type;
 
 }

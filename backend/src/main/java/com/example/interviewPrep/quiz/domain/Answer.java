@@ -16,8 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 public class Answer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ANSWER_ID")
     private Long id;
 

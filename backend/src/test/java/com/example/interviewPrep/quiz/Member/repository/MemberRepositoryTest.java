@@ -1,29 +1,30 @@
 package com.example.interviewPrep.quiz.Member.repository;
 
 import com.example.interviewPrep.quiz.domain.Member;
-import com.example.interviewPrep.quiz.infra.JpaMemberRepository;
+import com.example.interviewPrep.quiz.domain.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
+@RunWith(SpringRunner.class)
+@SpringBootTest
 @Transactional
-@Rollback(value = false)
 class MemberRepositoryTest {
 
-    @Autowired private JpaMemberRepository memberRepository;
+    @Autowired
+    private final MemberRepository memberRepository = mock(MemberRepository.class);
+
 
     Member member;
     String email;
@@ -33,15 +34,12 @@ class MemberRepositoryTest {
     @BeforeEach
     void setUp(){
 
-
-
         // Given
         email = "hello@gmail.com";
         password = "1234";
         type = "google";
 
         member = Member.builder()
-                .id(3L)
                 .email(email)
                 .password(password)
                 .type(type)
@@ -55,8 +53,7 @@ class MemberRepositoryTest {
     public void save(){
 
         // When
-        Member savedMember = memberRepository.save(member);
-        System.out.println("savedMember는?" + savedMember);
+        memberRepository.save(member);
 
         // Then
         String savedEmail = member.getEmail();

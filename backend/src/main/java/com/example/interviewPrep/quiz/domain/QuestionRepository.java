@@ -1,6 +1,5 @@
-package com.example.interviewPrep.quiz.repository;
+package com.example.interviewPrep.quiz.domain;
 
-import com.example.interviewPrep.quiz.domain.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
