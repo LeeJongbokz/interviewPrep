@@ -21,7 +21,7 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 @RestController
 @RequestMapping("/heart")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://52.3.173.210")
 @Slf4j
 public class HeartController {
     private final HeartService heartService;
@@ -29,7 +29,6 @@ public class HeartController {
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody @NotNull HeartRequestDTO heartDTO) {
 
-        Long answerId = heartDTO.getAnswerId();
         try {
             heartService.createHeart(heartDTO);
             return RESPONSE_CREATED;
@@ -41,7 +40,7 @@ public class HeartController {
 
     @DeleteMapping
     public ResponseEntity<Void> delete(@RequestBody @NotNull HeartRequestDTO heartDTO) {
-        Long answerId = heartDTO.getAnswerId();
+
         try {
             heartService.deleteHeart(heartDTO);
             return RESPONSE_OK;
