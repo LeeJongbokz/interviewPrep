@@ -16,7 +16,8 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 public class Answer {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ANSWER_ID")
     private Long id;
 
@@ -30,6 +31,8 @@ public class Answer {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "MEMBER_ID")
     Member member;
+
+    private int heartCnt;
 
     public void change(String content){
         this.content = content;
