@@ -1,16 +1,17 @@
 package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.aop.Timer;
-import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 @Controller
 public class IndexController{
 

@@ -24,9 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //                .headers().frameOptions().disable() // H2 데이터 베이스 콘솔에 접근
                 .and()
                 .authorizeRequests() //url별 권한 접근제어 관리 옵션 시작점
-                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**").permitAll() //권한 관리 대상 지정
-                .anyRequest().authenticated() //나머지 요청들은 인증된 사람에게만 공개( 인증된 사람 == 로그인 사용자)
-                //.anyRequest().permitAll()
+                .antMatchers("/"/*, "/css/**", "/images/**", "/js/**", "/h2-console/**"*/).permitAll() //권한 관리 대상 지정
+                // .anyRequest().authenticated() //나머지 요청들은 인증된 사람에게만 공개( 인증된 사람 == 로그인 사용자)
+                .anyRequest().permitAll()
                 .and()
                 .logout()
                 .logoutSuccessUrl("/") //로그아웃 성공시 이동

@@ -17,7 +17,7 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.*;
 @RestController
 @RequestMapping("/answer")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://52.3.173.210")
+@CrossOrigin(origins = "*")
 public class AnswerController {
 
     private final AnswerService answerService;
