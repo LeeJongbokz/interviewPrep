@@ -1,13 +1,15 @@
 package com.example.interviewPrep.quiz.controller;
 
-import com.example.interviewPrep.quiz.dto.AnswerDTO;
 import com.example.interviewPrep.quiz.service.HeartService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_CREATED;
 import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPONSE_OK;
@@ -16,20 +18,18 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 @RestController
 @RequestMapping("/heart")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
-@Slf4j
+@CrossOrigin(origins =  "http://52.3.173.210")
+@Log4j2
 public class HeartController {
     private final HeartService heartService;
 
-    @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @NotNull AnswerDTO answerDTO) {
-
-        Long answerId = answerDTO.getId();
+    @PostMapping("/{id}")
+    public ResponseEntity<Void> create(@PathVariable Long id) {
+        Long answerId = id;
         try {
             heartService.createHeart(answerId);
             return RESPONSE_CREATED;
         } catch (Exception e) {
-            log.error("error is" + e.getMessage());
             return RESPONSE_SERVER_ERROR;
         }
     }
