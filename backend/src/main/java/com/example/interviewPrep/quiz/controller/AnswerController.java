@@ -17,11 +17,11 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.*;
 @RestController
 @RequestMapping("/answer")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://52.3.173.210")
 public class AnswerController {
 
     private final AnswerService answerService;
-    @PostMapping("/{id}")
+    @PostMapping()
     public ResponseEntity<?> createAnswer(@RequestBody @Valid AnswerDTO answerDTO){
 
         try {

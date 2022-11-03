@@ -1,6 +1,6 @@
 package com.example.interviewPrep.quiz.Member.service;
 
-import com.example.interviewPrep.quiz.repository.MemberRepository;
+import com.example.interviewPrep.quiz.domain.MemberRepository;
 import com.example.interviewPrep.quiz.service.AuthenticationService;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,4 @@
-package com.example.interviewPrep.quiz.repository;
-
-import com.example.interviewPrep.quiz.domain.Member;
+package com.example.interviewPrep.quiz.domain;
 
 import java.util.Optional;
 

@@ -21,13 +21,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(QuestionController.class)
 @WithMockCustomOAuth2Account()
+@WebMvcTest(QuestionController.class)
 public class QuestionCreateWebControllerTest {
 
     @MockBean
     QuestionService questionService;
-
 
     @MockBean
     CustomOAuth2UserService customOAuth2UserService;
@@ -58,10 +57,7 @@ public class QuestionCreateWebControllerTest {
         mockMvc.perform(post("/question")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(
-                                "{\"title\":\"problem1\",\"type\":\"java\"," +
-                                        "\"id\":1L}"
-                        )
+                        .content(jsonRequest)
                 )
                 .andDo(print())
                 .andExpect(status().isCreated());

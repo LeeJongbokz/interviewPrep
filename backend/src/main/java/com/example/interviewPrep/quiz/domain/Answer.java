@@ -16,8 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 public class Answer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ANSWER_ID")
     private Long id;
 
@@ -32,17 +31,8 @@ public class Answer {
     @JoinColumn(name = "MEMBER_ID")
     Member member;
 
-    private int countHeart;
-
-    @Version
-    private Long version;
-
-    public void change(String content) {
+    public void change(String content){
         this.content = content;
     }
 
-    public int increase() {
-        this.countHeart = this.countHeart + 1;
-        return this.countHeart;
-    }
 }

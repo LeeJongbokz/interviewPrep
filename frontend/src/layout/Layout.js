@@ -14,7 +14,8 @@ const Layout = () => {
 };
 const Main = styled.main`
   height: 100%;
-  background-color: rgb(231, 235, 240);
+  background-color: rgba(135, 206, 235, 0.3);
+  padding-bottom: 30px;
 `;
 
 export default Layout;
