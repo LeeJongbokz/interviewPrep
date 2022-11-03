@@ -3,7 +3,7 @@ package com.example.interviewPrep.quiz.controller;
 import com.example.interviewPrep.quiz.dto.HeartRequestDTO;
 import com.example.interviewPrep.quiz.service.HeartService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,21 +22,9 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 @RequestMapping("/heart")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://52.3.173.210")
-@Slf4j
+@Log4j2
 public class HeartController {
     private final HeartService heartService;
-
-    @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @NotNull HeartRequestDTO heartDTO) {
-
-        try {
-            heartService.createHeart(heartDTO);
-            return RESPONSE_CREATED;
-        } catch (Exception e) {
-            log.error("error is" + e.getMessage());
-            return RESPONSE_SERVER_ERROR;
-        }
-    }
 
     @DeleteMapping
     public ResponseEntity<Void> delete(@RequestBody @NotNull HeartRequestDTO heartDTO) {
@@ -49,5 +37,16 @@ public class HeartController {
         }
     }
 
+    @PostMapping
+    public ResponseEntity<Void> create(@RequestBody @NotNull HeartRequestDTO heartDTO) {
+
+        try {
+            heartService.createHeart(heartDTO);
+            return RESPONSE_CREATED;
+        } catch (Exception e) {
+            log.error("error is" + e.getMessage());
+            return RESPONSE_SERVER_ERROR;
+        }
+    }
 
 }
