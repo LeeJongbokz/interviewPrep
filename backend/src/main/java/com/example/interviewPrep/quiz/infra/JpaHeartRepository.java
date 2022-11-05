@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.infra;
 
 import com.example.interviewPrep.quiz.domain.Heart;
-import com.example.interviewPrep.quiz.domain.HeartRepository;
+import com.example.interviewPrep.quiz.repository.HeartRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

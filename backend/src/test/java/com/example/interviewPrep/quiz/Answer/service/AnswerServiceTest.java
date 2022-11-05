@@ -1,12 +1,12 @@
 package com.example.interviewPrep.quiz.Answer.service;
 
 import com.example.interviewPrep.quiz.domain.Answer;
-import com.example.interviewPrep.quiz.domain.AnswerRepository;
 import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.domain.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.AnswerDTO;
 import com.example.interviewPrep.quiz.infra.JpaAnswerRepository;
 import com.example.interviewPrep.quiz.infra.JpaQuestionRepository;
+import com.example.interviewPrep.quiz.repository.AnswerRepository;
+import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.service.AnswerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.service;
 
 import com.example.interviewPrep.quiz.domain.Answer;
-import com.example.interviewPrep.quiz.domain.AnswerRepository;
+import com.example.interviewPrep.quiz.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.domain.Heart;
 import com.example.interviewPrep.quiz.exception.AnswerNotFoundException;
 import com.example.interviewPrep.quiz.exception.HeartNotFountException;
