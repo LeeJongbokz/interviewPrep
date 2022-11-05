@@ -77,8 +77,6 @@ public class QuestionReadWebControllerTest {
     }
 
 
-
-
     @Test
     @DisplayName("Question valid type inquiry")
     void findByValidType() throws Exception{
@@ -149,5 +147,20 @@ public class QuestionReadWebControllerTest {
 
     }
 
+
+    @Test
+    @DisplayName("Question filter inquiry")
+    void findByFilterLanguage() throws Exception{
+        //given
+        String type ="java";
+
+        //when
+        mockMvc.perform(get("/question/filter"))
+
+        //then
+        .andDo(print())
+        .andExpect(status().isOk());
+
+    }
 
 }
