@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 //import styled from 'styled-components';
 import Problem from './Problem';
 // import Checkbox from './Checkbox';
@@ -18,8 +19,9 @@ const Test = () => {
     ['네트워크', 'OSI 7계층을 설명하시오', '상', '5명'],
     ['네트워크', 'OSI 7계층을 설명하시오', '상', '5명'],
   ];
+  const { subject:testId } = useParams();
   const [question, setQuestion] = useState("");
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -59,7 +61,7 @@ const Test = () => {
       >
         {question.map((test, index) => {
             return (
-              <Grid key={index} item xs={12} sm={6} md={3} onClick={() => alert('야야')}>
+              <Grid key={index} item xs={12} sm={6} md={3} onClick={() => navigate(`/test/${testId}`)}>
                 <Problem problem={test} />
               </Grid>
             )
@@ -74,9 +76,10 @@ const Test = () => {
         >
           {problems.map((problem, index) => {
             return (
-              <Grid key={index} item xs={12} sm={6} md={3}>
+              <Grid key={index} item xs={12} sm={6} md={3}
+              onClick={() => navigate(`/test/${testId}`)}
+              >
                 <Problem problem={problem} />
-                <div> {question.title}</div>
               </Grid>
             )
           })}
