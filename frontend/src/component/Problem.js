@@ -10,17 +10,17 @@ const Problem = ({ problem }) => {
     >
       <CardContent>
         <Typography>
-          분류: {problem[0]}
+          {problem.id +1+ '번'}
+        </Typography>
+        <Typography gutterBottom variant="h6" component="div">
+          문제: {problem.title}
+        </Typography>
+        <Typography>
+          Level : {problem.level}
+        </Typography>
+        <Typography>
+          분류: {problem.type}
         </Typography>       
-        <Typography>
-          문제: {problem[1]}
-        </Typography>
-        <Typography>
-          문제 난이도 : {problem[2]}
-        </Typography>
-        <Typography>
-        푼 사람 수: {problem[3]}
-        </Typography>
       </CardContent>
     </Card>
   );
