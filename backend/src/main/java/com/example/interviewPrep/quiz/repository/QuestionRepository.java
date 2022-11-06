@@ -13,6 +13,7 @@ public interface QuestionRepository {
     Optional<Question> findByTitle(String title);
     List<Question> findByType(String type);
     Page<Question> findByType(String type, Pageable pageable);
+    Page<Question> findAllBy(Pageable pageable);
 
     List<Question> findAll();
     Question save(Question question);

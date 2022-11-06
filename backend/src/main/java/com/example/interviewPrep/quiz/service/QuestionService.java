@@ -27,9 +27,11 @@ public class QuestionService {
         return questionRepository.findAll();
     }
 
-    @Cacheable(value = "question", key="#id")
-    public Question getQuestion(Long id) {
-        return findQuestion(id);
+
+    //@Cacheable(value = "question", key="#id")
+    public Optional<Question> getQuestion(Long id) {
+        return questionRepository.findById(id);
+
     }
 
     public Question createQuestion(QuestionDTO questionDTO){
@@ -43,11 +45,8 @@ public class QuestionService {
     }
 
     public Question updateQuestion(Long id, QuestionDTO questionDTO){
-
         Question question = findQuestion(id);
-
         question.change(questionDTO.getTitle(), questionDTO.getType());
-
         return question;
     }
 

@@ -17,7 +17,7 @@ const Problem = ({ problem }) => {
         </Typography>
         <Typography>
           Level : {problem?.level || "-" }
-      </Typography>
+        </Typography>
         <Typography>
           분류: {problem.type || "-"}
         </Typography>       

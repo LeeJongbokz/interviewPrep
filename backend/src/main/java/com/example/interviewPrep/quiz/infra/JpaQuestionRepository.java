@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.infra;
 
 import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
+import com.example.interviewPrep.quiz.domain.QuestionRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

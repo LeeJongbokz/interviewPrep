@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-// import { subjects } from '../utils/data';
-// import * as API from '../utils/api';
+import { useParams, useNavigate } from 'react-router-dom';
 import Container from "@mui/material/Container";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
@@ -11,17 +9,10 @@ import PaperUI from './UI/PaperUI';
 
 const TestScreen = () => {
   const { subject:testId } = useParams();
+  const navigate = useNavigate();
 
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
-
-  // const location = useLocation();
-  // const paths = location.pathname.split('/');
-  // let type = paths[2];
-
-  // let subject = subjects.map(subject => {
-  //   return subject[0] === paths[2] ? subject[1] : '';
-  // });
 
   const changeHandler = (e) => {
     setAnswer(e.target.value);
@@ -30,10 +21,10 @@ const TestScreen = () => {
   const submitHandler = async () => {
     if (window.confirm('답안을 제출하시겠습니까?')) {
       const bodyData = {
-        testId,
-        answer
+        questionId: testId,
+        content: answer
       }
-      const response = await fetch('https://react-post-de8f7-default-rtdb.firebaseio.com/interviewPrep/answer.json', {
+      const response = await fetch('http://52.202.27.18:8080/answer', {
         method: 'POST',
         body: JSON.stringify(bodyData), 
         headers: {
@@ -44,25 +35,14 @@ const TestScreen = () => {
         alert("오류가 발생했습니다. 다시 시도해주세요!")
         return;
       }     
-      // redirect to where??
+      navigate('/test');
+      return; 
     }
   };
 
   useEffect(() => {
-    // try {
-    //   const res = API.get('question/' + type, {});
-    //   if (res.status === 200) {
-    //     if (questions.length === 0) {
-    //       setQuestions(res.data);
-    //     }
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
-
     const fetchQuestion = async () => {
-      console.log(testId);
-      const response = await fetch(`https://react-post-de8f7-default-rtdb.firebaseio.com/interviewPrep/question/${testId}.json`);
+      const response = await fetch(`http://52.202.27.18:8080/answer/single/${testId}`);
 
       if(!response.ok){
         throw new Error('Some Thing Went Error');
@@ -71,15 +51,13 @@ const TestScreen = () => {
       setQuestion(data.title);  
     }
     fetchQuestion().catch((err) => {
-      console.log(err)
+      console.log(err);
     })
-
-    // setQuestion([{title:"title"},{title:"titie12"}]);
   }, []);
       
   return (
     <Container maxWidth="sm">
-      <PaperUI>
+      { question && <PaperUI>
         <Typography variant="h3" gutterBottom>
           
         </Typography>
@@ -97,7 +75,7 @@ const TestScreen = () => {
           variant="contained" 
           onClick={submitHandler}
         >제출하기</Button>
-      </PaperUI>
+      </PaperUI> }
     </Container>
   );
 };

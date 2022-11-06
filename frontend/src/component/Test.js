@@ -14,6 +14,7 @@ const Test = () => {
   useEffect(() => {
     const fetchQuestion = async () => {
       
+      //console.log('api연동성공');
       const response = await fetch(`https://react-post-de8f7-default-rtdb.firebaseio.com/interviewPrep/question.json`);
 
       if(!response.ok){
@@ -21,6 +22,7 @@ const Test = () => {
       }
       const data = await response.json();
       setQuestion(data);
+      //console.log(data);
 
     }
     fetchQuestion().catch((err) => {

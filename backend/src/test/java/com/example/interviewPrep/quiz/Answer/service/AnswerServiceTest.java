@@ -1,17 +1,34 @@
 package com.example.interviewPrep.quiz.Answer.service;
 
 import com.example.interviewPrep.quiz.domain.Answer;
+import com.example.interviewPrep.quiz.domain.AnswerRepository;
+import com.example.interviewPrep.quiz.domain.Question;
+import com.example.interviewPrep.quiz.domain.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.AnswerDTO;
+import com.example.interviewPrep.quiz.infra.JpaAnswerRepository;
+import com.example.interviewPrep.quiz.infra.JpaQuestionRepository;
+import com.example.interviewPrep.quiz.service.AnswerService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 public class AnswerServiceTest {
+
+    private AnswerService answerService;
+
+    private final AnswerRepository answerRepository = mock(JpaAnswerRepository .class);
+    private final QuestionRepository questionRepository =  mock(JpaQuestionRepository.class);
+
 
     Answer answer1;
     Answer answer2;
@@ -20,13 +37,19 @@ public class AnswerServiceTest {
     AnswerDTO answerDTO2;
     List<AnswerDTO> answerDTOs;
 
+    Question question;
+
+
     @BeforeEach
     public void setUp(){
+
+        answerService = new AnswerService(answerRepository, questionRepository);
 
         answerDTOs = new ArrayList<>();
 
         answerDTO1 = AnswerDTO.builder()
                 .content("새 답안입니다.")
+                .questionId(1L)
                 .build();
 
         answerDTO2 = AnswerDTO.builder()
@@ -35,6 +58,12 @@ public class AnswerServiceTest {
 
         answerDTOs.add(answerDTO1);
         answerDTOs.add(answerDTO2);
+
+        question = Question.builder()
+                .id(1L)
+                .build();
+
+        when(questionRepository.findById(1L)).thenReturn(Optional.ofNullable(question));
     }
 
 
@@ -58,6 +87,24 @@ public class AnswerServiceTest {
         for(Answer answer: answers){
             assertThat(answer.getContent()).isEqualTo(answerDTOs.get(order++).getContent());
         }
+    }
+
+
+    @Test
+    @DisplayName("single answer create")
+    public void createAnswer(){
+
+        //given
+        answer1 = Answer.builder()
+                .content(answerDTO1.getContent())
+                .build();
+
+        //when
+        Answer myAns = answerService.createAnswer(answerDTO1);
+
+        //then
+        assertThat(myAns.getContent()).isEqualTo(answer1.getContent());
+
     }
 
 

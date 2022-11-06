@@ -1,12 +1,12 @@
 package com.example.interviewPrep.quiz.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @Builder
 @Getter
-@Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class LoginRequestDTO {
 
     String email;

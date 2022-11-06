@@ -32,17 +32,10 @@ public class Answer {
     @JoinColumn(name = "MEMBER_ID")
     Member member;
 
-    private int countHeart;
+    private int heartCnt;
 
-    @Version
-    private Long version;
-
-    public void change(String content) {
+    public void change(String content){
         this.content = content;
     }
 
-    public int increase() {
-        this.countHeart = this.countHeart + 1;
-        return this.countHeart;
-    }
 }
