@@ -2,11 +2,11 @@ package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.aop.Timer;
 import com.example.interviewPrep.quiz.domain.Question;
+import com.example.interviewPrep.quiz.dto.FilterDTO;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.repository.FilterRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,27 +24,27 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.*;
 @RestController
 @RequestMapping("/question")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://52.3.173.210")
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final FilterRepository filterRepository;
 
     @Timer // redis 유무에 따른 api 응답시간을 체크를 위해 시간 측정 aop 사용
-    @GetMapping("/{type}")
-    public ResponseEntity<?> getQuestionType(@PathVariable String type, @PageableDefault(size=10) Pageable pageable){
+    @GetMapping({"/{type}", ""})
+    public ResponseEntity<?> getQuestionType(@PathVariable(required = false) String type, @PageableDefault(size=10) Pageable pageable){
 
+        if(type==null) type = "all";
         Optional<Page<QuestionDTO>> questionsDTO = questionService.findByType(type, pageable);
 
         if(questionsDTO.isEmpty()){
             return RESPONSE_NOT_FOUND;
         }
-
         return new ResponseEntity<>(questionsDTO, HttpStatus.OK);
     }
 
-    @Timer
+
     @GetMapping("/single/{id}")
-    @Cacheable(value = "question", key="#id")
     public ResponseEntity<?> getQuestion(@PathVariable Long id){
 
         Optional<Question> question = questionService.getQuestion(id);
@@ -97,6 +97,22 @@ public class QuestionController {
         }
 
         return questionDTOs;
+    }
+
+
+    @GetMapping("/filter")
+    public ResponseEntity<?> getFilterLanguage(){
+        List<FilterDTO> filterDTOS = new ArrayList<>();
+
+        List<String> languages = filterRepository.findAllByLanguage();
+        for(String language: languages){
+            FilterDTO filterDTO = FilterDTO.builder()
+                    .language(language)
+                    .build();
+            filterDTOS.add(filterDTO);
+        }
+
+        return new ResponseEntity<>(filterDTOS, HttpStatus.OK);
     }
 
 
