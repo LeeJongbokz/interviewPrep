@@ -13,13 +13,13 @@ const Problem = ({ problem }) => {
           {problem.id +1+ '번'}
         </Typography>
         <Typography gutterBottom variant="h6" component="div">
-          문제: {problem.title}
+          문제: {problem.title || "-" }
         </Typography>
         <Typography>
-          Level : {problem.level}
-        </Typography>
+          Level : {problem?.level || "-" }
+      </Typography>
         <Typography>
-          분류: {problem.type}
+          분류: {problem.type || "-"}
         </Typography>       
       </CardContent>
     </Card>
