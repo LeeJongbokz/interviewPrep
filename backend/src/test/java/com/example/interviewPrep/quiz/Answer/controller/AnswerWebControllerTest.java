@@ -4,6 +4,7 @@ import com.example.interviewPrep.quiz.controller.AnswerController;
 import com.example.interviewPrep.quiz.domain.Answer;
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.AnswerDTO;
+import com.example.interviewPrep.quiz.dto.SolutionDTO;
 import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
 import com.example.interviewPrep.quiz.service.AnswerService;
 import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
@@ -14,6 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -47,6 +52,7 @@ public class AnswerWebControllerTest {
 
     List<AnswerDTO> answerDTOs;
     String jsonRequest;
+    Pageable pageable;
 
 
     @BeforeEach
@@ -79,6 +85,24 @@ public class AnswerWebControllerTest {
         when(answerService.createAnswer(any(AnswerDTO.class))).thenReturn(answer);
         when(answerService.readAnswer(1L)).thenReturn(Optional.ofNullable(answerDTO1));
         when(answerService.deleteAnswer(1L)).thenReturn(Optional.ofNullable(answer));
+
+        List<SolutionDTO> solutionDTOs= new ArrayList<>();
+        SolutionDTO solutionDTO;
+
+        for(int i = 1; i<11; i++) {
+            solutionDTO = SolutionDTO.builder()
+                    .answerId(1L)
+                    .answer("answer"+i)
+                    .heartCnt(i)
+                    .name("jin"+i)
+                    .build();
+            solutionDTOs.add(solutionDTO);
+        }
+
+        pageable = PageRequest.of(0, 10);
+        Page<SolutionDTO> solutions = new PageImpl<>(solutionDTOs);
+
+        when(answerService.getSolution(1L,"all", pageable)).thenReturn(Optional.of(solutions));
 
     }
 
@@ -199,6 +223,26 @@ public class AnswerWebControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(answerService).deleteAnswer(id);
+    }
+
+
+
+    @Test
+    @DisplayName("Answer valid id, type")
+    void findSolution() throws Exception{
+        //given
+        Long id =1L;
+        String type ="all";
+
+        //when
+        mockMvc.perform(get("/answer/solution/"+id+"/"+type)
+                .param("page", "0"))
+
+                //then
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        verify(answerService).getSolution(id, type, pageable);
     }
 
 

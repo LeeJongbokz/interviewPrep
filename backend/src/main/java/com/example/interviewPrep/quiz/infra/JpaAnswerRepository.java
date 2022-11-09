@@ -3,6 +3,8 @@ package com.example.interviewPrep.quiz.infra;
 import com.example.interviewPrep.quiz.domain.Answer;
 import com.example.interviewPrep.quiz.repository.AnswerRepository;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
@@ -24,8 +26,14 @@ public interface JpaAnswerRepository extends AnswerRepository, JpaRepository<Ans
 
     void delete(Answer answer);
 
+
+    @Query("SELECT a FROM Answer a, Member m " +
+            "where a.question.id = ?1 and a.member.id = m.id ORDER BY a.heartCnt desc")
+    Page<Answer> findSolution(Long id, Pageable pageable);
+
     @Transactional
     @Lock(value = LockModeType.OPTIMISTIC)
     @Query("select s from Answer s where s.id = :id")
     Optional<Answer> findByIdWithOptimisticLock(@Param("id") Long id);
+
 }
