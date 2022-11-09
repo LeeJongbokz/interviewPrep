@@ -24,7 +24,7 @@ const TestScreen = () => {
         questionId: testId,
         content: answer
       }
-      const response = await fetch('http://52.202.27.18:8080/answer', {
+      const response = await fetch(`http://52.202.27.18:8080/answer/`, {
         method: 'POST',
         body: JSON.stringify(bodyData), 
         headers: {
@@ -42,7 +42,7 @@ const TestScreen = () => {
 
   useEffect(() => {
     const fetchQuestion = async () => {
-      const response = await fetch(`http://52.202.27.18:8080/answer/single/${testId}`);
+      const response = await fetch(`http://52.202.27.18:8080/question/single/${testId}`);
 
       if(!response.ok){
         throw new Error('Some Thing Went Error');
