@@ -3,7 +3,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import {Button} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 const Problem = ({ problem }) => {
+  const navigate = useNavigate();
+  
   return (
     <Card 
       variant="outlined"
@@ -21,7 +24,7 @@ const Problem = ({ problem }) => {
         <Typography>
           분류: {problem.type || "-"}
         </Typography>      
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={() => navigate(`/test/${problem.id}`)}>
           문제 풀기
         </Button> 
       </CardContent>
