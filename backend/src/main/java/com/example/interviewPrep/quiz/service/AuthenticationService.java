@@ -1,10 +1,11 @@
 package com.example.interviewPrep.quiz.service;
 
 import com.example.interviewPrep.quiz.domain.Member;
-import com.example.interviewPrep.quiz.domain.MemberRepository;
+import com.example.interviewPrep.quiz.repository.MemberRepository;
 import com.example.interviewPrep.quiz.exception.LoginFailureException;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import com.example.interviewPrep.quiz.utils.PasswordCheck;
+import com.example.interviewPrep.quiz.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,16 +17,18 @@ public class AuthenticationService {
     private final JwtUtil jwtUtil;
     @Autowired
     private final MemberRepository memberRepository;
-    public String login(String email, String password) {
+    public Long login(String email, String password) {
         Member searchedMember = memberRepository.findByEmail(email)
                 .orElseThrow(()-> new LoginFailureException(email));
 
-        boolean isSamePassword = PasswordCheck.isMatch(searchedMember.getPassword(), password);
+        String encryptedPassword = SHA256Util.encryptSHA256(password);
+
+        boolean isSamePassword = PasswordCheck.isMatch(searchedMember.getPassword(), encryptedPassword);
 
         if(!isSamePassword){
             throw new LoginFailureException(email);
         }
 
-        return jwtUtil.makeJWTtoken(email);
+        return searchedMember.getId();
     }
 }

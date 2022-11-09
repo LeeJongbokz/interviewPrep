@@ -26,6 +26,7 @@ public class Member {
 
     private String name;
 
+    private String refreshToken;
     @Column
     private String picture;
 
@@ -36,6 +37,11 @@ public class Member {
         this.name = name;
         this.picture = picture;
 
+        return this;
+    }
+
+    public Member updateToken(String refreshToken){
+        this.refreshToken = refreshToken;
         return this;
     }
 
