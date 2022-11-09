@@ -2,11 +2,14 @@ package com.example.interviewPrep.quiz.service;
 
 
 import com.example.interviewPrep.quiz.domain.Answer;
+import com.example.interviewPrep.quiz.dto.SolutionDTO;
 import com.example.interviewPrep.quiz.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.AnswerDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -51,6 +54,23 @@ public class AnswerService {
 
     }
 
+
+
+    public Optional<Page<SolutionDTO>> getSolution(Long id, String type, Pageable pageable){
+
+        Page<Answer> answers;
+        //if(type.equals("all"))
+            answers = answerRepository.findSolution(id,pageable);
+        //else if(type.equals("my")){}
+
+
+        return Optional.of(answers.map(a ->SolutionDTO.builder()
+                .answerId(a.getId())
+                .answer(a.getContent())
+                .heartCnt(a.getHeartCnt())
+                .name(a.getMember().getName())
+                .build()));
+    }
 
 
 }
