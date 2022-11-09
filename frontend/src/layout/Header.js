@@ -1,7 +1,7 @@
 import Box from '@mui/material/box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 
 import { Typography } from '@mui/material';
 
@@ -27,7 +27,7 @@ const Header = () => {
             >
               숨터뷰
             </Typography>
-            <Button color="inherit" href="/login">Login</Button>
+            {/* <Button color="inherit" href="/login">Login</Button> */}
           </Toolbar>
         </AppBar>
       </Box>

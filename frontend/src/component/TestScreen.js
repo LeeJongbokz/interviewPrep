@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Container from "@mui/material/Container";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import PaperUI from './UI/PaperUI';
+import ContainerUI from './UI/ContainerUI';
 
 const TestScreen = () => {
   const { subject:testId } = useParams();
@@ -56,27 +55,28 @@ const TestScreen = () => {
   }, []);
       
   return (
-    <Container maxWidth="sm">
-      { question && <PaperUI>
-        <Typography variant="h3" gutterBottom>
-          
+      <ContainerUI>
+        <Typography variant="h4" gutterBottom>
+          Question.
         </Typography>
-        <FormControl margin='dense' fullWidth variant="standard"> 
+        <Typography variant="h5" gutterBottom>
+          {question}
+        </Typography>
+        <FormControl margin='dense' fullWidth variant="standard" sx={{marginTop:"20px", marginBottom: "20px"}}> 
           <TextField id="answer"
             multiline
-            label={`문제 : ${question}`}
+            // label={}
             value={answer}
             onChange={changeHandler} 
             placeholder="답을 입력해주세요"
           />
         </FormControl>
         <Button 
-          size="small"
           variant="contained" 
           onClick={submitHandler}
+          m={1}
         >제출하기</Button>
-      </PaperUI> }
-    </Container>
+      </ContainerUI>
   );
 };
 
