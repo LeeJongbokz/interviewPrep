@@ -1,5 +1,6 @@
 package com.example.interviewPrep.quiz.domain;
 
+import com.example.interviewPrep.quiz.exception.HeartExistException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,10 +33,24 @@ public class Answer {
     @JoinColumn(name = "MEMBER_ID")
     Member member;
 
-    private int heartCnt;
+    private int countHeart;
 
-    public void change(String content){
+    @Version
+    private Long version;
+
+    public void change(String content) {
         this.content = content;
+    }
+
+    public int increase() {
+        return ++this.countHeart;
+    }
+
+    public int decrease() {
+        if (this.countHeart <= 0) {
+            throw new HeartExistException("좋아요 수가 0보다 작아 좋아요 수를 감소시킬수 없습니다.");
+        }
+        return --this.countHeart;
     }
 
 }

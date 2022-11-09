@@ -23,9 +23,7 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
-    public List<Question> getQuestions() {
-        return questionRepository.findAll();
-    }
+    public List<Question> getQuestions() {return questionRepository.findAll();}
 
 
     //@Cacheable(value = "question", key="#id")
@@ -60,9 +58,12 @@ public class QuestionService {
         return questionRepository.findByType(type);
     }
 
-    @Cacheable(value = "questionDTO", key="#pageable.pageSize.toString().concat('-').concat(#pageable.pageNumber)")
+    //@Cacheable(value = "questionDTO", key="#pageable.pageSize.toString().concat('-').concat(#pageable.pageNumber)")
     public Optional<Page<QuestionDTO>> findByType(String type, Pageable pageable){
-        Page<Question> questions = questionRepository.findByType(type, pageable); //문제 타입과 페이지 조건 값을 보내어 question 조회, 반환값 page
+        Page<Question> questions;
+        if(type.equals("all")) questions = questionRepository.findAllBy(pageable);
+        else questions = questionRepository.findByType(type, pageable); //문제 타입과 페이지 조건 값을 보내어 question 조회, 반환값 page
+
         return Optional.of(questions.map(q -> QuestionDTO.builder()   //question list 값들을 dto로 변경
                                                 .id(q.getId())
                                                 .type(q.getType())

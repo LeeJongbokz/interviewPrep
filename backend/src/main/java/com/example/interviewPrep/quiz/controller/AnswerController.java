@@ -2,8 +2,12 @@ package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.domain.Answer;
 import com.example.interviewPrep.quiz.dto.AnswerDTO;
+import com.example.interviewPrep.quiz.dto.SolutionDTO;
 import com.example.interviewPrep.quiz.service.AnswerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +25,7 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.*;
 public class AnswerController {
 
     private final AnswerService answerService;
+
     @PostMapping()
     public ResponseEntity<?> createAnswer(@RequestBody @Valid AnswerDTO answerDTO){
 
@@ -48,6 +53,16 @@ public class AnswerController {
         Optional<Answer> answer = answerService.deleteAnswer(id);
         if(answer.isEmpty()) return RESPONSE_NO_CONTENT;
         return RESPONSE_OK;
+    }
+
+
+    @GetMapping("/solution/{id}/{type}")
+    public ResponseEntity<?> findSolutionAnswer(@PathVariable Long id, @PathVariable String type,
+                                                @PageableDefault(size=10) Pageable pageable){
+
+        Optional<Page<SolutionDTO>> answerDTOs = answerService.getSolution(id, type, pageable);
+        if(answerDTOs.isEmpty()) return RESPONSE_NO_CONTENT;
+        return new ResponseEntity<>(answerDTOs, HttpStatus.OK);
     }
 
 
