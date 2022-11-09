@@ -1,32 +1,38 @@
 import { useEffect, useState } from "react";
+import { useParams } from 'react-router-dom';
 import Container from "@mui/material/Container";
 import { List, ListItem, ListItemText } from "@mui/material";
 
 const AnswerList = () => {
 
+  const { id:testId } = useParams();
   const [answerArray, setAnswerArray] = useState([]);
   useEffect(() => {
 
-    const response = {
-      "-NFqZQ2WJDJqLmdZ6wX2" : {
-        "answer" : "TCP 는 응답 핑을 받고 나서 통신을 하지만, UDP 는 핑을 받지 않고 바로 전송한다.",
-        "testId" : "1"
-      },
-      "-NFqkRUmaVI3J0GM0zdo" : {
-        "answer" : "TCP 는 응답 핑을 받고 나서 통신을 하지만, UDP 는 핑을 받지 않고 바로 전송한다",
-        "testId" : "1"
-      }
-    }
+    const fetchAnswer = async () => {
+      
+      const response = await fetch(`https://react-post-de8f7-default-rtdb.firebaseio.com/interviewPrep/answer.json?orderBy=%22testId%22&equalTo="${testId}"`);
+      //console.log(testId);
 
-    const answers = [];
-    for( const key in response){
-      answers.push({
-        id: key,
-        answer: response[key].answer
-      })
+      if(!response.ok){
+        throw new Error('Some Thing Went Error');
+      }
+      const data = await response.json();
+      const answers = [];
+      for( const key in data){
+        answers.push({
+          id: key,
+          answer: data[key].answer
+        })
+      }
+      setAnswerArray(answers);  
+      //console.log(data);
+      
     }
-    setAnswerArray(answers);
-    console.log(answers);
+    fetchAnswer().catch((err) => {
+      console.log(err)
+    })
+    
   }, []);
 
   return (
