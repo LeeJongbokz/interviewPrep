@@ -2,7 +2,7 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-
+import {Button} from '@mui/material';
 const Problem = ({ problem }) => {
   return (
     <Card 
@@ -12,7 +12,7 @@ const Problem = ({ problem }) => {
         <Typography>
           {problem.id +1+ '번'}
         </Typography>
-        <Typography gutterBottom variant="h6" component="div">
+        <Typography sx={{height:40 }} gutterBottom component="div">
           문제: {problem.title || "-" }
         </Typography>
         <Typography>
@@ -20,7 +20,10 @@ const Problem = ({ problem }) => {
         </Typography>
         <Typography>
           분류: {problem.type || "-"}
-        </Typography>       
+        </Typography>      
+        <Button size="small" color="primary">
+          문제 풀기
+        </Button> 
       </CardContent>
     </Card>
   );

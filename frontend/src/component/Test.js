@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Problem from './Problem';
-// import Checkbox from './Checkbox';
-// import Card from './Card';
+import Select from './Select';
+//import Card from './Card';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -33,13 +33,9 @@ const Test = () => {
 
   return (
     <Container>
-      {/* 필터 */}
-      {/* <div>
-        <Checkbox/>
-      </div>
       <div>
-        <Card/>
-      </div> */}
+        <Select/>
+      </div>
       <div>
       <Grid 
         container 
@@ -48,8 +44,8 @@ const Test = () => {
       >
         {question.map((test, index) => {
             return (
-              <Grid key={index} item xs={12} sm={6} md={3} onClick={() => navigate(`/test/${test.id}`)}>
-                <Problem problem={test} />
+              <Grid key={index} item xs={12} sm={6} md={3} sx={{width:{xs:"100%", sm:"50%", md:"25%"}}} onClick={() => navigate(`/test/${test.id}`)}>
+                <Problem sx={{height:{xs:"250px", sm:"150px", md:"100px"}  }} problem={test} />
               </Grid>
             )
           })}
