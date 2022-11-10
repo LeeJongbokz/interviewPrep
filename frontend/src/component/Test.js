@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Problem from './Problem';
 import Select from './Select';
 //import Card from './Card';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
+import ContainerUI from './UI/ContainerUI';
 
 const Test = () => {
 
@@ -29,7 +29,7 @@ const Test = () => {
   }, []);
 
   return (
-    <Container>
+    <ContainerUI>
       <div>
         <Select/>
       </div>
@@ -48,7 +48,7 @@ const Test = () => {
           })}
       </Grid>
       </div>
-    </Container>
+    </ContainerUI>
   );
 };
 
