@@ -1,67 +1,61 @@
 import * as React from 'react';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
-//import { lightBlue } from '@mui/material/colors';
+// import ListItemText from '@mui/material/ListItemText';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-//const background = blueGrey[50]; //#eceff1
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const categories = [
-  'Code',
-  'Network',
-  'JavaScript',
-  'Database'
-];
-
-export default function MultipleSelectCheckmarks() {
-  const [categoryName, setcategoryName] = React.useState([]);
-
+export default function BasicSelect({categories}) {
+  let array = [];
+  let type;
+  const [categoryName, setcategoryName] = React.useState('');
+  //console.log(categories)
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setcategoryName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    console.log(event.target.value)
+    const fetchsearchType = async () => {
+      const response = await fetch(`http://52.202.27.18:8080/question/java?page=0`);
+      
+      if (!response.ok) {
+        throw new Error('Some Thing Went Error');
+      }
+      const data = await response.json();
+      console.log(data)
+      //setcategoryName(data.title);
+    };
+    fetchsearchType().catch(err => {
+      console.log(err);
+    });
+    setcategoryName(event.target.value);
   };
+  categories.map((category) => {
+  //console.log(array)
+    array.push(category.type);
+  })
+  type = array.filter(function(v,i){
+    return array.indexOf(v) === i;
+  });
+  //console.log(type);
 
   return (
-    <div>
-      <FormControl sx={{ mt:1 ,mb:1, width: 300 , backgroundColor: "white"}}>
-        <InputLabel id="demo-multiple-checkbox-label">category</InputLabel>
+    <Box sx={{ mt:1 ,mb:1, width: 250 , backgroundColor: "white"}}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">category</InputLabel>
         <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
-          multiple
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
           value={categoryName}
+          label="category"
           onChange={handleChange}
-          input={<OutlinedInput label="Tag" />}
-          renderValue={(selected) => selected.join(', ')}
-          MenuProps={MenuProps}
-        >
-          {categories.map((category) => (
-            <MenuItem key={category} value={category}>
-              <Checkbox checked={categoryName.indexOf(category) > -1} />
-              <ListItemText primary={category} />
-            </MenuItem>
-          ))}
+        > 
+          {type.map((item) => {
+            //console.log(type)
+            return (
+              <MenuItem value={item}>{item}</MenuItem>
+            )
+          })}
         </Select>
       </FormControl>
-    </div>
+    </Box>
   );
 }

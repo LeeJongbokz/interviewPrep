@@ -31,7 +31,7 @@ const Test = () => {
   return (
     <ContainerUI>
       <div>
-        <Select/>
+        <Select categories={question}/>
       </div>
       <div>
       <Grid 

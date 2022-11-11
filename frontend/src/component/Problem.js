@@ -6,7 +6,6 @@ import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
 const Problem = ({ problem }) => {
   const navigate = useNavigate();
-  
   return (
     <Card 
       variant="outlined"
@@ -22,7 +21,7 @@ const Problem = ({ problem }) => {
                 //console.log('ok ====' + problem.title.length)
                 return (
                   <Typography 
-                    sx={{height:60 }} 
+                    sx={{height:50 }} 
                     gutterBottom component="div"
                     >
                     문제: {problem.title = problem.title.substr(0,problem.title.length - (problem.title.length - 30)) + '...' || "-" }
