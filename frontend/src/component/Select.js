@@ -1,67 +1,55 @@
+import { useState } from 'react';
 import * as React from 'react';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
-//import { lightBlue } from '@mui/material/colors';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-//const background = blueGrey[50]; //#eceff1
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+export default function BasicSelect({categories, onSelect, searchtype}) {
+  const [categoryName, setcategoryName] = useState('');
+  let array = [];
+  let type;
 
-const categories = [
-  'Code',
-  'Network',
-  'JavaScript',
-  'Database'
-];
-
-export default function MultipleSelectCheckmarks() {
-  const [categoryName, setcategoryName] = React.useState([]);
+  //category type 받아옴.(새로운 문제 type을 추가하더라도 코드 수정 없도록 하기 위해 데이터를 받아오는 형식으로 함)
+  categories.map((category) => {
+    array.push(category.type);
+  })
+  type = array.filter(function(v,i){
+    return array.indexOf(v) === i;
+  });
 
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setcategoryName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    const target = event.target.value;
+    setcategoryName(target);
+    //해당 카테고리를 클릭했을 때 해당 카테고리의 type을 onSelect의 파라미터로 가져가서 카테고리 값을 업데이트 시킴 
+    onSelect(target);
+
   };
 
   return (
-    <div>
-      <FormControl sx={{ mt:1 ,mb:1, width: 300 , backgroundColor: "white"}}>
-        <InputLabel id="demo-multiple-checkbox-label">category</InputLabel>
+    <Box sx={{ mt:1 ,mb:1, width: 250 , backgroundColor: "white"}}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">category</InputLabel>
         <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
-          multiple
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
           value={categoryName}
+          label="category"
           onChange={handleChange}
-          input={<OutlinedInput label="Tag" />}
-          renderValue={(selected) => selected.join(', ')}
-          MenuProps={MenuProps}
-        >
-          {categories.map((category) => (
-            <MenuItem key={category} value={category}>
-              <Checkbox checked={categoryName.indexOf(category) > -1} />
-              <ListItemText primary={category} />
-            </MenuItem>
-          ))}
+
+        > 
+          {type.map((item,index) => {
+            //console.log(searchtype)
+            return (
+              <MenuItem 
+                key={index} 
+                value={item}
+              >{item}</MenuItem>
+            )
+          })}
         </Select>
       </FormControl>
-    </div>
+    </Box>
   );
 }
