@@ -23,7 +23,7 @@ public class JwtUtil {
     public JwtUtil(@Value("${jwt.secret}") String secret){
         key = Keys.hmacShaKeyFor(secret.getBytes());
     }
-    public String makeJWTtoken(String email){
+    public String createAccessToken(Long memberId){
 
         Date now = new Date();
         return Jwts.builder()
@@ -31,7 +31,20 @@ public class JwtUtil {
                 .setIssuer("fresh")
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime()+ Duration.ofMinutes(30).toMillis()))
-                .claim("email", email)
+                .claim("memberId", memberId)
+                .signWith(key)
+                .compact();
+    }
+
+    public String createRefreshToken(Long memberId){
+
+        Date now = new Date();
+        return Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setIssuer("fresh")
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime()+ Duration.ofDays(14).toMillis()))
+                .claim("memberId", memberId)
                 .signWith(key)
                 .compact();
     }

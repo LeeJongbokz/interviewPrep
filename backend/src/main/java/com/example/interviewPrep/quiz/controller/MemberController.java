@@ -6,6 +6,7 @@ import com.example.interviewPrep.quiz.dto.LoginResponseDTO;
 import com.example.interviewPrep.quiz.dto.SignUpRequestDTO;
 import com.example.interviewPrep.quiz.service.AuthenticationService;
 import com.example.interviewPrep.quiz.service.MemberService;
+import com.example.interviewPrep.quiz.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,11 +18,13 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping("/members/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://52.3.173.210")
+@CrossOrigin(origins = "*")
 @Slf4j
 public class MemberController {
     private final AuthenticationService authService;
     private final MemberService memberService;
+
+    private final JwtUtil jwtUtil;
 
     @PostMapping("signup")
     public ResponseEntity<Void> signUp(@RequestBody @NotNull SignUpRequestDTO member){
@@ -39,18 +42,26 @@ public class MemberController {
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @NotNull LoginRequestDTO member){
 
         ResponseEntity<LoginResponseDTO> responseEntity = null;
-        String token = "";
+        String accessToken = "";
+        String refreshToken = "";
 
         if(member == null){
-            responseEntity = new ResponseEntity<>(toResponse(token), HttpStatus.UNAUTHORIZED);
+            responseEntity = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }else{
 
             try {
                 String email = member.getEmail();
                 String password = member.getPassword();
 
-                token = authService.login(email, password);
-                responseEntity = new ResponseEntity<>(toResponse(token), HttpStatus.OK);
+                Long memberId = authService.login(email, password);
+                accessToken = jwtUtil.createAccessToken(memberId);
+                refreshToken = jwtUtil.createRefreshToken(memberId);
+
+                memberService.updateRefreshToken(memberId, refreshToken);
+
+                responseEntity = ResponseEntity.ok()
+                                .body(toResponse(accessToken, refreshToken));
+
             }catch(RuntimeException re){
                 log.error("login Error:" + responseEntity);
             }
@@ -60,9 +71,10 @@ public class MemberController {
         return responseEntity;
     }
 
-    private LoginResponseDTO toResponse(String token){
+    private LoginResponseDTO toResponse(String accessToken, String refreshToken){
         return LoginResponseDTO.builder()
-                .accessToken(token)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 

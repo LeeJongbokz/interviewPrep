@@ -1,42 +1,71 @@
 package com.example.interviewPrep.quiz.Member.service;
 
+import com.example.interviewPrep.quiz.domain.Member;
+import com.example.interviewPrep.quiz.exception.LoginFailureException;
 import com.example.interviewPrep.quiz.repository.MemberRepository;
 import com.example.interviewPrep.quiz.service.AuthenticationService;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+import java.util.Optional;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 class AuthenticationServiceTest {
 
     private static final String email = "hello@gmail.com";
+
+    private static final String wrongEmail = "hello2@gmail.com";
     private static final String password = "1234";
+
+    private static final String wrongPassword = "4321";
     private static final String SECRET = "12345678123456781234567812345678";
     private AuthenticationService authenticationService;
-    @Autowired
-    private final MemberRepository memberRepository = mock(MemberRepository.class);
+
+    @Mock
+    private MemberRepository memberRepository;
 
     @BeforeEach
     void setUp(){
         JwtUtil jwtUtil = new JwtUtil(SECRET);
         authenticationService = new AuthenticationService(jwtUtil, memberRepository);
 
+        Member member = Member.builder()
+                        .password(password)
+                        .build();
+
+        given(memberRepository.findByEmail(email)).willReturn(Optional.of(member));
     }
 
 
     @Test
-    void login(){
-        String accessToken = authenticationService.login(email, password);
+    void loginWithWrongEmail(){
 
-        assertThat(accessToken).contains(".");
+        assertThatThrownBy(
+                () -> authenticationService.login(wrongEmail, password)
+        ).isInstanceOf(LoginFailureException.class);
+
+        verify(memberRepository).findByEmail(email);
+    }
+
+    @Test
+    void loginWithWrongPassword(){
+
+        assertThatThrownBy(
+                () -> authenticationService.login(email, wrongPassword)
+        ).isInstanceOf(LoginFailureException.class);
+
+        verify(memberRepository).findByEmail(email);
     }
 }
