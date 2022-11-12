@@ -1,41 +1,31 @@
+import { useState } from 'react';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-// import ListItemText from '@mui/material/ListItemText';
 
-export default function BasicSelect({categories}) {
+export default function BasicSelect({categories, onSelect, searchtype}) {
+  const [categoryName, setcategoryName] = useState('');
   let array = [];
   let type;
-  const [categoryName, setcategoryName] = React.useState('');
-  //console.log(categories)
-  const handleChange = (event) => {
-    console.log(event.target.value)
-    const fetchsearchType = async () => {
-      const response = await fetch(`http://52.202.27.18:8080/question/java?page=0`);
-      
-      if (!response.ok) {
-        throw new Error('Some Thing Went Error');
-      }
-      const data = await response.json();
-      console.log(data)
-      //setcategoryName(data.title);
-    };
-    fetchsearchType().catch(err => {
-      console.log(err);
-    });
-    setcategoryName(event.target.value);
-  };
+
+  //category type 받아옴.(새로운 문제 type을 추가하더라도 코드 수정 없도록 하기 위해 데이터를 받아오는 형식으로 함)
   categories.map((category) => {
-  //console.log(array)
     array.push(category.type);
   })
   type = array.filter(function(v,i){
     return array.indexOf(v) === i;
   });
-  //console.log(type);
+
+  const handleChange = (event) => {
+    const target = event.target.value;
+    setcategoryName(target);
+    //해당 카테고리를 클릭했을 때 해당 카테고리의 type을 onSelect의 파라미터로 가져가서 카테고리 값을 업데이트 시킴 
+    onSelect(target);
+
+  };
 
   return (
     <Box sx={{ mt:1 ,mb:1, width: 250 , backgroundColor: "white"}}>
@@ -47,11 +37,15 @@ export default function BasicSelect({categories}) {
           value={categoryName}
           label="category"
           onChange={handleChange}
+
         > 
-          {type.map((item) => {
-            //console.log(type)
+          {type.map((item,index) => {
+            //console.log(searchtype)
             return (
-              <MenuItem value={item}>{item}</MenuItem>
+              <MenuItem 
+                key={index} 
+                value={item}
+              >{item}</MenuItem>
             )
           })}
         </Select>
