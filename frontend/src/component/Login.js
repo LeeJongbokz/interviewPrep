@@ -19,14 +19,27 @@ const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const onSubmitHandler = e => {
+  const onSubmitHandler = (e) => {
     e.preventDefault();
     if (formRef.current.reportValidity() === false) {
       return;
     }
 
-    authCtx.login(emailRef.current.value);
-    navigate('/');
+    authCtx.login(emailRef.current.value, passwordRef.current.value).then((data)=>{
+      if(data.error){
+        throw new Error();
+      } else if (data.success === false){
+        alert("인증정보가 올바르지 않습니다.");
+        return;
+      } else {
+        navigate('/');
+        return;
+      }
+    }).catch( e => {
+      alert("인증이 실패했거나 오류가 발생했습니다!");
+    });
+
+    // navigate('/');
     return;
   };
 
@@ -54,6 +67,7 @@ const Login = () => {
             type="email"
             margin="normal"
             inputRef={emailRef}
+            autoComplete="on"
             required
             fullWidth
           />
@@ -63,6 +77,7 @@ const Login = () => {
             type="password"
             margin="normal"
             inputRef={passwordRef}
+            autoComplete='off'
             required
             fullWidth
           />
