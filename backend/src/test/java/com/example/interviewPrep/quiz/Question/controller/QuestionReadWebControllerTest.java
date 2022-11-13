@@ -2,8 +2,8 @@ package com.example.interviewPrep.quiz.Question.controller;
 
 import com.example.interviewPrep.quiz.controller.QuestionController;
 import com.example.interviewPrep.quiz.domain.Question;
+import com.example.interviewPrep.quiz.dto.FilterDTO;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.repository.FilterRepository;
 import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
 import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
 import com.example.interviewPrep.quiz.service.QuestionService;
@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,8 +35,6 @@ public class QuestionReadWebControllerTest {
     @MockBean
     QuestionService questionService;
 
-    @MockBean
-    FilterRepository filterRepository;
 
     @MockBean
     CustomOAuth2UserService customOAuth2UserService;
@@ -74,15 +71,24 @@ public class QuestionReadWebControllerTest {
         pageable = PageRequest.of(0, 10);
         Page<QuestionDTO> questions = new PageImpl<>(questionDTOS);
 
-        when(questionService.findByType("java", pageable)).thenReturn(Optional.of(questions));
-        when(questionService.getQuestion(10L)).thenReturn(Optional.ofNullable(question));
-        when(questionService.domainToDTO(question)).thenReturn(questionDTO);
+        when(questionService.findByType("java", pageable)).thenReturn(questions);
+        when(questionService.getQuestion(10L)).thenReturn(questionDTO);
 
-        ArrayList<String> lang = new ArrayList<>();
-        lang.add("java");
-        lang.add("os");
+        ArrayList<FilterDTO> lang = new ArrayList<>();
 
-        when(filterRepository.findAllByLanguage()).thenReturn(lang);
+        FilterDTO fd = FilterDTO.builder()
+                .language("java")
+                .build();
+
+        lang.add(fd);
+
+        fd = FilterDTO.builder()
+                .language("os")
+                .build();
+
+        lang.add(fd);
+
+        when(questionService.findFilterLanguage()).thenReturn(lang);
 
 
     }

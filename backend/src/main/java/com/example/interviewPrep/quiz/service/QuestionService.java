@@ -2,13 +2,11 @@ package com.example.interviewPrep.quiz.service;
 
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.FilterDTO;
-import com.example.interviewPrep.quiz.repository.FilterRepository;
 import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.exception.QuestionNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,6 @@ import java.util.List;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final FilterRepository filterRepository;
 
     public List<Question> getQuestions() {return questionRepository.findAll();}
 
@@ -90,7 +87,7 @@ public class QuestionService {
     public List<FilterDTO> findFilterLanguage(){
         List<FilterDTO> filterDTOS = new ArrayList<>();
 
-        List<String> languages = filterRepository.findAllByLanguage();
+        List<String> languages = questionRepository.findAllByLanguage();
 
         for(String language: languages){
             FilterDTO filterDTO = FilterDTO.builder()

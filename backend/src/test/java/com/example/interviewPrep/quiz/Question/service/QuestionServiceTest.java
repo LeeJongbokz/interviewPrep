@@ -9,11 +9,6 @@ import com.example.interviewPrep.quiz.service.QuestionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,8 +90,8 @@ public class QuestionServiceTest {
                                 .type("자바")
                                 .build();
 
-        Question question = questionService.updateQuestion(questionDTO.getId(), questionDTO);
-        assertThat(question).isEqualTo(Optional.empty());
+        assertThatThrownBy(() -> questionService.updateQuestion(questionDTO.getId(), questionDTO))
+                .isInstanceOf(QuestionNotFoundException.class);
 
     }
 
