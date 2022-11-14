@@ -7,6 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 const CATEGORIES = ['java', 'os', 'spring'];
+// TODO 이 더미데이터를 fetch 로 변경.
 
 export default function BasicSelect(props) {
   //const [categoryName, setcategoryName] = useState('');
@@ -40,7 +41,7 @@ export default function BasicSelect(props) {
           label="category"
           onChange={props.onSelect}
         >
-          <MenuItem value="all">all</MenuItem>
+          <MenuItem value="all">전체</MenuItem>
           {CATEGORIES.map((item, index) => {
             return (
               <MenuItem key={index} value={item}>
