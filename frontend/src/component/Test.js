@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import ProblemList from './ProblemList';
 import Select from './Select';
 import ContainerUI from './UI/ContainerUI';
-import Skeleton from '@mui/material/Skeleton';
+// import Skeleton from '@mui/material/Skeleton';
 import Pagination from '@mui/material/Pagination';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress'
 
 const Test = () => {
   const [question, setQuestion] = useState([]);
@@ -21,11 +22,11 @@ const Test = () => {
 
   const selectTypeHandler = event => {
     setSearchType(event.target.value);
+    setPage(0);
   };
 
-  //console.log(searchType)
   const pageHandler = (event, value) => {
-    setPage(value-1);
+    setPage(value - 1);
   };
 
   useEffect(() => {
@@ -52,23 +53,23 @@ const Test = () => {
 
   return (
     <ContainerUI>
-      <div>
+      <Box>
         <Select
           // categories={question}
           onSelect={selectTypeHandler}
           searchType={searchType}
         />
-      </div>
-      <div>
-        {loading && (
-          <Skeleton variant="rounded" sx={{ height: { xs: '300px', sm: '200px', md: '150px' } }}>
-            LOADING!
-          </Skeleton>
-        )}
+      </Box>
+      <Box>
+        {loading && <CircularProgress />
+          // <Skeleton variant="rounded" sx={{ height: { xs: '300px', sm: '200px', md: '150px' } }}>
+          //   LOADING!
+          // </Skeleton>
+        }
         {!loading && <ProblemList question={question} />}
-      </div>
+      </Box>
       <Box margin={5} display="flex" justifyContent="center" alignItems="center">
-        <Pagination count={totalPage} onChange={pageHandler} color="primary" />
+        <Pagination page={page + 1} count={totalPage} onChange={pageHandler} color="primary" />
       </Box>
     </ContainerUI>
   );

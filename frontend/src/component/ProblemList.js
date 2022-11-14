@@ -2,7 +2,7 @@
 import Problem from './Problem';
 import Grid from '@mui/material/Unstable_Grid2';
 
-const ProblemList = (props) => {
+const ProblemList = props => {
   // const [question, setQuestion] = useState([]);//map은 array만 됨
   // useEffect(() => {
   //   const fetchQuestion = async () => {
@@ -22,23 +22,28 @@ const ProblemList = (props) => {
   //   })
   //   setLoading(false);
   // }, [searchtype]);
-
   return (
-    <Grid 
-        container 
-        spacing={1} 
-        columns={{ xs:12 }}
-      >
+    <Grid container spacing={1} columns={12}>
       {props.question.map((test, index) => {
         return (
-          <Grid key={index} item xs={12} sm={6} md={3} sx={{width:{xs:"100%", sm:"50%", md:"25%"}}}>
-            <Problem sx={{height:{xs:"250px", sm:"150px", md:"100px"}  }} key={test.id} problem={test} />
+          <Grid        
+            item
+            key={index}
+            xs={12}
+            sm={6}
+            md={3}
+            // sx={{ width: { xs: '100%', sm: '50%', md: '25%' } }}
+          >
+            <Problem
+              sx={{ height: { xs: '250px', sm: '150px', md: '100px' } }}
+              key={test.id}
+              problem={test}
+            />
           </Grid>
-        )
+        );
       })}
-      </Grid>
+    </Grid>
   );
 };
 
 export default ProblemList;
-
