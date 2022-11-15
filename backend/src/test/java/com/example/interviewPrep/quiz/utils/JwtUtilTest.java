@@ -1,5 +1,6 @@
 package com.example.interviewPrep.quiz.utils;
 
+import com.example.interviewPrep.quiz.domain.Role;
 import com.example.interviewPrep.quiz.errors.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,21 +19,23 @@ class JwtUtilTest {
     private static String refreshToken;
     private JwtUtil jwtUtil;
 
+    private Role role;
+
     @BeforeEach
     void setUp(){
         jwtUtil = new JwtUtil(SECRET);
-        accessToken = jwtUtil.createAccessToken(memberId);
-        refreshToken = jwtUtil.createRefreshToken(memberId);
+        accessToken = jwtUtil.createAccessToken(memberId, role);
+        refreshToken = jwtUtil.createRefreshToken(memberId, role);
     }
 
     @Test
     void createAccesstoken() {
-        assertThat(jwtUtil.isTokenValid(accessToken)).isTrue();
+        assertThat(jwtUtil.isCreatedTokenValid(accessToken)).isTrue();
     }
 
     @Test
     void createRefreshtoken() {
-        assertThat(jwtUtil.isTokenValid(refreshToken)).isTrue();
+        assertThat(jwtUtil.isCreatedTokenValid(refreshToken)).isTrue();
     }
 
 

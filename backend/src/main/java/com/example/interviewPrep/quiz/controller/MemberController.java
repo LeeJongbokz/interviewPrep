@@ -1,9 +1,13 @@
 package com.example.interviewPrep.quiz.controller;
 
 
+import com.example.interviewPrep.quiz.domain.Member;
+import com.example.interviewPrep.quiz.domain.RefreshToken;
+import com.example.interviewPrep.quiz.domain.Role;
 import com.example.interviewPrep.quiz.dto.LoginRequestDTO;
 import com.example.interviewPrep.quiz.dto.LoginResponseDTO;
 import com.example.interviewPrep.quiz.dto.SignUpRequestDTO;
+import com.example.interviewPrep.quiz.infra.JpaTokenRepository;
 import com.example.interviewPrep.quiz.service.AuthenticationService;
 import com.example.interviewPrep.quiz.service.MemberService;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
@@ -23,6 +27,8 @@ import javax.validation.constraints.NotNull;
 public class MemberController {
     private final AuthenticationService authService;
     private final MemberService memberService;
+
+    private final JpaTokenRepository jpaTokenRepository;
 
     private final JwtUtil jwtUtil;
 
@@ -53,11 +59,14 @@ public class MemberController {
                 String email = member.getEmail();
                 String password = member.getPassword();
 
-                Long memberId = authService.login(email, password);
-                accessToken = jwtUtil.createAccessToken(memberId);
-                refreshToken = jwtUtil.createRefreshToken(memberId);
+                Member searchedMember = authService.login(email, password);
+                Long memberId = searchedMember.getId();
+                Role role = searchedMember.getRole();
 
-                memberService.updateRefreshToken(memberId, refreshToken);
+                accessToken = jwtUtil.createAccessToken(memberId, role);
+                refreshToken = jwtUtil.createRefreshToken(memberId, role);
+
+                jpaTokenRepository.save(new RefreshToken(refreshToken));
 
                 responseEntity = ResponseEntity.ok()
                                 .body(toResponse(accessToken, refreshToken));

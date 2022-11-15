@@ -17,7 +17,7 @@ public class AuthenticationService {
     private final JwtUtil jwtUtil;
     @Autowired
     private final MemberRepository memberRepository;
-    public Long login(String email, String password) {
+    public Member login(String email, String password) {
         Member searchedMember = memberRepository.findByEmail(email)
                 .orElseThrow(()-> new LoginFailureException(email));
 
@@ -29,6 +29,6 @@ public class AuthenticationService {
             throw new LoginFailureException(email);
         }
 
-        return searchedMember.getId();
+        return searchedMember;
     }
 }
