@@ -2,7 +2,6 @@ package com.example.interviewPrep.quiz.Heart.service;
 
 import com.example.interviewPrep.quiz.domain.Answer;
 import com.example.interviewPrep.quiz.domain.Heart;
-import com.example.interviewPrep.quiz.domain.Member;
 import com.example.interviewPrep.quiz.dto.HeartRequestDTO;
 import com.example.interviewPrep.quiz.exception.AnswerNotFoundException;
 import com.example.interviewPrep.quiz.exception.HeartNotFoundException;
@@ -13,46 +12,42 @@ import com.example.interviewPrep.quiz.service.HeartService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
-import static org.mockito.Mockito.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@Rollback(value = false)
 public class HeartServiceTest {
-
-    @Mock
+    @Autowired
     HeartRepository heartRepository;
-    @Mock
+    @Autowired
     AnswerRepository answerRepository;
-    @Mock
+    @Autowired
     MemberRepository memberRepository;
 
     HeartService heartService;
 
+    Answer answer;
 
     @BeforeEach
     void setUp() {
+        answer = Answer.builder().build();
+        answerRepository.save(answer);
         heartService = new HeartService(heartRepository, answerRepository, memberRepository);
-
-        Answer answer = Answer.builder()
-                .id(1L)
-                .build();
-        Member member = Member.builder()
-                .id(1L)
-                .email("test@gmail.com")
-                .build();
-
-        when(answerRepository.findById(1L)).thenReturn(Optional.of(answer));
-        when(answerRepository.findByIdWithOptimisticLock(1L)).thenReturn(Optional.of(answer));
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(member));
-
     }
+
 
     @Test
     @DisplayName("좋아요 테스트")
@@ -89,5 +84,27 @@ public class HeartServiceTest {
         assertThrows(HeartNotFoundException.class, () -> {
             heartService.deleteHeart(HeartRequestDTO.builder().answerId(-1L).build());
         });
+    }
+
+    @Test
+    @DisplayName("하나의 답변에 동시에 좋아요가 눌렸을때, ")
+    void concurrency_test() throws InterruptedException {
+        int threadCount = 100;
+        ExecutorService executorService = Executors.newFixedThreadPool(32);
+        CountDownLatch latch = new CountDownLatch(threadCount);
+
+        for (int i = 0; i < threadCount; i++) {
+            executorService.execute(() -> {
+                try {
+                    heartService.createHeart(HeartRequestDTO.builder().answerId(1L).build());
+                } finally {
+                    latch.countDown();
+                }
+            });
+
+        }
+        latch.await();
+
+        assertThat(heartRepository.countHeartByAnswerId(answer.getId())).isEqualTo(100);
     }
 }

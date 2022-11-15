@@ -1,6 +1,7 @@
 package com.example.interviewPrep.quiz.infra;
 
 import com.example.interviewPrep.quiz.domain.Question;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Primary
 public interface QuestionRepository extends JpaRepository<Question, Long>{
 
     Optional<Question> findById(Long id);

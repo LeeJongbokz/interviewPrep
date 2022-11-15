@@ -3,6 +3,7 @@ package com.example.interviewPrep.quiz.Question.controller;
 import com.example.interviewPrep.quiz.controller.QuestionController;
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.repository.FilterRepository;
 import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
 import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
 import com.example.interviewPrep.quiz.service.QuestionService;
@@ -34,6 +35,9 @@ public class QuestionReadWebControllerTest {
 
     @MockBean
     QuestionService questionService;
+
+    @MockBean
+    FilterRepository filterRepository;
 
     @MockBean
     CustomOAuth2UserService customOAuth2UserService;
@@ -74,9 +78,14 @@ public class QuestionReadWebControllerTest {
         when(questionService.getQuestion(10L)).thenReturn(Optional.ofNullable(question));
         when(questionService.domainToDTO(question)).thenReturn(questionDTO);
 
+        ArrayList<String> lang = new ArrayList<>();
+        lang.add("java");
+        lang.add("os");
+
+        when(filterRepository.findAllByLanguage()).thenReturn(lang);
+
+
     }
-
-
 
 
     @Test
@@ -149,5 +158,18 @@ public class QuestionReadWebControllerTest {
 
     }
 
+
+    @Test
+    @DisplayName("Question filter inquiry")
+    void findByFilterLanguage() throws Exception{
+
+        //when
+        mockMvc.perform(get("/question/filter"))
+
+        //then
+        .andDo(print())
+        .andExpect(status().isOk());
+
+    }
 
 }

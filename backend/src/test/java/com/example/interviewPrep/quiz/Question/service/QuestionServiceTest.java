@@ -25,7 +25,7 @@ public class QuestionServiceTest {
 
     private QuestionService questionService;
 
-    private QuestionRepository questionRepository = mock(QuestionRepository.class);
+    private final QuestionRepository questionRepository = mock(QuestionRepository.class);
 
     Question question;
 

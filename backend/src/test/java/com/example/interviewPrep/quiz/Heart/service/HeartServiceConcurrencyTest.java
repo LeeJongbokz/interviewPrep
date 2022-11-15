@@ -55,9 +55,7 @@ public class HeartServiceConcurrencyTest {
             executorService.submit(() -> {
                 try {
                     heartService.createHeart(HeartRequestDTO.builder()
-                        .answerId(answer.getId()).memberId(member.getId()).build());
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                            .answerId(answer.getId()).memberId(member.getId()).build());
                 } finally {
                     latch.countDown();
                 }
@@ -66,5 +64,6 @@ public class HeartServiceConcurrencyTest {
         latch.await();
 
         assertEquals(100, answerRepository.findById(answer.getId()).orElseThrow().getHeartCnt());
+
     }
 }
