@@ -7,7 +7,7 @@ import com.example.interviewPrep.quiz.domain.Role;
 import com.example.interviewPrep.quiz.dto.LoginRequestDTO;
 import com.example.interviewPrep.quiz.dto.LoginResponseDTO;
 import com.example.interviewPrep.quiz.dto.SignUpRequestDTO;
-import com.example.interviewPrep.quiz.infra.JpaTokenRepository;
+import com.example.interviewPrep.quiz.infra.TokenRepository;
 import com.example.interviewPrep.quiz.service.AuthenticationService;
 import com.example.interviewPrep.quiz.service.MemberService;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
@@ -28,7 +28,7 @@ public class MemberController {
     private final AuthenticationService authService;
     private final MemberService memberService;
 
-    private final JpaTokenRepository jpaTokenRepository;
+    private final TokenRepository jpaTokenRepository;
 
     private final JwtUtil jwtUtil;
 

@@ -2,8 +2,8 @@ package com.example.interviewPrep.quiz.utils;
 
 import com.example.interviewPrep.quiz.domain.Role;
 import com.example.interviewPrep.quiz.errors.InvalidTokenException;
-import com.example.interviewPrep.quiz.infra.JpaTokenRepository;
-import com.example.interviewPrep.quiz.repository.MemberRepository;
+import com.example.interviewPrep.quiz.infra.TokenRepository;
+import com.example.interviewPrep.quiz.infra.MemberRepository;
 import com.example.interviewPrep.quiz.service.CustomUserDetailService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -25,10 +25,10 @@ import java.util.Date;
 public class JwtUtil {
 
 
-    // access 토큰 유효 시간 1m
-    private long accessTokenValidTime = 30*60 * 1000L; // 30 * 60 * 1000L;
+    // access 토큰 유효 시간 30m
+    private long accessTokenValidTime = 30 * 60 * 1000L; // 30 * 60 * 1000L;
     // 리프레시 토큰 유효시간 | 1d
-    private long refreshTokenValidTime = 24*60 * 60 * 1000L;
+    private long refreshTokenValidTime = 24* 60 * 60 * 1000L;
     @Autowired
     private CustomUserDetailService customUserDetailService;
 
@@ -36,7 +36,7 @@ public class JwtUtil {
     private MemberRepository memberRepository;
 
     @Autowired
-    private JpaTokenRepository tokenRepository;
+    private TokenRepository tokenRepository;
 
     private final Key key;
     public JwtUtil(@Value("${jwt.secret}") String secret){

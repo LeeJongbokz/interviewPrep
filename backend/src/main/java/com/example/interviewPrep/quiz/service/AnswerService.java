@@ -2,15 +2,17 @@ package com.example.interviewPrep.quiz.service;
 
 
 import com.example.interviewPrep.quiz.domain.Answer;
-import com.example.interviewPrep.quiz.domain.AnswerRepository;
+import com.example.interviewPrep.quiz.dto.SolutionDTO;
 import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.domain.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.AnswerDTO;
+import com.example.interviewPrep.quiz.infra.AnswerRepository;
+import com.example.interviewPrep.quiz.infra.QuestionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -21,10 +23,10 @@ public class AnswerService {
     private final QuestionRepository questionRepository;
     public Answer createAnswer(AnswerDTO answerDTO){
 
-        Optional<Question> question = questionRepository.findById(answerDTO.getQuestionId());
+        Question question = questionRepository.findById(answerDTO.getQuestionId()).get();
 
         Answer answer =  Answer.builder()
-                .question(question.get())
+                .question(question)
                 .content(answerDTO.getContent())
                 .build();
 
@@ -32,25 +34,43 @@ public class AnswerService {
         return answer;
     }
 
-    public Optional<AnswerDTO> readAnswer(Long id){
+    public AnswerDTO readAnswer(Long id){
 
-        Optional<Answer> answer = answerRepository.findById(id);
+        Answer answer = answerRepository.findById(id).get();
 
-        return Optional.ofNullable(AnswerDTO.builder()
-                .id(answer.get().getId())
-                .content(answer.get().getContent())
-                .questionId(answer.get().getQuestion().getId())
-                .build());
+        return AnswerDTO.builder()
+                .id(answer.getId())
+                .content(answer.getContent())
+                .questionId(answer.getQuestion().getId())
+                .build();
     }
 
-    public Optional<Answer> deleteAnswer(Long id){
 
-        Optional<Answer> answer = answerRepository.findById(id);
-        answerRepository.delete(answer.get());
+    public Answer deleteAnswer(Long id){
+
+        Answer answer = answerRepository.findById(id).get();
+
+        answerRepository.delete(answer);
         return answer;
 
     }
 
+
+    public Page<SolutionDTO> getSolution(Long id, String type, Pageable pageable){
+
+        Page<Answer> answers;
+        //if(type.equals("all"))
+        answers = answerRepository.findSolution(id,pageable);
+        //else if(type.equals("my")){}
+
+
+        return answers.map(a ->SolutionDTO.builder()
+                .answerId(a.getId())
+                .answer(a.getContent())
+                .heartCnt(a.getHeartCnt())
+                .name(a.getMember().getName())
+                .build());
+    }
 
 
 }

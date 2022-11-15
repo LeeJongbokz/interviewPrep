@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import AuthContext from '../store/auth-context';
 import { Link } from 'react-router-dom';
 
-import Box from '@mui/material/box';
+import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';

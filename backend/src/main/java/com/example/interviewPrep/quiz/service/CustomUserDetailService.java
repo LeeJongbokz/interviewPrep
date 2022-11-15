@@ -3,7 +3,7 @@ package com.example.interviewPrep.quiz.service;
 import com.example.interviewPrep.quiz.domain.Member;
 import com.example.interviewPrep.quiz.domain.MemberContext;
 import com.example.interviewPrep.quiz.exception.MemberNotFoundException;
-import com.example.interviewPrep.quiz.infra.JpaMemberRepository;
+import com.example.interviewPrep.quiz.infra.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService{
 
-    private final JpaMemberRepository jpaMemberRepository;
+    private final MemberRepository jpaMemberRepository;
 
     @Override
     public UserDetails loadUserByUsername(String memberId) throws MemberNotFoundException{

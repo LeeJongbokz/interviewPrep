@@ -2,7 +2,7 @@ package com.example.interviewPrep.quiz.Member.service;
 
 import com.example.interviewPrep.quiz.domain.Member;
 import com.example.interviewPrep.quiz.exception.LoginFailureException;
-import com.example.interviewPrep.quiz.repository.MemberRepository;
+import com.example.interviewPrep.quiz.infra.MemberRepository;
 import com.example.interviewPrep.quiz.service.AuthenticationService;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
