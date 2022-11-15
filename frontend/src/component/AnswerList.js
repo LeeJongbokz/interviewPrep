@@ -33,7 +33,7 @@ const AnswerList = () => {
       console.log(err)
     })
     
-  }, []);
+  }, [testId]);
 
   return (
   <Container>
