@@ -89,8 +89,8 @@ public class QuestionServiceTest {
                                 .type("자바")
                                 .build();
 
-        Question question = questionService.updateQuestion(questionDTO.getId(), questionDTO);
-        assertThat(question).isEqualTo(Optional.empty());
+        assertThatThrownBy(() -> questionService.updateQuestion(questionDTO.getId(), questionDTO))
+                .isInstanceOf(QuestionNotFoundException.class);
 
     }
 
