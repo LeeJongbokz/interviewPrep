@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.Member.repository;
 
 import com.example.interviewPrep.quiz.domain.Member;
-import com.example.interviewPrep.quiz.repository.MemberRepository;
+import com.example.interviewPrep.quiz.infra.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
