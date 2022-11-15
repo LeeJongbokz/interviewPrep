@@ -52,7 +52,7 @@ const TestScreen = () => {
     fetchQuestion().catch(err => {
       console.log(err);
     });
-  }, [testId]);
+  }, []);
 
   return (
     <>

@@ -3,8 +3,7 @@ package com.example.interviewPrep.quiz.Question.service;
 import com.example.interviewPrep.quiz.domain.Question;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.exception.QuestionNotFoundException;
-import com.example.interviewPrep.quiz.infra.JpaQuestionRepository;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
+import com.example.interviewPrep.quiz.infra.QuestionRepository;
 import com.example.interviewPrep.quiz.service.QuestionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +25,7 @@ public class QuestionServiceTest {
 
     private QuestionService questionService;
 
-    private final QuestionRepository questionRepository = mock(JpaQuestionRepository.class);
+    private final QuestionRepository questionRepository = mock(QuestionRepository.class);
 
     Question question;
 

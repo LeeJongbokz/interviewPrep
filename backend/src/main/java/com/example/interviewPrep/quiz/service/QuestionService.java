@@ -1,8 +1,7 @@
 package com.example.interviewPrep.quiz.service;
 
 import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.dto.FilterDTO;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
+import com.example.interviewPrep.quiz.infra.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.exception.QuestionNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -27,16 +26,10 @@ public class QuestionService {
 
 
     //@Cacheable(value = "question", key="#id")
-    public QuestionDTO getQuestion(Long id) {
-        Question question = questionRepository.findById(id).get();
+    public Optional<Question> getQuestion(Long id) {
+        return questionRepository.findById(id);
 
-        return QuestionDTO.builder()
-                .id(question.getId())
-                .title(question.getTitle())
-                .type(question.getType())
-                .build();
     }
-
 
     public Question createQuestion(QuestionDTO questionDTO){
         Question question = Question.builder()
@@ -64,18 +57,17 @@ public class QuestionService {
         return questionRepository.findByType(type);
     }
 
-
     //@Cacheable(value = "questionDTO", key="#pageable.pageSize.toString().concat('-').concat(#pageable.pageNumber)")
-    public Page<QuestionDTO> findByType(String type, Pageable pageable){
+    public Optional<Page<QuestionDTO>> findByType(String type, Pageable pageable){
         Page<Question> questions;
-        if(type==null) questions = questionRepository.findAllBy(pageable);
+        if(type.equals("all")) questions = questionRepository.findAllBy(pageable);
         else questions = questionRepository.findByType(type, pageable); //문제 타입과 페이지 조건 값을 보내어 question 조회, 반환값 page
 
-        return questions.map(q -> QuestionDTO.builder()   //question list 값들을 dto로 변경
-                .id(q.getId())
-                .type(q.getType())
-                .title(q.getTitle())
-                .build());
+        return Optional.of(questions.map(q -> QuestionDTO.builder()   //question list 값들을 dto로 변경
+                                                .id(q.getId())
+                                                .type(q.getType())
+                                                .title(q.getTitle())
+                                                .build()));
     }
 
 
@@ -84,20 +76,13 @@ public class QuestionService {
     }
 
 
-    public List<FilterDTO> findFilterLanguage(){
-        List<FilterDTO> filterDTOS = new ArrayList<>();
-
-        List<String> languages = questionRepository.findAllByLanguage();
-
-        for(String language: languages){
-            FilterDTO filterDTO = FilterDTO.builder()
-                    .language(language)
-                    .build();
-            filterDTOS.add(filterDTO);
-        }
-
-        return filterDTOS;
+    //@Cacheable(value = "questionDTO", key="#p0.id")
+    public QuestionDTO domainToDTO(Question question){
+        QuestionDTO questionDTO = QuestionDTO.builder()
+                                .id(question.getId())
+                                .title(question.getTitle())
+                                .type(question.getType())
+                                .build();
+        return questionDTO;
     }
-
-
 }

@@ -2,8 +2,8 @@ package com.example.interviewPrep.quiz.service;
 
 import com.example.interviewPrep.quiz.domain.Member;
 import com.example.interviewPrep.quiz.exception.MemberNotFoundException;
-import com.example.interviewPrep.quiz.repository.MemberRepository;
 import com.example.interviewPrep.quiz.dto.SignUpRequestDTO;
+import com.example.interviewPrep.quiz.infra.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

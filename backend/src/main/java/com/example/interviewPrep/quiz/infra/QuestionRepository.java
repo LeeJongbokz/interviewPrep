@@ -1,12 +1,10 @@
 package com.example.interviewPrep.quiz.infra;
 
 import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @Primary
-public interface JpaQuestionRepository extends QuestionRepository, JpaRepository<Question, Long>{
+public interface QuestionRepository extends JpaRepository<Question, Long>{
 
     Optional<Question> findById(Long id);
     Optional<Question> findByTitle(String title);
@@ -25,7 +23,4 @@ public interface JpaQuestionRepository extends QuestionRepository, JpaRepository
     List<Question> findAll();
     Question save(Question question);
     void delete(Question question);
-
-    @Query("SELECT q.type FROM Question q GROUP BY q.type ORDER BY q.type ASC")
-    List<String> findAllByLanguage();
 }

@@ -3,10 +3,10 @@ package com.example.interviewPrep.quiz.service;
 
 import com.example.interviewPrep.quiz.domain.Answer;
 import com.example.interviewPrep.quiz.dto.SolutionDTO;
-import com.example.interviewPrep.quiz.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.dto.AnswerDTO;
+import com.example.interviewPrep.quiz.infra.AnswerRepository;
+import com.example.interviewPrep.quiz.infra.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -60,7 +60,7 @@ public class AnswerService {
 
         Page<Answer> answers;
         //if(type.equals("all"))
-            answers = answerRepository.findSolution(id,pageable);
+        answers = answerRepository.findSolution(id,pageable);
         //else if(type.equals("my")){}
 
 

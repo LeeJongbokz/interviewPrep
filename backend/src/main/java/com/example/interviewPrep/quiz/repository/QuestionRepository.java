@@ -19,5 +19,4 @@ public interface QuestionRepository {
     Question save(Question question);
     void delete(Question question);
 
-    List<String> findAllByLanguage();
 }

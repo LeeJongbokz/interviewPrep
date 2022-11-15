@@ -15,29 +15,8 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfrimPassword] = useState('');
   const [name, setName] = useState('');
-  
-  const onSubmit = async (e) => {
+  const onSubmit = e => {
     e.preventDefault();
-    if(password !== confirmPassword){
-      return alert('비밀번호화 비밀번호 확인이 같지 않습니다. 다시 확인해주세요!')
-    }
-    const bodyData = {
-      name: name,
-      email: email,
-      password: password,
-      confirmPassword: confirmPassword,
-    };
-    const response = await fetch(`http://52.202.27.18:8080/members/signup`, {
-      method: 'POST',
-      body: JSON.stringify(bodyData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      alert('오류가 발생했습니다. 다시 시도해주세요!');
-      return;
-    }
     console.log(e.target.email.value);
     console.log(e.target.password.value);
     console.log(e.target.confirmpassword.value);

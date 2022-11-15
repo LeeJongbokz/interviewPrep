@@ -33,24 +33,21 @@ public class Answer {
     @JoinColumn(name = "MEMBER_ID")
     Member member;
 
-    private int countHeart;
+    private int heartCnt;
 
-    @Version
-    private Long version;
-
-    public void change(String content) {
+    public void change(String content){
         this.content = content;
     }
 
     public int increase() {
-        return ++this.countHeart;
+        return ++this.heartCnt;
     }
 
     public int decrease() {
-        if (this.countHeart <= 0) {
+        if (this.heartCnt <= 0) {
             throw new HeartExistException("좋아요 수가 0보다 작아 좋아요 수를 감소시킬수 없습니다.");
         }
-        return --this.countHeart;
+        return --this.heartCnt;
     }
 
 }
