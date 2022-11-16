@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(indexes = @Index(name= "i_question", columnList = "title"))
-public class Question {
+public class Question extends BaseTimeEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "QUESTION_ID", insertable=false, updatable=false)

@@ -19,7 +19,7 @@ import static javax.persistence.FetchType.LAZY;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Heart {
+public class Heart extends BaseTimeEntity{
     @Id
     @GeneratedValue
     @Column(name = "HEART_ID")
