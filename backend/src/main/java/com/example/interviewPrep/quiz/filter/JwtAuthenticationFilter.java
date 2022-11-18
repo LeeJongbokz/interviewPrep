@@ -1,6 +1,6 @@
 package com.example.interviewPrep.quiz.filter;
 
-import com.example.interviewPrep.quiz.domain.Role;
+import com.example.interviewPrep.quiz.member.Role;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

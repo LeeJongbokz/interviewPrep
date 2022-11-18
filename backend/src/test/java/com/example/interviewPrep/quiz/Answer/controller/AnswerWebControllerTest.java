@@ -1,13 +1,13 @@
 package com.example.interviewPrep.quiz.Answer.controller;
 
-import com.example.interviewPrep.quiz.controller.AnswerController;
-import com.example.interviewPrep.quiz.domain.Answer;
-import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.dto.AnswerDTO;
+import com.example.interviewPrep.quiz.answer.AnswerController;
+import com.example.interviewPrep.quiz.answer.Answer;
+import com.example.interviewPrep.quiz.question.Question;
+import com.example.interviewPrep.quiz.answer.AnswerDTO;
 import com.example.interviewPrep.quiz.dto.SolutionDTO;
 import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
-import com.example.interviewPrep.quiz.service.AnswerService;
-import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
+import com.example.interviewPrep.quiz.answer.AnswerService;
+import com.example.interviewPrep.quiz.member.CustomOAuth2UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,6 +51,8 @@ public class AnswerWebControllerTest {
     ObjectMapper objectMapper;
 
     List<AnswerDTO> answerDTOs;
+
+    AnswerDTO answerDTO1;
     String jsonRequest;
     Pageable pageable;
 
@@ -60,7 +62,7 @@ public class AnswerWebControllerTest {
 
         answerDTOs = new ArrayList<>();
 
-        AnswerDTO answerDTO1 = AnswerDTO.builder()
+        answerDTO1 = AnswerDTO.builder()
                 .content("new answer")
                 .questionId(2L)
                 .id(1L)
@@ -83,8 +85,8 @@ public class AnswerWebControllerTest {
                 .build();
 
         when(answerService.createAnswer(any(AnswerDTO.class))).thenReturn(answer);
-        when(answerService.readAnswer(1L)).thenReturn(Optional.ofNullable(answerDTO1));
-        when(answerService.deleteAnswer(1L)).thenReturn(Optional.ofNullable(answer));
+        when(answerService.readAnswer(answerDTO1)).thenReturn(answerDTO1);
+        when(answerService.deleteAnswer(answerDTO1)).thenReturn(answer);
 
         List<SolutionDTO> solutionDTOs= new ArrayList<>();
         SolutionDTO solutionDTO;
@@ -102,7 +104,7 @@ public class AnswerWebControllerTest {
         pageable = PageRequest.of(0, 10);
         Page<SolutionDTO> solutions = new PageImpl<>(solutionDTOs);
 
-        when(answerService.getSolution(1L,"all", pageable)).thenReturn(Optional.of(solutions));
+        when(answerService.getSolution(1L,"all", pageable)).thenReturn(solutions);
 
     }
 
@@ -173,7 +175,7 @@ public class AnswerWebControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(answerService).readAnswer(id);
+        verify(answerService).readAnswer(answerDTO1);
     }
 
 
@@ -189,7 +191,7 @@ public class AnswerWebControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        verify(answerService).readAnswer(id);
+        verify(answerService).readAnswer(answerDTO1);
     }
 
 
@@ -206,7 +208,7 @@ public class AnswerWebControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(answerService).deleteAnswer(id);
+        verify(answerService).deleteAnswer(answerDTO1);
     }
 
 
@@ -222,7 +224,7 @@ public class AnswerWebControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        verify(answerService).deleteAnswer(id);
+        verify(answerService).deleteAnswer(answerDTO1);
     }
 
 

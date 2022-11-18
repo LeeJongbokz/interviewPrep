@@ -1,12 +1,12 @@
 package com.example.interviewPrep.quiz.Question.controller;
 
-import com.example.interviewPrep.quiz.controller.QuestionController;
-import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.exception.QuestionNotFoundException;
+import com.example.interviewPrep.quiz.question.QuestionController;
+import com.example.interviewPrep.quiz.question.Question;
+import com.example.interviewPrep.quiz.question.QuestionDTO;
+import com.example.interviewPrep.quiz.question.QuestionNotFoundException;
 import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
-import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
-import com.example.interviewPrep.quiz.service.QuestionService;
+import com.example.interviewPrep.quiz.member.CustomOAuth2UserService;
+import com.example.interviewPrep.quiz.question.QuestionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
