@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/question")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://52.3.173.210")
+@CrossOrigin(origins = "*")
 public class QuestionController {
 
     private final QuestionService questionService;
