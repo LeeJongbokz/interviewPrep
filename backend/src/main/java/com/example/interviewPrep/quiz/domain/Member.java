@@ -11,7 +11,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(indexes = @Index(name= "i_member", columnList = "email"))
-public class Member {
+public class Member extends BaseTimeEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="MEMBER_ID")
