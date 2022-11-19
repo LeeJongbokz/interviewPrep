@@ -25,6 +25,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long>{
     Question save(Question question);
     void delete(Question question);
 
+    @Query("SELECT q.type FROM Question q GROUP BY q.type ORDER BY q.type ASC")
+    List<String> findAllByLanguage();
+
     @Query(value = "SELECT * FROM Question order by RAND() limit 10",nativeQuery = true)
     List<Question> findRamdom();
 }
