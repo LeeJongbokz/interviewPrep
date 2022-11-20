@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 // import * as API from '../utils/api';import { flexbox } from '@mui/system';
 // import styled from 'styled-components';
@@ -15,11 +13,11 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfrimPassword] = useState('');
   const [name, setName] = useState('');
-  
-  const onSubmit = async (e) => {
+
+  const onSubmit = async e => {
     e.preventDefault();
-    if(password !== confirmPassword){
-      return alert('비밀번호화 비밀번호 확인이 같지 않습니다. 다시 확인해주세요!')
+    if (password !== confirmPassword) {
+      return alert('비밀번호화 비밀번호 확인이 같지 않습니다. 다시 확인해주세요!');
     }
     const bodyData = {
       name: name,
@@ -53,7 +51,7 @@ const SignUp = () => {
   };
 
   function HandleChange(e) {
-  //  console.log(onSubmit(e));
+    //  console.log(onSubmit(e));
     switch (e.target.name) {
       case 'name':
         setName(e.target.value);
@@ -71,69 +69,56 @@ const SignUp = () => {
     }
   }
   return (
-    <PaperUI>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Typography align="center" component="h1" variant="h5">
-          Sign Up
-        </Typography>
-        <form
-          onSubmit={onSubmit}
-          noValidate
-        >
-          <TextField
-            id="name"
-            label="name"
-            name="name"
-            type="text"
-            margin="normal"
-            required
-            fullWidth
-            value={name}
-            onChange={HandleChange}
-          />
-          <TextField
-            id="email"
-            label="email"
-            type="email"
-            margin="normal"
-            name="email"
-            required
-            fullWidth
-            value={email}
-            onChange={e => HandleChange(e)}
-          />
-          <TextField
-            id="password"
-            label="password"
-            type="password"
-            margin="normal"
-            name="password"
-            required
-            fullWidth
-            value={password}
-            onChange={e => HandleChange(e)}
-          />
-          <TextField
-            id="confirmpassword"
-            label="confirmpassword"
-            type="password"
-            margin="normal"
-            name="confirmpassword"
-            required
-            fullWidth
-            value={confirmPassword}
-            onChange={e => HandleChange(e)}
-          />
-          <Button type="submit" variant="contained" label={'margin="normal"'}>
-            회원가입
-          </Button>
-        </form>
-      </Box>
+    <PaperUI title="Sign Up">
+      <form onSubmit={onSubmit} noValidate>
+        <TextField
+          id="name"
+          label="name"
+          name="name"
+          type="text"
+          margin="normal"
+          required
+          fullWidth
+          value={name}
+          onChange={HandleChange}
+        />
+        <TextField
+          id="email"
+          label="email"
+          type="email"
+          margin="normal"
+          name="email"
+          required
+          fullWidth
+          value={email}
+          onChange={e => HandleChange(e)}
+        />
+        <TextField
+          id="password"
+          label="password"
+          type="password"
+          margin="normal"
+          name="password"
+          required
+          fullWidth
+          value={password}
+          onChange={e => HandleChange(e)}
+        />
+        <TextField
+          id="confirmpassword"
+          label="confirmpassword"
+          type="password"
+          margin="normal"
+          name="confirmpassword"
+          required
+          fullWidth
+          value={confirmPassword}
+          onChange={e => HandleChange(e)}
+        />
+        <Button type="submit" variant="contained" label={'margin="normal"'}>
+          회원가입
+        </Button>
+      </form>
     </PaperUI>
   );
 };
