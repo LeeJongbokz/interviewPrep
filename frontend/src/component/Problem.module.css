@@ -1,0 +1,4 @@
+.card:hover {
+  border-color: black;
+  cursor: pointer;
+}

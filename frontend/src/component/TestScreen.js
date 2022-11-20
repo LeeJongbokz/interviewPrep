@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import AuthContext from '../store/auth-context';
+
 import { useParams, useNavigate } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -12,6 +14,8 @@ const TestScreen = () => {
 
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
+
+  const authCtx = useContext(AuthContext);
 
   const changeHandler = e => {
     setAnswer(e.target.value);
@@ -28,6 +32,7 @@ const TestScreen = () => {
         body: JSON.stringify(bodyData),
         headers: {
           'Content-Type': 'application/json',
+          accessToken: authCtx.token
         },
       });
       if (!response.ok) {
