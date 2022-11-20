@@ -1,6 +1,6 @@
 package com.example.interviewPrep.quiz.Member.dto;
 
-import com.example.interviewPrep.quiz.member.MemberDTO;
+import com.example.interviewPrep.quiz.member.dto.MemberDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

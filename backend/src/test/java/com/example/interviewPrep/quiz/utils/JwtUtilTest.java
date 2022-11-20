@@ -1,6 +1,6 @@
 package com.example.interviewPrep.quiz.utils;
 
-import com.example.interviewPrep.quiz.member.Role;
+import com.example.interviewPrep.quiz.member.dto.Role;
 import com.example.interviewPrep.quiz.errors.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.BeforeEach;

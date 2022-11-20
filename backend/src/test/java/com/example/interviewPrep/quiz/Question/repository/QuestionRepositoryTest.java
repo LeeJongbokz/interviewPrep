@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.Question.repository;
 
-import com.example.interviewPrep.quiz.question.Question;
-import com.example.interviewPrep.quiz.question.QuestionRepository;
+import com.example.interviewPrep.quiz.question.domain.Question;
+import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -74,39 +74,4 @@ class QuestionRepositoryTest {
         // Then
         assertEquals(question.getId(),question2.getId() );
     }
-
-
-//    @Test
-//    @DisplayName("Question을 type으로 검색")
-//    public void findByTitle(){
-//
-//        // When
-//        questionRepository.save(question);
-//
-//        // Then
-//        given(questionRepository.findByTitle("problem313")).willReturn(Optional.of(question));
-//    }
-
-    /*
-    @Test
-    @DisplayName("Question을 type으로 검색")
-    @Transactional
-    @Rollback(false)
-    public void findByType(){
-
-        // Given
-        Question newQuestion = Question.builder()
-                .title("problem333")
-                .type("java22")
-                .build();
-
-        // When
-        questionRepository.save(newQuestion);
-
-        // Then
-        List<Question> result = questionRepository.findByType("java22");
-        assertThat(result.size()).isEqualTo(1);
-
-    }
-    */
 }

@@ -1,12 +1,12 @@
 package com.example.interviewPrep.quiz.Question.controller;
 
-import com.example.interviewPrep.quiz.question.QuestionController;
-import com.example.interviewPrep.quiz.question.Question;
-import com.example.interviewPrep.quiz.question.QuestionDTO;
-import com.example.interviewPrep.quiz.question.QuestionNotFoundException;
+import com.example.interviewPrep.quiz.question.controller.QuestionController;
+import com.example.interviewPrep.quiz.question.domain.Question;
+import com.example.interviewPrep.quiz.question.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.question.exception.QuestionNotFoundException;
 import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
-import com.example.interviewPrep.quiz.member.CustomOAuth2UserService;
-import com.example.interviewPrep.quiz.question.QuestionService;
+import com.example.interviewPrep.quiz.member.service.CustomOAuth2UserService;
+import com.example.interviewPrep.quiz.question.service.QuestionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -78,7 +79,8 @@ public class QuestionDeleteWebControllerTest {
     void deleteQuestionWithNotExistedId() throws Exception{
             mockMvc.perform(delete("/question/"+1000L))
                     .andDo(print())
-                .andExpect(status().isNoContent());
+                    .andExpect(jsonPath("$.responseCode", equalTo("800")))
+                    .andExpect(status().isOk());
 
         verify(questionService).deleteQuestion(1000L);
         }

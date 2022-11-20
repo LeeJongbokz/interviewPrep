@@ -1,10 +1,10 @@
 package com.example.interviewPrep.quiz.Question.service;
 
-import com.example.interviewPrep.quiz.question.Question;
-import com.example.interviewPrep.quiz.question.QuestionDTO;
-import com.example.interviewPrep.quiz.question.QuestionNotFoundException;
-import com.example.interviewPrep.quiz.question.QuestionRepository;
-import com.example.interviewPrep.quiz.question.QuestionService;
+import com.example.interviewPrep.quiz.question.domain.Question;
+import com.example.interviewPrep.quiz.question.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
+import com.example.interviewPrep.quiz.question.service.QuestionService;
+import com.example.interviewPrep.quiz.exception.advice.CommonException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -90,7 +90,7 @@ public class QuestionServiceTest {
                                 .build();
 
         assertThatThrownBy(() -> questionService.updateQuestion(questionDTO.getId(), questionDTO))
-                .isInstanceOf(QuestionNotFoundException.class);
+                .isInstanceOf(CommonException.class);
 
     }
 
@@ -109,7 +109,7 @@ public class QuestionServiceTest {
     void deleteQuestionWithNotExistedId(){
 
         assertThatThrownBy(() -> questionService.deleteQuestion(1000L))
-                            .isInstanceOf(QuestionNotFoundException.class);
+                            .isInstanceOf(CommonException.class);
 
     }
 

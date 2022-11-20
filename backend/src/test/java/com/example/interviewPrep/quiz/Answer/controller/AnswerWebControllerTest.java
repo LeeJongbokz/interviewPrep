@@ -1,13 +1,14 @@
 package com.example.interviewPrep.quiz.Answer.controller;
 
-import com.example.interviewPrep.quiz.answer.AnswerController;
-import com.example.interviewPrep.quiz.answer.Answer;
-import com.example.interviewPrep.quiz.question.Question;
-import com.example.interviewPrep.quiz.answer.AnswerDTO;
-import com.example.interviewPrep.quiz.dto.SolutionDTO;
+import com.example.interviewPrep.quiz.answer.controller.AnswerController;
+import com.example.interviewPrep.quiz.answer.domain.Answer;
+import com.example.interviewPrep.quiz.answer.dto.SolutionDTO;
+import com.example.interviewPrep.quiz.answer.exception.AnswerNotFoundException;
+import com.example.interviewPrep.quiz.question.domain.Question;
+import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
 import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
-import com.example.interviewPrep.quiz.answer.AnswerService;
-import com.example.interviewPrep.quiz.member.CustomOAuth2UserService;
+import com.example.interviewPrep.quiz.answer.service.AnswerService;
+import com.example.interviewPrep.quiz.member.service.CustomOAuth2UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,14 +25,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @WebMvcTest(AnswerController.class)
@@ -51,8 +52,6 @@ public class AnswerWebControllerTest {
     ObjectMapper objectMapper;
 
     List<AnswerDTO> answerDTOs;
-
-    AnswerDTO answerDTO1;
     String jsonRequest;
     Pageable pageable;
 
@@ -62,7 +61,7 @@ public class AnswerWebControllerTest {
 
         answerDTOs = new ArrayList<>();
 
-        answerDTO1 = AnswerDTO.builder()
+        AnswerDTO answerDTO1 = AnswerDTO.builder()
                 .content("new answer")
                 .questionId(2L)
                 .id(1L)
@@ -85,8 +84,10 @@ public class AnswerWebControllerTest {
                 .build();
 
         when(answerService.createAnswer(any(AnswerDTO.class))).thenReturn(answer);
-        when(answerService.readAnswer(answerDTO1)).thenReturn(answerDTO1);
-        when(answerService.deleteAnswer(answerDTO1)).thenReturn(answer);
+        when(answerService.readAnswer(1L)).thenReturn(answerDTO1);
+        when(answerService.readAnswer(2L)).thenThrow(new AnswerNotFoundException("no Answer"));
+        when(answerService.deleteAnswer(1L)).thenReturn(answer);
+        when(answerService.deleteAnswer(2L)).thenThrow(new AnswerNotFoundException("no Answer"));
 
         List<SolutionDTO> solutionDTOs= new ArrayList<>();
         SolutionDTO solutionDTO;
@@ -109,25 +110,6 @@ public class AnswerWebControllerTest {
     }
 
 
-
-
-    /*
-    @Test
-    void create() throws Exception{
-
-        mockMvc.perform(post("/answer")
-                .content(jsonRequest)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-        )
-                .andExpect(status().isCreated());
-
-        verify(answerService).createAnswers(refEq(answerDTOs));
-    }
-    */
-
-
-
     @Test
     @DisplayName("answer valid create")
     void createValidAnswer() throws Exception{
@@ -140,7 +122,7 @@ public class AnswerWebControllerTest {
         )
         //then
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
 
         verify(answerService).createAnswer(any(AnswerDTO.class));
     }
@@ -175,7 +157,7 @@ public class AnswerWebControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(answerService).readAnswer(answerDTO1);
+        verify(answerService).readAnswer(id);
     }
 
 
@@ -189,9 +171,9 @@ public class AnswerWebControllerTest {
         mockMvc.perform(get("/answer/"+id))
                 //then
                 .andDo(print())
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk());
 
-        verify(answerService).readAnswer(answerDTO1);
+        verify(answerService).readAnswer(id);
     }
 
 
@@ -208,7 +190,7 @@ public class AnswerWebControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(answerService).deleteAnswer(answerDTO1);
+        verify(answerService).deleteAnswer(id);
     }
 
 
@@ -222,9 +204,11 @@ public class AnswerWebControllerTest {
         mockMvc.perform(delete("/answer/"+id))
                 //then
                 .andDo(print())
-                .andExpect(status().isNoContent());
+                .andExpect(jsonPath("$.responseCode", equalTo("800")))
+                .andExpect(status().isOk());
 
-        verify(answerService).deleteAnswer(answerDTO1);
+
+        verify(answerService).deleteAnswer(id);
     }
 
 
