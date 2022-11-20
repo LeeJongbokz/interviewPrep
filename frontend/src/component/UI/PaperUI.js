@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-const PaperUI = props => {
+const PaperUI = ({children, title}) => {
   return (
     <Container maxWidth="sm" sx={{ marginTop: { sm: '100px' } }}>
       <Box
@@ -17,9 +17,9 @@ const PaperUI = props => {
       >
         <Grid padding={4} component={Paper} square>
           <Typography align="center" component="h1" variant="h5">
-            {props.title}
+            {title}
           </Typography>
-          {props.children}
+          {children}
         </Grid>
       </Box>
     </Container>
