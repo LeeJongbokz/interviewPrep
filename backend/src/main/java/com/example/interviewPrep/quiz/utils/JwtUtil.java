@@ -1,10 +1,10 @@
 package com.example.interviewPrep.quiz.utils;
 
-import com.example.interviewPrep.quiz.domain.Role;
+import com.example.interviewPrep.quiz.member.Role;
 import com.example.interviewPrep.quiz.errors.InvalidTokenException;
-import com.example.interviewPrep.quiz.infra.TokenRepository;
-import com.example.interviewPrep.quiz.infra.MemberRepository;
-import com.example.interviewPrep.quiz.service.CustomUserDetailService;
+import com.example.interviewPrep.quiz.member.TokenRepository;
+import com.example.interviewPrep.quiz.member.MemberRepository;
+import com.example.interviewPrep.quiz.member.CustomUserDetailService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;

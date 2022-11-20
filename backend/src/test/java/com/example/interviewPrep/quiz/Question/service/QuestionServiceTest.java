@@ -1,10 +1,10 @@
 package com.example.interviewPrep.quiz.Question.service;
 
-import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.exception.QuestionNotFoundException;
-import com.example.interviewPrep.quiz.infra.QuestionRepository;
-import com.example.interviewPrep.quiz.service.QuestionService;
+import com.example.interviewPrep.quiz.question.Question;
+import com.example.interviewPrep.quiz.question.QuestionDTO;
+import com.example.interviewPrep.quiz.question.QuestionNotFoundException;
+import com.example.interviewPrep.quiz.question.QuestionRepository;
+import com.example.interviewPrep.quiz.question.QuestionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
