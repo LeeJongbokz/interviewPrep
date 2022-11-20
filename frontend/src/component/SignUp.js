@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
@@ -11,19 +11,20 @@ import PaperUI from './UI/PaperUI';
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfrimPassword] = useState('');
+  const [passwordConfirm, setpasswordConfirm] = useState('');
   const [name, setName] = useState('');
+  const navigate = useNavigate();
 
   const onSubmit = async e => {
     e.preventDefault();
-    if (password !== confirmPassword) {
+    if (password !== passwordConfirm) {
       return alert('비밀번호화 비밀번호 확인이 같지 않습니다. 다시 확인해주세요!');
     }
     const bodyData = {
       name: name,
       email: email,
       password: password,
-      confirmPassword: confirmPassword,
+      passwordConfirm: passwordConfirm,
     };
     const response = await fetch(`http://52.202.27.18:8080/members/signup`, {
       method: 'POST',
@@ -32,22 +33,16 @@ const SignUp = () => {
         'Content-Type': 'application/json',
       },
     });
+    console.log(e.target.email.value);
+    console.log(e.target.password.value);
+    console.log(e.target.passwordConfirm.value);
+    console.log(e.target.name.value);
     if (!response.ok) {
       alert('오류가 발생했습니다. 다시 시도해주세요!');
       return;
     }
-    console.log(e.target.email.value);
-    console.log(e.target.password.value);
-    console.log(e.target.confirmpassword.value);
-    console.log(e.target.name.value);
-
-    // try {
-    //   const res = API.post('members/signup');
-    //   console.log(res);
-    //   console.log(HandleChange(e));
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    navigate('/');
+    return;
   };
 
   function HandleChange(e) {
@@ -56,8 +51,8 @@ const SignUp = () => {
       case 'name':
         setName(e.target.value);
         break;
-      case 'confirmpassword':
-        setConfrimPassword(e.target.value);
+      case 'passwordConfirm':
+        setpasswordConfirm(e.target.value);
         break;
       case 'password':
         setPassword(e.target.value);
@@ -105,14 +100,14 @@ const SignUp = () => {
           onChange={e => HandleChange(e)}
         />
         <TextField
-          id="confirmpassword"
-          label="confirmpassword"
+          id="passwordConfirm"
+          label="passwordConfirm"
           type="password"
           margin="normal"
-          name="confirmpassword"
+          name="passwordConfirm"
           required
           fullWidth
-          value={confirmPassword}
+          value={passwordConfirm}
           onChange={e => HandleChange(e)}
         />
         <Button type="submit" variant="contained" label={'margin="normal"'}>
