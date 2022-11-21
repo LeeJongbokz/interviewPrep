@@ -1,13 +1,13 @@
 package com.example.interviewPrep.quiz.Answer.controller;
 
-import com.example.interviewPrep.quiz.answer.AnswerController;
-import com.example.interviewPrep.quiz.answer.Answer;
-import com.example.interviewPrep.quiz.question.Question;
-import com.example.interviewPrep.quiz.answer.AnswerDTO;
+import com.example.interviewPrep.quiz.answer.controller.AnswerController;
+import com.example.interviewPrep.quiz.answer.domain.Answer;
+import com.example.interviewPrep.quiz.question.domain.Question;
+import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
 import com.example.interviewPrep.quiz.dto.SolutionDTO;
 import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
-import com.example.interviewPrep.quiz.answer.AnswerService;
-import com.example.interviewPrep.quiz.member.CustomOAuth2UserService;
+import com.example.interviewPrep.quiz.answer.service.AnswerService;
+import com.example.interviewPrep.quiz.member.service.CustomOAuth2UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
