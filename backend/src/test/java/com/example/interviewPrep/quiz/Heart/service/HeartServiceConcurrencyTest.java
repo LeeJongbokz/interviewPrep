@@ -1,12 +1,12 @@
 package com.example.interviewPrep.quiz.Heart.service;
 
-import com.example.interviewPrep.quiz.answer.Answer;
-import com.example.interviewPrep.quiz.member.Member;
-import com.example.interviewPrep.quiz.heart.HeartRequestDTO;
-import com.example.interviewPrep.quiz.answer.AnswerRepository;
-import com.example.interviewPrep.quiz.heart.HeartRepository;
-import com.example.interviewPrep.quiz.member.MemberRepository;
-import com.example.interviewPrep.quiz.heart.HeartService;
+import com.example.interviewPrep.quiz.answer.domain.Answer;
+import com.example.interviewPrep.quiz.member.domain.Member;
+import com.example.interviewPrep.quiz.heart.dto.HeartRequestDTO;
+import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
+import com.example.interviewPrep.quiz.heart.repository.HeartRepository;
+import com.example.interviewPrep.quiz.member.repository.MemberRepository;
+import com.example.interviewPrep.quiz.heart.service.HeartService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

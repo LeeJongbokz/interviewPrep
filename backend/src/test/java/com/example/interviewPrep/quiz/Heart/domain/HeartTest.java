@@ -1,8 +1,8 @@
 package com.example.interviewPrep.quiz.Heart.domain;
 
-import com.example.interviewPrep.quiz.answer.Answer;
-import com.example.interviewPrep.quiz.heart.Heart;
-import com.example.interviewPrep.quiz.member.Member;
+import com.example.interviewPrep.quiz.answer.domain.Answer;
+import com.example.interviewPrep.quiz.heart.domain.Heart;
+import com.example.interviewPrep.quiz.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;

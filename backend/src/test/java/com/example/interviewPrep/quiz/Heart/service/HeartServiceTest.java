@@ -1,14 +1,14 @@
 package com.example.interviewPrep.quiz.Heart.service;
 
-import com.example.interviewPrep.quiz.answer.Answer;
-import com.example.interviewPrep.quiz.heart.Heart;
-import com.example.interviewPrep.quiz.heart.HeartRequestDTO;
-import com.example.interviewPrep.quiz.answer.AnswerNotFoundException;
-import com.example.interviewPrep.quiz.heart.HeartNotFoundException;
-import com.example.interviewPrep.quiz.answer.AnswerRepository;
-import com.example.interviewPrep.quiz.heart.HeartRepository;
-import com.example.interviewPrep.quiz.member.MemberRepository;
-import com.example.interviewPrep.quiz.heart.HeartService;
+import com.example.interviewPrep.quiz.answer.domain.Answer;
+import com.example.interviewPrep.quiz.heart.domain.Heart;
+import com.example.interviewPrep.quiz.heart.dto.HeartRequestDTO;
+import com.example.interviewPrep.quiz.answer.exception.AnswerNotFoundException;
+import com.example.interviewPrep.quiz.heart.exception.HeartNotFoundException;
+import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
+import com.example.interviewPrep.quiz.heart.repository.HeartRepository;
+import com.example.interviewPrep.quiz.member.repository.MemberRepository;
+import com.example.interviewPrep.quiz.heart.service.HeartService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
