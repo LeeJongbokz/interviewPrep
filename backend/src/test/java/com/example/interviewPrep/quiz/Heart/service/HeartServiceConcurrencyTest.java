@@ -1,12 +1,12 @@
 package com.example.interviewPrep.quiz.Heart.service;
 
-import com.example.interviewPrep.quiz.domain.Answer;
-import com.example.interviewPrep.quiz.domain.Member;
-import com.example.interviewPrep.quiz.dto.HeartDTO;
-import com.example.interviewPrep.quiz.repository.AnswerRepository;
-import com.example.interviewPrep.quiz.repository.HeartRepository;
-import com.example.interviewPrep.quiz.repository.MemberRepository;
-import com.example.interviewPrep.quiz.service.HeartService;
+import com.example.interviewPrep.quiz.answer.Answer;
+import com.example.interviewPrep.quiz.member.Member;
+import com.example.interviewPrep.quiz.heart.HeartRequestDTO;
+import com.example.interviewPrep.quiz.answer.AnswerRepository;
+import com.example.interviewPrep.quiz.heart.HeartRepository;
+import com.example.interviewPrep.quiz.member.MemberRepository;
+import com.example.interviewPrep.quiz.heart.HeartService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,10 +54,8 @@ public class HeartServiceConcurrencyTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    heartService.createHeart(HeartDTO.builder()
-                        .answerId(answer.getId()).memberId(member.getId()).build());
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    heartService.createHeart(HeartRequestDTO.builder()
+                            .answerId(answer.getId()).memberId(member.getId()).build());
                 } finally {
                     latch.countDown();
                 }
@@ -65,6 +63,7 @@ public class HeartServiceConcurrencyTest {
         }
         latch.await();
 
-        assertEquals(100, answerRepository.findById(answer.getId()).orElseThrow().getCountHeart());
+        assertEquals(100, answerRepository.findById(answer.getId()).orElseThrow().getHeartCnt());
+
     }
 }
