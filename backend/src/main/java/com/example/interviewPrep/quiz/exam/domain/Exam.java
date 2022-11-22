@@ -1,6 +1,5 @@
 package com.example.interviewPrep.quiz.exam.domain;
 
-import com.example.interviewPrep.quiz.answer.domain.Answer;
 import com.example.interviewPrep.quiz.member.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,8 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,6 @@ public class Exam {
     @JoinColumn(name = "MEMBER_ID")
     Member member;
 
-    @ManyToMany
-    @JoinColumn(name = "ANSWER_ID")
-    List<Answer> answers = new ArrayList<>();
+    @OneToMany(mappedBy = "exam")
+    List<ExamAnswer> answers = new ArrayList<>();
 }
