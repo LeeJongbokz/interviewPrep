@@ -137,7 +137,7 @@ const Profile = () => {
             value={name}
             onChange={HandleChange}
           />
-          <Button type="submit" variant="outlined" label={'margin="normal" '} sx={{  width: '150px' ,height: '54px'}} onClick={handleClickOpen}>
+          <Button type="submit" variant="outlined" label={'margin="normal" '} sx={{  width: '150px' ,height: '54px'}}>
           닉네임 변경
           </Button>
         </Box>
