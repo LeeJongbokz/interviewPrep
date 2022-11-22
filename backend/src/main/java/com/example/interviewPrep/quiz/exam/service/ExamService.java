@@ -22,9 +22,6 @@ public class ExamService {
     private final ExamAnswerRepository examAnswerRepository;
 
     public List<Question> createExam() {
-
-        questionRepository.findAll();
-
         return questionRepository.findRandom();
     }
 
