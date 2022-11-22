@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.controller;
 
 import com.example.interviewPrep.quiz.aop.Timer;
-import com.example.interviewPrep.quiz.dto.SessionUser;
+import com.example.interviewPrep.quiz.member.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

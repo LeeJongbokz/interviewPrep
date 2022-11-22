@@ -1,12 +1,12 @@
 package com.example.interviewPrep.quiz.Question.controller;
 
-import com.example.interviewPrep.quiz.controller.QuestionController;
-import com.example.interviewPrep.quiz.domain.Question;
+import com.example.interviewPrep.quiz.question.controller.QuestionController;
+import com.example.interviewPrep.quiz.question.domain.Question;
 import com.example.interviewPrep.quiz.dto.FilterDTO;
-import com.example.interviewPrep.quiz.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.question.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
-import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
-import com.example.interviewPrep.quiz.service.QuestionService;
+import com.example.interviewPrep.quiz.member.service.CustomOAuth2UserService;
+import com.example.interviewPrep.quiz.question.service.QuestionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -44,7 +45,7 @@ public class QuestionReadWebControllerTest {
 
     Question question;
     QuestionDTO questionDTO;
-    List<QuestionDTO> questionDTOS;
+    List<QuestionDTO> questionDTOs;
     Pageable pageable;
 
     @BeforeEach
@@ -55,7 +56,7 @@ public class QuestionReadWebControllerTest {
                 .type("자바")
                 .build();
 
-        questionDTOS = new ArrayList<>();
+        questionDTOs = new ArrayList<>();
 
         for(int i = 1; i<11; i++) {
             questionDTO = QuestionDTO.builder()
@@ -63,15 +64,15 @@ public class QuestionReadWebControllerTest {
                     .id(Long.valueOf(i))
                     .type("java")
                     .build();
-            questionDTOS.add(questionDTO);
+            questionDTOs.add(questionDTO);
         }
 
         when(questionService.findQuestion(10L)).thenReturn(question);
 
         pageable = PageRequest.of(0, 10);
-        Page<QuestionDTO> questions = new PageImpl<>(questionDTOS);
+        Page<QuestionDTO> questions = new PageImpl<>(questionDTOs);
 
-        when(questionService.findByType("java", pageable)).thenReturn(questions);
+        when(questionService.findByType("java", pageable)).thenReturn(Optional.of(questions));
         when(questionService.getQuestion(10L)).thenReturn(questionDTO);
 
         ArrayList<FilterDTO> lang = new ArrayList<>();
