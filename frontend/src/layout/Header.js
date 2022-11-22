@@ -7,7 +7,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
-import companyLogo from '../img/code-logo.png';
+import companyLogo from '../img/logo.PNG';
 
 const Header = () => {
   const authCtx = useContext(AuthContext);
@@ -18,24 +18,24 @@ const Header = () => {
 
   const headerButtons = authCtx.isLoggedIn ? (
     <>
-      <Button color="inherit" onClick={logoutHandler} sx={{  backgroundColor:'#FF4B4E' }}>
+      <Button color="inherit" onClick={logoutHandler} sx={{  color:'#3A3A3A' ,fontWeight:'bold' ,fontSize:'14px'}} >
         Logout
       </Button>
-      <Button component={Link} to="/my-page" color="inherit">
+      <Button component={Link} to="/my-page" sx={{  color:'#3A3A3A' ,fontWeight:'bold' ,fontSize:'14px'}} >
         mypage
       </Button>
     </>
   ) : (
-    <Button component={Link} to="/login" color="inherit" >
+    <Button component={Link} to="/login" sx={{  color:'#3A3A3A' ,fontWeight:'bold' ,fontSize:'14px'}} >
       Login
     </Button>
   );
 
   return (
     <>
-      <Box sx={{ flwxGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar sx={{  backgroundColor:'white' }}>
+      <Box sx={{ flwxGrow: 1}}>
+        <AppBar position="static" variant="outLine" sx={{boxShadow:'none' }}>
+          <Toolbar sx={{  backgroundColor:'white'}}>
             {/* <MenuIcon /> */}
             <Typography
               noWrap
@@ -46,13 +46,10 @@ const Header = () => {
                 display: 'flex',
                 flexGrow: 1,
                 fontWeight: 700,
-                color: '#3A3A3A',
                 textDecoration: 'none',
               }}
             >
-              <div>
-              <img src={companyLogo} alt="logo" style={{ height: '50px' }} />
-              </div>
+              <img src={companyLogo} alt="logo" style={{ height: '30px' }} />
             </Typography>
             {headerButtons}
           </Toolbar>
