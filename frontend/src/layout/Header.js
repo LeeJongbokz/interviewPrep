@@ -7,6 +7,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
+import companyLogo from '../img/code-logo.png';
 
 const Header = () => {
   const authCtx = useContext(AuthContext);
@@ -17,7 +18,7 @@ const Header = () => {
 
   const headerButtons = authCtx.isLoggedIn ? (
     <>
-      <Button color="inherit" onClick={logoutHandler}>
+      <Button color="inherit" onClick={logoutHandler} sx={{  backgroundColor:'#FF4B4E' }}>
         Logout
       </Button>
       <Button component={Link} to="/my-page" color="inherit">
@@ -25,7 +26,7 @@ const Header = () => {
       </Button>
     </>
   ) : (
-    <Button component={Link} to="/login" color="inherit">
+    <Button component={Link} to="/login" color="inherit" >
       Login
     </Button>
   );
@@ -34,7 +35,7 @@ const Header = () => {
     <>
       <Box sx={{ flwxGrow: 1 }}>
         <AppBar position="static">
-          <Toolbar>
+          <Toolbar sx={{  backgroundColor:'white' }}>
             {/* <MenuIcon /> */}
             <Typography
               noWrap
@@ -45,11 +46,13 @@ const Header = () => {
                 display: 'flex',
                 flexGrow: 1,
                 fontWeight: 700,
-                color: 'inherit',
+                color: '#3A3A3A',
                 textDecoration: 'none',
               }}
             >
-              숨터뷰
+              <div>
+              <img src={companyLogo} alt="logo" style={{ height: '50px' }} />
+              </div>
             </Typography>
             {headerButtons}
           </Toolbar>
