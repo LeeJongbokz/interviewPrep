@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 // import * as API from '../utils/api';import { flexbox } from '@mui/system';
 // import styled from 'styled-components';
 // import * as API from '../utils/api';
-import PaperUI from './UI/PaperUI';
+import PaperUI from '../UI/PaperUI';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');

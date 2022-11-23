@@ -1,4 +1,4 @@
-import AnswerList from "../component/AnswerList"
+import AnswerList from "../component/Answer/AnswerList"
 
 const AnswerListPage = () => {
   return <AnswerList />

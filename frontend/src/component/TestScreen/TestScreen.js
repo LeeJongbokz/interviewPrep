@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
-import AuthContext from '../store/auth-context';
+import AuthContext from '../../store/auth-context';
 import { useParams, useNavigate } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import ContainerUI from './UI/ContainerUI';
+import ContainerUI from '../UI/ContainerUI';
 
 const TestScreen = () => {
   const { subject: testId } = useParams();

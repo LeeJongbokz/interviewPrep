@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProblemList from './ProblemList';
 import Select from './Select';
-import ContainerUI from './UI/ContainerUI';
+import ContainerUI from '../UI/ContainerUI';
 // import Skeleton from '@mui/material/Skeleton';
 import Pagination from '@mui/material/Pagination';
 import Box from '@mui/material/Box';

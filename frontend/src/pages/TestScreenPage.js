@@ -1,4 +1,4 @@
-import TestScreen from "../component/TestScreen";
+import TestScreen from "../component/TestScreen/TestScreen";
 
 const TestScreenPage = () => {
   return <TestScreen />;
