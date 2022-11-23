@@ -1,13 +1,13 @@
 package com.example.interviewPrep.quiz.question.service;
 
-import com.example.interviewPrep.quiz.dto.FilterDTO;
+
+import com.example.interviewPrep.quiz.exception.advice.CommonException;
 import com.example.interviewPrep.quiz.question.domain.Question;
+import com.example.interviewPrep.quiz.question.dto.FilterDTO;
 import com.example.interviewPrep.quiz.question.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.question.exception.QuestionNotFoundException;
 import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.NOT_FOUND_QUESTION;
 
 @Slf4j
 @Service
@@ -30,7 +32,7 @@ public class QuestionService {
 
     //@Cacheable(value = "question", key="#id")
     public QuestionDTO getQuestion(Long id) {
-        Question question = questionRepository.findById(id).get();
+        Question question = findQuestion(id);
 
         return QuestionDTO.builder()
                 .id(question.getId())
@@ -66,8 +68,7 @@ public class QuestionService {
         return questionRepository.findByType(type);
     }
 
-
-    @Cacheable(value = "questionDTO", key="#pageable.pageSize.toString().concat('-').concat(#pageable.pageNumber)")
+    //@Cacheable(value = "questionDTO", key="#pageable.pageSize.toString().concat('-').concat(#pageable.pageNumber)")
     public Optional<Page<QuestionDTO>> findByType(String type, Pageable pageable){
         Page<Question> questions;
         if(type==null) questions = questionRepository.findAllBy(pageable);
@@ -82,7 +83,7 @@ public class QuestionService {
 
 
     public Question findQuestion(Long id){
-        return questionRepository.findById(id).orElseThrow(() -> new QuestionNotFoundException(id));
+        return questionRepository.findById(id).orElseThrow(() -> new CommonException(NOT_FOUND_QUESTION));
     }
 
 

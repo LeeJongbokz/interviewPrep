@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.security:spring-security-oauth2-client:5.3.5.RELEASE">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-oauth2-client/5.3.5.RELEASE/3e5cf56a5fb2ac9c40f2f4e794e49c8a8d31a940/spring-security-oauth2-client-5.3.5.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-oauth2-client/5.3.5.RELEASE/b5904d5f1cf929e8f45930b4089f7a4f1da9553c/spring-security-oauth2-client-5.3.5.RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -2,11 +2,10 @@ package com.example.interviewPrep.quiz.answer.controller;
 
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
 import com.example.interviewPrep.quiz.answer.service.AnswerService;
-import com.example.interviewPrep.quiz.utils.Result;
+import com.example.interviewPrep.quiz.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,33 +20,27 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping()
-    public ResponseEntity<Result> createAnswer(@RequestBody @Valid AnswerDTO answerDTO){
-
-        return ResponseEntity.ok(
-                new Result("200", "답안 작성", answerService.createAnswer(answerDTO)));
-
+    public ResultResponse<?> createAnswer(@RequestBody @Valid AnswerDTO answerDTO){
+        return ResultResponse.success(answerService.createAnswer(answerDTO));
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Result> readAnswer(@RequestBody @Valid AnswerDTO answerDTO){
-
-        return ResponseEntity.ok(new Result("200", "답안 조회", answerService.readAnswer(answerDTO)));
+    public ResultResponse<?> readAnswer(@PathVariable Long id){
+        return ResultResponse.success(answerService.readAnswer(id));
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Result> deleteAnswer(@RequestBody @Valid AnswerDTO answerDTO){
-
-        return ResponseEntity.ok(new Result("200", "답안 삭제", answerService.deleteAnswer(answerDTO)));
+    public ResultResponse<?> deleteAnswer(@PathVariable Long id){
+        return ResultResponse.success(answerService.deleteAnswer(id));
     }
 
 
     @GetMapping("/solution/{id}/{type}")
-    public ResponseEntity<?> findSolutionAnswer(@PathVariable Long id, @PathVariable String type,
+    public ResultResponse<?> findSolutionAnswer(@PathVariable Long id, @PathVariable String type,
                                                 @PageableDefault(size=10) Pageable pageable){
-
-        return ResponseEntity.ok(new Result("200", "다른 사용자 답안 조회", answerService.getSolution(id, type, pageable)));
+        return ResultResponse.success(answerService.getSolution(id, type, pageable));
     }
 
 }
