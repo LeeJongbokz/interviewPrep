@@ -6,10 +6,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function BasicSelect({categories, onSelect, searchtype}) {
-  const [categoryName, setcategoryName] = useState('');
-  let array = [];
-  let type;
+
+const CATEGORIES = ['java', 'os', 'spring'];
+// TODO 이 더미데이터를 fetch 로 변경.
+
+export default function BasicSelect({onSelect, searchType}) {
+  //const [categoryName, setcategoryName] = useState('');
+  // let array = [];
+  // let type = CATEGORIES;
+  // let type = ;
 
   //category type 받아옴.(새로운 문제 type을 추가하더라도 코드 수정 없도록 하기 위해 데이터를 받아오는 형식으로 함)
   categories.map((category) => {
@@ -34,13 +39,13 @@ export default function BasicSelect({categories, onSelect, searchtype}) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={categoryName}
+          value={searchType}
           label="category"
-          onChange={handleChange}
+          onChange={onSelect}
+        >
+          <MenuItem value="all">전체</MenuItem>
+          {CATEGORIES.map((item, index) => {
 
-        > 
-          {type.map((item,index) => {
-            //console.log(searchtype)
             return (
               <MenuItem 
                 key={index} 

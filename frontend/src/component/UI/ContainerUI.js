@@ -1,9 +1,9 @@
 import Container from '@mui/material/Container';
 
-const ContainerUI = (props) => {
+const ContainerUI = ({children}) => {
   return (
     <Container sx={{ backgroundColor: "white", height:1, paddingTop : "50px", paddingBottom : "50px"}} >
-      {props.children}
+      {children}
     </Container>
   )
 }
