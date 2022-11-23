@@ -2,7 +2,7 @@
 import Problem from './Problem';
 import Grid from '@mui/material/Unstable_Grid2';
 
-const ProblemList = props => {
+const ProblemList = ({question}) => {
   // const [question, setQuestion] = useState([]);//map은 array만 됨
   // useEffect(() => {
   //   const fetchQuestion = async () => {
@@ -24,7 +24,7 @@ const ProblemList = props => {
   // }, [searchtype]);
   return (
     <Grid container spacing={1} columns={12}>
-      {props.question.map((test, index) => {
+      {question.map((test, index) => {
         return (
           <Grid        
             item

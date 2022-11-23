@@ -9,7 +9,7 @@ import Select from '@mui/material/Select';
 const CATEGORIES = ['java', 'os', 'spring'];
 // TODO 이 더미데이터를 fetch 로 변경.
 
-export default function BasicSelect(props) {
+export default function BasicSelect({onSelect, searchType}) {
   //const [categoryName, setcategoryName] = useState('');
   // let array = [];
   // let type = CATEGORIES;
@@ -37,9 +37,9 @@ export default function BasicSelect(props) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={props.searchType}
+          value={searchType}
           label="category"
-          onChange={props.onSelect}
+          onChange={onSelect}
         >
           <MenuItem value="all">전체</MenuItem>
           {CATEGORIES.map((item, index) => {
