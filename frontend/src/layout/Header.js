@@ -45,8 +45,8 @@ const Header = () => {
               }}
             >
               <ButtonGroup variant="none" aria-label="outlined button group" sx={{  color:'#3A3A3A' ,fontWeight:'bold' ,fontSize:'14px'}}>
-                <Button>문제</Button>
-                <Button>모의고사</Button>
+                <Button component={Link} to="/test" >문제</Button>
+                <Button component={Link} to="/#">모의고사</Button>
               </ButtonGroup>
             </Box>
     </>
