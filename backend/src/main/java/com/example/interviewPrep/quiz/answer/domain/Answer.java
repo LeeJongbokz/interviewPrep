@@ -1,6 +1,8 @@
 package com.example.interviewPrep.quiz.answer.domain;
 
 import com.example.interviewPrep.quiz.domain.BaseTimeEntity;
+
+import com.example.interviewPrep.quiz.exam.domain.ExamAnswer;
 import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.question.domain.Question;
 import com.example.interviewPrep.quiz.heart.exception.HeartExistException;
@@ -10,6 +12,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -53,4 +58,6 @@ public class Answer extends BaseTimeEntity {
         return --this.heartCnt;
     }
 
+    @OneToMany(mappedBy = "answer")
+    List<ExamAnswer> exams = new ArrayList<>();
 }
