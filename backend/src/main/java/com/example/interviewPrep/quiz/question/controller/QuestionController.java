@@ -1,7 +1,6 @@
 package com.example.interviewPrep.quiz.question.controller;
 
 import com.example.interviewPrep.quiz.aop.Timer;
-
 import com.example.interviewPrep.quiz.response.ResultResponse;
 import com.example.interviewPrep.quiz.question.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.question.service.QuestionService;
@@ -51,7 +50,6 @@ public class QuestionController {
 
 
     @GetMapping("/filter")
-
     public ResultResponse<?> getFilterLanguage(){
         return ResultResponse.success(questionService.findFilterLanguage());
     }
