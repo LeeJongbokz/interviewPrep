@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import ProblemList from './ProblemList';
 import Select from './Select';
 import ContainerUI from '../UI/ContainerUI';
-// import Skeleton from '@mui/material/Skeleton';
 import Pagination from '@mui/material/Pagination';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress'
+import LoadingSpinner from '../UI/LoadingSpinner';
 
 const Test = () => {
   const [question, setQuestion] = useState([]);
@@ -33,7 +32,6 @@ const Test = () => {
     const fetchQuestion = async () => {
       setLoading(true);
       setQuestion([]);
-      // const target = searchType === [] ? '' : `${searchType}?page=${page}`;
       const response = await fetch(`http://52.202.27.18:8080/question/${searchType}?page=${page}`);
 
       if (!response.ok) {
@@ -54,22 +52,16 @@ const Test = () => {
   return (
     <ContainerUI>
       <Box>
-        <Select
-          // categories={question}
-          onSelect={selectTypeHandler}
-          searchType={searchType}
-        />
+        <Select onSelect={selectTypeHandler} searchType={searchType} />
       </Box>
       <Box>
-        {loading && <CircularProgress />
-          // <Skeleton variant="rounded" sx={{ height: { xs: '300px', sm: '200px', md: '150px' } }}>
-          //   LOADING!
-          // </Skeleton>
-        }
+        {loading && <LoadingSpinner />}
         {!loading && <ProblemList question={question} />}
       </Box>
       <Box margin={5} display="flex" justifyContent="center" alignItems="center">
-        <Pagination page={page + 1} count={totalPage} onChange={pageHandler} color="primary" />
+        {!loading && (
+          <Pagination page={page + 1} count={totalPage} onChange={pageHandler} color="primary" />
+        )}
       </Box>
     </ContainerUI>
   );
