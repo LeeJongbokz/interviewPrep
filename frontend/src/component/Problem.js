@@ -3,10 +3,16 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
+import classes from './Problem.module.css';
+
 const Problem = ({ problem }) => {
   const navigate = useNavigate();
   return (
-    <Card variant="outlined" onClick={() => navigate(`/test/${problem.id}`)}>
+    <Card
+      variant="outlined"
+      onClick={() => navigate(`/test/${problem.id}`)}
+      className={classes.card}
+    >
       <CardContent>
         <Typography>{problem.id}번</Typography>
         <Tooltip title={problem.title || '-'} placement="bottom">
