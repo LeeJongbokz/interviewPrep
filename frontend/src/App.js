@@ -4,10 +4,11 @@ import { Navigate, Route, Routes as Switch } from 'react-router-dom';
 
 import Layout from './layout/Layout';
 
-import MainPage from './pages/MainPage';
+// import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import TestListPage from './pages/TestListPage';
 import SignUpPage from './pages/SignUpPage';
+import ExamPage from './pages/ExamPage';
 import MyPage from './pages/MyPage';
 import AnswerListPage from './pages/AnswerListPage';
 import TestScreenPage from './pages/TestScreenPage';
@@ -21,8 +22,9 @@ function App() {
     <div className="App">
       <Switch>
         <Route element={<Layout />}>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<TestListPage />} />
           <Route path="/test" element={<TestListPage />} />
+          <Route path="/exam" element={<ExamPage />} />
           <Route path="/test/:subject" element={<TestScreenPage />} />
           <Route path="/answer/:id" element={<AnswerListPage />} />
           <Route path="/login" element={ authCtx.isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginPage /> } />
