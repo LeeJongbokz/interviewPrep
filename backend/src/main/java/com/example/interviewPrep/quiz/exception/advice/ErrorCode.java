@@ -9,7 +9,11 @@ public enum ErrorCode {
     NOT_FOUND_ANSWER("not_found_answer", "answer를 찾을 수 없습니다."),
     NOT_FOUND_QUESTION("not_found_question", "question을 찾을 수 없습니다."),
 
-    MISSING_PARAMETER("missing_parameter", "");
+    MISSING_PARAMETER("missing_parameter", ""),
+
+    NOT_FOUND_EXAM("not_found_exam", "해당 모의고사를 찾을 수 없습니다.")
+    ;
+
 
     private final String code;
     private String message;

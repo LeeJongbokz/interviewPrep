@@ -2,6 +2,7 @@ package com.example.interviewPrep.quiz.exam.controller;
 
 import com.example.interviewPrep.quiz.answer.domain.Answer;
 import com.example.interviewPrep.quiz.exam.service.ExamService;
+import com.example.interviewPrep.quiz.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +24,17 @@ public class ExamController {
     private final ExamService examService;
 
     @GetMapping()
-    public ResponseEntity<?> createExam() {
-        return new ResponseEntity<>(examService.createExam(), HttpStatus.OK);
+    public ResultResponse<?> createExam() {
+        return ResultResponse.success(examService.createExam());
     }
 
     @PostMapping()
-    public ResponseEntity<?> saveExam(@RequestBody List<Answer> answerList) {
-        return new ResponseEntity<>(examService.saveExam(answerList), HttpStatus.CREATED);
+    public ResultResponse<?> saveExam(@RequestBody List<Answer> answerList) {
+        return ResultResponse.success(examService.saveExam(answerList));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> readExam(@PathVariable Long id) {
-        return new ResponseEntity<>(examService.readExam(id), HttpStatus.OK);
+    public ResultResponse<?> readExam(@PathVariable Long id) {
+        return ResultResponse.success(examService.readExam(id));
     }
 }

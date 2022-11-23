@@ -6,6 +6,8 @@ import com.example.interviewPrep.quiz.exam.domain.Exam;
 import com.example.interviewPrep.quiz.exam.domain.ExamAnswer;
 import com.example.interviewPrep.quiz.exam.repository.ExamAnswerRepository;
 import com.example.interviewPrep.quiz.exam.repository.ExamRepository;
+import com.example.interviewPrep.quiz.exception.advice.CommonException;
+import com.example.interviewPrep.quiz.exception.advice.ErrorCode;
 import com.example.interviewPrep.quiz.question.domain.Question;
 import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +47,7 @@ public class ExamService {
 
     public Exam readExam(Long examId) {
         return examRepository.findById(examId).orElseThrow(
-            () -> new IllegalArgumentException("해당 모의고사가 존재하지 않습니다.")
+            () -> new CommonException(ErrorCode.NOT_FOUND_EXAM)
         );
     }
 }
