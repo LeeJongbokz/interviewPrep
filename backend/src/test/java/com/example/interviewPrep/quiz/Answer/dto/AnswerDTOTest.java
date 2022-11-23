@@ -1,7 +1,6 @@
 package com.example.interviewPrep.quiz.Answer.dto;
 
-import com.example.interviewPrep.quiz.dto.AnswerDTO;
-import com.example.interviewPrep.quiz.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

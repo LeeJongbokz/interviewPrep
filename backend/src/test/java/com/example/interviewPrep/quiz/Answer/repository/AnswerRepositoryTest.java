@@ -1,14 +1,13 @@
 package com.example.interviewPrep.quiz.Answer.repository;
 
-import com.example.interviewPrep.quiz.domain.Answer;
-import com.example.interviewPrep.quiz.repository.AnswerRepository;
+import com.example.interviewPrep.quiz.answer.domain.Answer;
+import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +15,6 @@ import static org.mockito.Mockito.mock;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
 class AnswerRepositoryTest {
     @Autowired
     private final AnswerRepository answerRepository = mock(AnswerRepository.class);

@@ -1,12 +1,13 @@
 package com.example.interviewPrep.quiz.Question.controller;
 
-import com.example.interviewPrep.quiz.controller.QuestionController;
-import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.dto.QuestionDTO;
-import com.example.interviewPrep.quiz.repository.FilterRepository;
+import com.example.interviewPrep.quiz.question.controller.QuestionController;
+import com.example.interviewPrep.quiz.question.domain.Question;
+import com.example.interviewPrep.quiz.question.dto.FilterDTO;
+import com.example.interviewPrep.quiz.question.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.question.exception.QuestionNotFoundException;
 import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
-import com.example.interviewPrep.quiz.service.CustomOAuth2UserService;
-import com.example.interviewPrep.quiz.service.QuestionService;
+import com.example.interviewPrep.quiz.member.service.CustomOAuth2UserService;
+import com.example.interviewPrep.quiz.question.service.QuestionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,8 +37,6 @@ public class QuestionReadWebControllerTest {
     @MockBean
     QuestionService questionService;
 
-    @MockBean
-    FilterRepository filterRepository;
 
     @MockBean
     CustomOAuth2UserService customOAuth2UserService;
@@ -54,9 +53,9 @@ public class QuestionReadWebControllerTest {
     void setUp() throws Exception{
 
         question = Question.builder()
-                    .title("자바 1번문제")
-                    .type("자바")
-                    .build();
+                .title("자바 1번문제")
+                .type("자바")
+                .build();
 
         questionDTOS = new ArrayList<>();
 
@@ -74,15 +73,28 @@ public class QuestionReadWebControllerTest {
         pageable = PageRequest.of(0, 10);
         Page<QuestionDTO> questions = new PageImpl<>(questionDTOS);
 
-        when(questionService.findByType("java", pageable)).thenReturn(Optional.of(questions));
-        when(questionService.getQuestion(10L)).thenReturn(Optional.ofNullable(question));
-        when(questionService.domainToDTO(question)).thenReturn(questionDTO);
+       // when(questionService.findByType("java", pageable)).thenReturn(questions);
+        when(questionService.findByType("c++", pageable)).thenThrow(new QuestionNotFoundException(1L));
 
-        ArrayList<String> lang = new ArrayList<>();
-        lang.add("java");
-        lang.add("os");
+        when(questionService.getQuestion(10L)).thenReturn(questionDTO);
+        when(questionService.getQuestion(11L)).thenThrow(new QuestionNotFoundException(11L));
 
-        when(filterRepository.findAllByLanguage()).thenReturn(lang);
+
+        ArrayList<FilterDTO> lang = new ArrayList<>();
+
+        FilterDTO fd = FilterDTO.builder()
+                .language("java")
+                .build();
+
+        lang.add(fd);
+
+        fd = FilterDTO.builder()
+                .language("os")
+                .build();
+
+        lang.add(fd);
+
+        when(questionService.findFilterLanguage()).thenReturn(lang);
 
 
     }
@@ -96,10 +108,10 @@ public class QuestionReadWebControllerTest {
 
         //when
         mockMvc.perform(get("/question/"+type)
-                .param("page", "0"))
+                        .param("page", "0"))
 
-        //then
-        .andDo(print())
+                //then
+                .andDo(print())
                 .andExpect(status().isOk());
 
         verify(questionService).findByType(type, pageable);
@@ -114,11 +126,12 @@ public class QuestionReadWebControllerTest {
 
         //when
         mockMvc.perform(get("/question/"+type)
-                .param("page", "0"))
+                        .param("page", "0"))
 
                 //then
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(jsonPath("$.responseCode", equalTo("800")))
+                .andExpect(status().isOk());
 
         verify(questionService).findByType(type, pageable);
     }
@@ -134,7 +147,7 @@ public class QuestionReadWebControllerTest {
         //when
         mockMvc.perform(get("/question/single/"+id))
 
-        //then
+                //then
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -153,7 +166,8 @@ public class QuestionReadWebControllerTest {
 
                 //then
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(jsonPath("$.responseCode", equalTo("800")))
+                .andExpect(status().isOk());
 
 
     }
@@ -166,9 +180,9 @@ public class QuestionReadWebControllerTest {
         //when
         mockMvc.perform(get("/question/filter"))
 
-        //then
-        .andDo(print())
-        .andExpect(status().isOk());
+                //then
+                .andDo(print())
+                .andExpect(status().isOk());
 
     }
 

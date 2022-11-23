@@ -1,6 +1,6 @@
 package com.example.interviewPrep.quiz.Member.domain;
 
-import com.example.interviewPrep.quiz.domain.Member;
+import com.example.interviewPrep.quiz.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

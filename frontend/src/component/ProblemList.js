@@ -1,6 +1,8 @@
-// import React, { useEffect,useState} from 'react';
+import React, { useEffect,useState} from 'react';
 import Problem from './Problem';
+import Skeleton from '@mui/material/Skeleton';
 import Grid from '@mui/material/Unstable_Grid2';
+
 
 const ProblemList = ({question}) => {
   //const [question, setQuestion] = useState([]);//map은 array만 됨
@@ -11,17 +13,6 @@ const ProblemList = ({question}) => {
   //     //console.log(target)
   //     const response = await fetch(`http://52.202.27.18:8080/question/${target}`);
 
-  //     if(!response.ok){
-  //       throw new Error('Some Thing Went Error');
-  //     }
-  //     const data = await response.json();
-  //     setQuestion(data.content);
-  //   }
-  //   fetchQuestion().catch((err) => {
-  //     console.log(err)
-  //   })
-  //   setLoading(false);
-  // }, [searchtype]);
   return (
     <Grid container spacing={1} columns={12}>
       {question.map((test, index) => {
@@ -47,3 +38,4 @@ const ProblemList = ({question}) => {
 };
 
 export default ProblemList;
+

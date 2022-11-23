@@ -1,13 +1,11 @@
 package com.example.interviewPrep.quiz.Answer.service;
 
-import com.example.interviewPrep.quiz.domain.Answer;
-import com.example.interviewPrep.quiz.domain.Question;
-import com.example.interviewPrep.quiz.dto.AnswerDTO;
-import com.example.interviewPrep.quiz.infra.JpaAnswerRepository;
-import com.example.interviewPrep.quiz.infra.JpaQuestionRepository;
-import com.example.interviewPrep.quiz.repository.AnswerRepository;
-import com.example.interviewPrep.quiz.repository.QuestionRepository;
-import com.example.interviewPrep.quiz.service.AnswerService;
+import com.example.interviewPrep.quiz.answer.domain.Answer;
+import com.example.interviewPrep.quiz.question.domain.Question;
+import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
+import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
+import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
+import com.example.interviewPrep.quiz.answer.service.AnswerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,8 +24,8 @@ public class AnswerServiceTest {
 
     private AnswerService answerService;
 
-    private final AnswerRepository answerRepository = mock(JpaAnswerRepository .class);
-    private final QuestionRepository questionRepository =  mock(JpaQuestionRepository.class);
+    private final AnswerRepository answerRepository = mock(AnswerRepository .class);
+    private final QuestionRepository questionRepository =  mock(QuestionRepository.class);
 
 
     Answer answer1;
