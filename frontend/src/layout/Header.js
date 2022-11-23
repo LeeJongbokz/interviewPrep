@@ -35,7 +35,7 @@ const Header = () => {
     <>
       <Box sx={{ flwxGrow: 1}}>
         <AppBar position="static" variant="outLine" sx={{boxShadow:'none' }}>
-          <Toolbar sx={{  backgroundColor:'white'}}>
+          <Toolbar sx={{  backgroundColor:'white', borderBottom: 'solid 1px #f4f4f4'}}>
             {/* <MenuIcon /> */}
             <Typography
               noWrap

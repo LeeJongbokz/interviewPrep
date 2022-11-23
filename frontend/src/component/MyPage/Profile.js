@@ -196,48 +196,54 @@ const Profile = () => {
             <Dialog open={open} onClose={handleClose} >
               <DialogTitle fontWeight="800">비밀번호 변경</DialogTitle>
               <DialogContent>
-                <DialogContentText fontWeight="600">
-                  현재 비밀번호
-                </DialogContentText>
-                <TextField
-                  id="password"
-                  label="password"
-                  type="password"
-                  margin="normal"
-                  name="password"
-                  fullWidth
-                  value={password}
-                  autoFocus
-                  variant="standard"
-                />
-                <DialogContentText fontWeight="600">
-                  비밀번호
-                </DialogContentText>
-                <TextField
-                  id="password"
-                  label="password"
-                  type="password"
-                  margin="normal"
-                  name="password"
-                  fullWidth
-                  value={password}
-                  autoFocus
-                  variant="standard"
-                />
-                <DialogContentText fontWeight="600">
-                  비밀번호 확인
-                </DialogContentText>
-                <TextField
-                  id="confirmPassword"
-                  label="confirmPassword"
-                  type="password"
-                  margin="normal"
-                  name="confirmPassword"
-                  fullWidth
-                  value={confirmPassword} 
-                  autoFocus
-                  variant="standard"
-                />
+                <Box display="flex" justifyContent="center" alignItems="center" >
+                  <DialogContentText fontWeight="600" sx={{  width: '250px'}}>
+                    현재 비밀번호
+                  </DialogContentText>
+                  <TextField
+                    id="password"
+                    label="password"
+                    type="password"
+                    margin="normal"
+                    name="password"
+                    fullWidth
+                    value={password}
+                    autoFocus
+                    variant="standard"
+                  />
+                </Box>
+                <Box display="flex" justifyContent="center" alignItems="center" >
+                  <DialogContentText fontWeight="600" sx={{  width: '250px'}}>
+                    새 비밀번호
+                  </DialogContentText>
+                  <TextField
+                    id="password"
+                    label="password"
+                    type="password"
+                    margin="normal"
+                    name="password"
+                    fullWidth
+                    value={password}
+                    autoFocus
+                    variant="standard"
+                  />
+                </Box>
+                <Box display="flex" justifyContent="center" alignItems="center" >
+                  <DialogContentText fontWeight="600" sx={{  width: '250px'}}>
+                    비밀번호 확인
+                  </DialogContentText>
+                  <TextField
+                    id="confirmPassword"
+                    label="confirmPassword"
+                    type="password"
+                    margin="normal"
+                    name="confirmPassword"
+                    fullWidth
+                    value={confirmPassword} 
+                    autoFocus
+                    variant="standard"
+                  />
+                </Box>
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>취소</Button>
