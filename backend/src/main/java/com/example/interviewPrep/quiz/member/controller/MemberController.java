@@ -66,7 +66,7 @@ public class MemberController {
                 accessToken = jwtUtil.createAccessToken(memberId, role);
                 refreshToken = jwtUtil.createRefreshToken(memberId, role);
 
-                jpaTokenRepository.save(new RefreshToken(refreshToken));
+                jpaTokenRepository.save(new RefreshToken(memberId, refreshToken));
 
                 responseEntity = ResponseEntity.ok()
                                 .body(toResponse(accessToken, refreshToken));
