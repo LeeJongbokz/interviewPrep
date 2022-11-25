@@ -1,6 +1,7 @@
 package com.example.interviewPrep.quiz.Answer.service;
 
 import com.example.interviewPrep.quiz.answer.domain.Answer;
+import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import com.example.interviewPrep.quiz.question.domain.Question;
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
 import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
@@ -26,6 +27,7 @@ public class AnswerServiceTest {
 
     private final AnswerRepository answerRepository = mock(AnswerRepository .class);
     private final QuestionRepository questionRepository =  mock(QuestionRepository.class);
+    private final MemberRepository memberRepository =  mock(MemberRepository.class);
 
 
     Answer answer1;
@@ -41,7 +43,7 @@ public class AnswerServiceTest {
     @BeforeEach
     public void setUp(){
 
-        answerService = new AnswerService(answerRepository, questionRepository);
+        answerService = new AnswerService(memberRepository, answerRepository, questionRepository);
 
         answerDTOs = new ArrayList<>();
 
