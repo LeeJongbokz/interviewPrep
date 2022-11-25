@@ -3,10 +3,26 @@ import { useParams } from 'react-router-dom';
 
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+
 import ContainerUI from '../UI/ContainerUI';
 import LoadingSpinner from '../UI/LoadingSpinner';
+import AnswerItem from './AnswerItem';
+
+const ANSWER_DATA = [
+  // Todo 날짜 추가.
+  {
+    answerId: 2, //답안 id
+    answer: 'answer2', //답안
+    name: 'jin', //답안을 작성한 사람의 이름
+    heartCnt: 5, //좋아요 개수
+  },
+  {
+    answerId: 1,
+    answer: 'answer1',
+    name: 'jin',
+    heartCnt: 3,
+  },
+];
 
 const AnswerList = () => {
   const { id: questionId } = useParams();
@@ -33,7 +49,8 @@ const AnswerList = () => {
         if (res.url.includes('question/single')) {
           setQuestion(data.title);
         } else if (res.url.includes('answer/solution')) {
-          setAnswerArray(data.content);
+          // Todo 더미데이터를 response 데이터로 변경
+          setAnswerArray(ANSWER_DATA);
         }
       });
       setLoading(false);
@@ -53,12 +70,16 @@ const AnswerList = () => {
             "{question}" 의 답변.
           </Typography>
           <List sx={{ bgcolor: 'white' }}>
-            {answerArray.length === 0 && "등록된 답변이 없습니다."}
+            {answerArray.length === 0 && '등록된 답변이 없습니다.'}
             {answerArray.map(item => {
               return (
-                <ListItem alignItems="flex-start" key={item.id}>
-                  <ListItemText sx={{ display: 'inline' }} primary={item.answer} />
-                </ListItem>
+                <AnswerItem
+                  key={item.answerId}
+                  answerId={item.answerId}
+                  name={item.name}
+                  answer={item.answer}
+                  heartCnt={item.heartCnt}
+                />
               );
             })}
           </List>
