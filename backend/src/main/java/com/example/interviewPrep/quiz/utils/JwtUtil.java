@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Key;
+import java.time.Duration;
 import java.util.Date;
 @Component
 @Slf4j
@@ -26,9 +27,9 @@ public class JwtUtil {
 
 
     // access 토큰 유효 시간 30m
-    private long accessTokenValidTime = 30 * 60 * 1000L; // 30 * 60 * 1000L;
-    // 리프레시 토큰 유효시간 | 1d
-    private long refreshTokenValidTime = 24* 60 * 60 * 1000L;
+    private final long accessTokenValidTime =  Duration.ofMinutes(30).toMillis();
+    // 리프레시 토큰 유효시간 | 2주
+    private final long refreshTokenValidTime = Duration.ofDays(14).toMillis();
     @Autowired
     private CustomUserDetailService customUserDetailService;
 
@@ -98,7 +99,6 @@ public class JwtUtil {
     public Authentication getAuthentication(String token) {
 
         Long memberId = Long.valueOf(this.decode(token).getId());
-
         UserDetails userDetails = customUserDetailService.loadUserByUsername(Long.toString(memberId));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
@@ -132,6 +132,15 @@ public class JwtUtil {
     }
 
 
+    public Claims getMemberId(String token){
+
+        try {
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        }catch(ExpiredJwtException e){
+            return e.getClaims();
+        }
+    }
+
 
     public boolean isCreatedTokenValid(String token){
         try {
@@ -148,8 +157,8 @@ public class JwtUtil {
         return memberRepository.findById(memberId).get().getRole();
     }
 
-    public boolean existsRefreshToken(String refreshToken) {
-        return tokenRepository.existsByRefreshToken(refreshToken);
+    public boolean existsRefreshToken(String token) {
+        return tokenRepository.existsByRefreshToken(token);
     }
 
 }

@@ -40,23 +40,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 boolean validateRefreshToken = jwtUtil.validateToken(refreshToken);
 
+
+                Claims claims = jwtUtil.getMemberId(refreshToken);
+                Long memberId = Long.parseLong(claims.getId());
+                Role role = jwtUtil.getRole(memberId);
+
                 /// 리프레시 토큰 저장소 존재유무 확인
                 boolean isRefreshToken = jwtUtil.existsRefreshToken(refreshToken);
 
-                if (validateRefreshToken && isRefreshToken) {
-                    /// 리프레시 토큰으로 멤버ID 정보 가져오기
-                    Claims claims = jwtUtil.decode(refreshToken);
-                    Long memberId = Long.parseLong(claims.getId());
-
-                    /// 이메일로 권한정보 받아오기
-                    Role role = jwtUtil.getRole(memberId);
-                    /// 토큰 발급
-                    String newAccessToken = jwtUtil.createAccessToken(memberId, role);
-                    /// 헤더에 어세스 토큰 추가
-                    jwtUtil.setHeaderAccessToken(response, newAccessToken);
-                    /// 컨텍스트에 넣기
-                    this.setAuthentication(newAccessToken);
+                if (!(validateRefreshToken && isRefreshToken)) {
+                    String newRefreshToken = jwtUtil.createRefreshToken(memberId, role);
+                    jwtUtil.setHeaderRefreshToken(response, newRefreshToken);
                 }
+
+                /// 토큰 발급
+                String newAccessToken = jwtUtil.createAccessToken(memberId, role);
+
+                /// 헤더에 어세스 토큰 추가
+                jwtUtil.setHeaderAccessToken(response, newAccessToken);
+                /// 컨텍스트에 넣기
+                this.setAuthentication(newAccessToken);
             }
         }
         filterChain.doFilter(request, response);

@@ -14,5 +14,7 @@ public class RefreshToken {
 
     @Id
     @Column(nullable = false)
+    private Long memberId;
+
     private String refreshToken;
 }
