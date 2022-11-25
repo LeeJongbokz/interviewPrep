@@ -9,6 +9,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+
+import ContainerUI from '../../component/UI/ContainerUI';
+
 // import Grid from '@mui/material/Unstable_Grid2';
 const Profile = () => {
   const [email, setEmail] = useState('');
@@ -114,7 +117,7 @@ const Profile = () => {
   // }, []);
 
   return (
-    <>
+    <ContainerUI>
       <Typography component="h1" variant="h5" fontWeight="bold">
         계정 관리
       </Typography>
@@ -256,7 +259,7 @@ const Profile = () => {
       <Button type="submit" variant="contained" label={'margin="normal"'}>
         저장
       </Button>
-    </>
+    </ContainerUI>
   )
 }
 

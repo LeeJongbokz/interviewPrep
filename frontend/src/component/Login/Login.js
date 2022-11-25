@@ -1,13 +1,13 @@
 import React, { useRef, useContext } from 'react';
-import AuthContext from '../store/auth-context';
+import AuthContext from '../../store/auth-context';
 import { useNavigate, Link } from 'react-router-dom';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-import PaperUI from './UI/PaperUI';
-import DividingLine from './UI/DividingLine';
+import PaperUI from '../UI/PaperUI';
+import DividingLine from '../UI/DividingLine';
 import IconGroup from './IconGroup';
 
 const Login = () => {

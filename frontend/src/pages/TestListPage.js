@@ -1,4 +1,4 @@
-import Test from '../component/Test';
+import Test from '../component/Test/Test';
 
 const TestListPage = () => {
   return <Test />;
