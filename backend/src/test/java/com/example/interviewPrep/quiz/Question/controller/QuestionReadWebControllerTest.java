@@ -2,8 +2,9 @@ package com.example.interviewPrep.quiz.Question.controller;
 
 import com.example.interviewPrep.quiz.question.controller.QuestionController;
 import com.example.interviewPrep.quiz.question.domain.Question;
-import com.example.interviewPrep.quiz.dto.FilterDTO;
+import com.example.interviewPrep.quiz.question.dto.FilterDTO;
 import com.example.interviewPrep.quiz.question.dto.QuestionDTO;
+import com.example.interviewPrep.quiz.question.exception.QuestionNotFoundException;
 import com.example.interviewPrep.quiz.security.WithMockCustomOAuth2Account;
 import com.example.interviewPrep.quiz.member.service.CustomOAuth2UserService;
 import com.example.interviewPrep.quiz.question.service.QuestionService;
@@ -21,8 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -45,7 +46,7 @@ public class QuestionReadWebControllerTest {
 
     Question question;
     QuestionDTO questionDTO;
-    List<QuestionDTO> questionDTOs;
+    List<QuestionDTO> questionDTOS;
     Pageable pageable;
 
     @BeforeEach
@@ -56,7 +57,7 @@ public class QuestionReadWebControllerTest {
                 .type("자바")
                 .build();
 
-        questionDTOs = new ArrayList<>();
+        questionDTOS = new ArrayList<>();
 
         for(int i = 1; i<11; i++) {
             questionDTO = QuestionDTO.builder()
@@ -64,16 +65,20 @@ public class QuestionReadWebControllerTest {
                     .id(Long.valueOf(i))
                     .type("java")
                     .build();
-            questionDTOs.add(questionDTO);
+            questionDTOS.add(questionDTO);
         }
 
         when(questionService.findQuestion(10L)).thenReturn(question);
 
         pageable = PageRequest.of(0, 10);
-        Page<QuestionDTO> questions = new PageImpl<>(questionDTOs);
+        Page<QuestionDTO> questions = new PageImpl<>(questionDTOS);
 
-        when(questionService.findByType("java", pageable)).thenReturn(Optional.of(questions));
+       // when(questionService.findByType("java", pageable)).thenReturn(questions);
+        when(questionService.findByType("c++", pageable)).thenThrow(new QuestionNotFoundException(1L));
+
         when(questionService.getQuestion(10L)).thenReturn(questionDTO);
+        when(questionService.getQuestion(11L)).thenThrow(new QuestionNotFoundException(11L));
+
 
         ArrayList<FilterDTO> lang = new ArrayList<>();
 
@@ -125,7 +130,8 @@ public class QuestionReadWebControllerTest {
 
                 //then
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(jsonPath("$.responseCode", equalTo("800")))
+                .andExpect(status().isOk());
 
         verify(questionService).findByType(type, pageable);
     }
@@ -160,7 +166,8 @@ public class QuestionReadWebControllerTest {
 
                 //then
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(jsonPath("$.responseCode", equalTo("800")))
+                .andExpect(status().isOk());
 
 
     }

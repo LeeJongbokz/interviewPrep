@@ -1,9 +1,7 @@
 import { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 // import * as API from '../utils/api';import { flexbox } from '@mui/system';
 // import styled from 'styled-components';
@@ -13,32 +11,48 @@ import PaperUI from './UI/PaperUI';
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfrimPassword] = useState('');
+  const [passwordConfirm, setpasswordConfirm] = useState('');
   const [name, setName] = useState('');
-  const onSubmit = e => {
+  const navigate = useNavigate();
+
+  const onSubmit = async e => {
     e.preventDefault();
+    if (password !== passwordConfirm) {
+      return alert('비밀번호화 비밀번호 확인이 같지 않습니다. 다시 확인해주세요!');
+    }
+    const bodyData = {
+      name: name,
+      email: email,
+      password: password,
+      passwordConfirm: passwordConfirm,
+    };
+    const response = await fetch(`http://52.202.27.18:8080/members/signup`, {
+      method: 'POST',
+      body: JSON.stringify(bodyData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     console.log(e.target.email.value);
     console.log(e.target.password.value);
-    console.log(e.target.confirmpassword.value);
+    console.log(e.target.passwordConfirm.value);
     console.log(e.target.name.value);
-
-    // try {
-    //   const res = API.post('members/signup');
-    //   console.log(res);
-    //   console.log(HandleChange(e));
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    if (!response.ok) {
+      alert('오류가 발생했습니다. 다시 시도해주세요!');
+      return;
+    }
+    navigate('/');
+    return;
   };
 
   function HandleChange(e) {
-  //  console.log(onSubmit(e));
+    //  console.log(onSubmit(e));
     switch (e.target.name) {
       case 'name':
         setName(e.target.value);
         break;
-      case 'confirmpassword':
-        setConfrimPassword(e.target.value);
+      case 'passwordConfirm':
+        setpasswordConfirm(e.target.value);
         break;
       case 'password':
         setPassword(e.target.value);
@@ -50,69 +64,56 @@ const SignUp = () => {
     }
   }
   return (
-    <PaperUI>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Typography align="center" component="h1" variant="h5">
-          Sign Up
-        </Typography>
-        <form
-          onSubmit={onSubmit}
-          noValidate
-        >
-          <TextField
-            id="name"
-            label="name"
-            name="name"
-            type="text"
-            margin="normal"
-            required
-            fullWidth
-            value={name}
-            onChange={HandleChange}
-          />
-          <TextField
-            id="email"
-            label="email"
-            type="email"
-            margin="normal"
-            name="email"
-            required
-            fullWidth
-            value={email}
-            onChange={e => HandleChange(e)}
-          />
-          <TextField
-            id="password"
-            label="password"
-            type="password"
-            margin="normal"
-            name="password"
-            required
-            fullWidth
-            value={password}
-            onChange={e => HandleChange(e)}
-          />
-          <TextField
-            id="confirmpassword"
-            label="confirmpassword"
-            type="password"
-            margin="normal"
-            name="confirmpassword"
-            required
-            fullWidth
-            value={confirmPassword}
-            onChange={e => HandleChange(e)}
-          />
-          <Button type="submit" variant="contained" label={'margin="normal"'}>
-            회원가입
-          </Button>
-        </form>
-      </Box>
+    <PaperUI title="Sign Up">
+      <form onSubmit={onSubmit} noValidate>
+        <TextField
+          id="name"
+          label="name"
+          name="name"
+          type="text"
+          margin="normal"
+          required
+          fullWidth
+          value={name}
+          onChange={HandleChange}
+        />
+        <TextField
+          id="email"
+          label="email"
+          type="email"
+          margin="normal"
+          name="email"
+          required
+          fullWidth
+          value={email}
+          onChange={e => HandleChange(e)}
+        />
+        <TextField
+          id="password"
+          label="password"
+          type="password"
+          margin="normal"
+          name="password"
+          required
+          fullWidth
+          value={password}
+          onChange={e => HandleChange(e)}
+        />
+        <TextField
+          id="passwordConfirm"
+          label="passwordConfirm"
+          type="password"
+          margin="normal"
+          name="passwordConfirm"
+          required
+          fullWidth
+          value={passwordConfirm}
+          onChange={e => HandleChange(e)}
+        />
+        <Button type="submit" variant="contained" label={'margin="normal"'}>
+          회원가입
+        </Button>
+      </form>
     </PaperUI>
   );
 };

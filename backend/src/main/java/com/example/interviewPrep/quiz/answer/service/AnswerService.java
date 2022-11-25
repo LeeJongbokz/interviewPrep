@@ -1,6 +1,7 @@
 package com.example.interviewPrep.quiz.answer.service;
 
 
+import com.example.interviewPrep.quiz.answer.dto.SolutionDTO;
 import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.answer.domain.Answer;
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
@@ -10,12 +11,16 @@ import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import com.example.interviewPrep.quiz.question.domain.Question;
 import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
+import com.example.interviewPrep.quiz.exception.advice.CommonException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.NOT_FOUND_ANSWER;
+import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.NOT_FOUND_QUESTION;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +38,9 @@ public class AnswerService {
         Long memberId = Long.parseLong(userDetails.getUsername());
 
         Member member = memberRepository.findById(memberId).get();
-        Question question = questionRepository.findById(answerDTO.getQuestionId()).get();
+       
+        Question question = questionRepository.findById(answerDTO.getQuestionId())
+                .orElseThrow(() -> new CommonException(NOT_FOUND_QUESTION));
 
         Answer answer =  Answer.builder()
                 .member(member)
@@ -45,11 +52,9 @@ public class AnswerService {
         return answer;
     }
 
-    public AnswerDTO readAnswer(AnswerDTO answerDTO){
+    public AnswerDTO readAnswer(Long id){
 
-        Long id = answerDTO.getId();
-
-        Answer answer = answerRepository.findById(id).get();
+        Answer answer = findByAnswer(id);
 
         return AnswerDTO.builder()
                 .id(answer.getId())
@@ -59,12 +64,9 @@ public class AnswerService {
     }
 
 
-    public Answer deleteAnswer(AnswerDTO answerDTO){
+    public Answer deleteAnswer(Long id){
 
-        Long id = answerDTO.getId();
-
-        Answer answer = answerRepository.findById(id).get();
-
+        Answer answer = findByAnswer(id);
         answerRepository.delete(answer);
         return answer;
 
@@ -78,6 +80,7 @@ public class AnswerService {
         answers = answerRepository.findSolution(id,pageable);
         //else if(type.equals("my")){}
 
+        if(answers.getContent().isEmpty()) throw new CommonException(NOT_FOUND_ANSWER);
 
         return answers.map(a ->SolutionDTO.builder()
                 .answerId(a.getId())
@@ -85,6 +88,10 @@ public class AnswerService {
                 .heartCnt(a.getHeartCnt())
                 .name(a.getMember().getName())
                 .build());
+    }
+
+    public Answer findByAnswer(Long id){
+        return answerRepository.findById(id).orElseThrow(() -> new CommonException(NOT_FOUND_ANSWER));
     }
 
 

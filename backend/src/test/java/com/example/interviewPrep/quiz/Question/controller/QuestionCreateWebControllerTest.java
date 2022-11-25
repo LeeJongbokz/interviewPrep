@@ -60,7 +60,7 @@ public class QuestionCreateWebControllerTest {
                         .content(jsonRequest)
                 )
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
 
         verify(questionService).createQuestion(any(QuestionDTO.class));
     }

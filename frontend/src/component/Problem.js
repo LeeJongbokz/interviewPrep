@@ -1,14 +1,18 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import {Button} from '@mui/material';
+
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
+import classes from './Problem.module.css';
+
 const Problem = ({ problem }) => {
   const navigate = useNavigate();
   return (
-    <Card 
+    <Card
       variant="outlined"
+      onClick={() => navigate(`/test/${problem.id}`)}
+      className={classes.card}
     >
       <CardContent>
         <Typography>
@@ -42,15 +46,8 @@ const Problem = ({ problem }) => {
             })()
           }
         </Tooltip>
-        <Typography>
-          Level : {problem?.level || "-" }
-        </Typography>
-        <Typography>
-          분류: {problem.type || "-"}
-        </Typography>      
-        <Button size="small" color="primary" onClick={() => navigate(`/test/${problem.id}`)}>
-          문제 풀기
-        </Button> 
+        <Typography>Level : {problem?.level || '-'}</Typography>
+        <Typography>분류: {problem.type || '-'}</Typography>
       </CardContent>
     </Card>
   );

@@ -1,14 +1,27 @@
 import React from 'react';
+
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
-const PaperUI = props => {
+const PaperUI = ({children, title}) => {
   return (
-    <Container maxWidth="sm" sx={{ marginTop: {sm:"100px"}}}>
-      <Grid padding={4} component={Paper} square>
-        {props.children}
-      </Grid>
+    <Container maxWidth="sm" sx={{ marginTop: { sm: '100px' } }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <Grid padding={4} component={Paper} square>
+          <Typography align="center" component="h1" variant="h5">
+            {title}
+          </Typography>
+          {children}
+        </Grid>
+      </Box>
     </Container>
   );
 };
