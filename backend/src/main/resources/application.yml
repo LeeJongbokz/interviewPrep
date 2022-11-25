@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/interviewPrep
+    url: jdbc:h2:tcp://localhost/~/interviewPrep;MODE=LEGACY;
     username: sa
     password:
 

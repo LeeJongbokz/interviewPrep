@@ -41,6 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .userService(customOAuth2UserService);
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
+        http.logout()
+            .logoutUrl("/members/logout")
+            .logoutSuccessUrl("/");
+
     }
 
 

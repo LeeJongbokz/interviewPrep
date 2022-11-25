@@ -7,6 +7,7 @@ import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.question.domain.Question;
 import com.example.interviewPrep.quiz.heart.exception.HeartExistException;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,19 +30,20 @@ import static javax.persistence.FetchType.LAZY;
 public class Answer extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ANSWER_ID")
     private Long id;
-
     @Lob
     private String content;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "QUESTION_ID")
+    @JsonIgnore
     Question question;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "MEMBER_ID")
+    @JsonIgnore
     Member member;
 
     private int heartCnt;
