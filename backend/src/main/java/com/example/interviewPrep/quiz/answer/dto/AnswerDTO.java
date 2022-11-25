@@ -11,12 +11,12 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class AnswerDTO {
 
-    private  Long id;
+    private Long id;
 
     @NotNull
-    private  Long questionId;
+    private Long questionId;
 
     @NotBlank
-    private  String content;
+    private String content;
 
 }

@@ -5,12 +5,18 @@ import com.example.interviewPrep.quiz.answer.dto.SolutionDTO;
 import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.answer.domain.Answer;
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
+import com.example.interviewPrep.quiz.aop.MemberLoginCheck;
+import com.example.interviewPrep.quiz.dto.SolutionDTO;
+import com.example.interviewPrep.quiz.member.domain.Member;
+import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import com.example.interviewPrep.quiz.question.domain.Question;
 import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.exception.advice.CommonException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.NOT_FOUND_ANSWER;
@@ -20,13 +26,24 @@ import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.NOT_FOUN
 @RequiredArgsConstructor
 public class AnswerService {
 
+    private final MemberRepository memberRepository;
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
+
+    @MemberLoginCheck
     public Answer createAnswer(AnswerDTO answerDTO){
 
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principal;
+        Long memberId = Long.parseLong(userDetails.getUsername());
+
+        Member member = memberRepository.findById(memberId).get();
+       
         Question question = questionRepository.findById(answerDTO.getQuestionId())
                 .orElseThrow(() -> new CommonException(NOT_FOUND_QUESTION));
+
         Answer answer =  Answer.builder()
+                .member(member)
                 .question(question)
                 .content(answerDTO.getContent())
                 .build();

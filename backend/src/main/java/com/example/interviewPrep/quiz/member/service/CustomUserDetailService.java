@@ -25,7 +25,6 @@ public class CustomUserDetailService implements UserDetailsService{
     public UserDetails loadUserByUsername(String memberId) throws MemberNotFoundException {
 
         Member member = jpaMemberRepository.findById(Long.parseLong(memberId)).orElseThrow(() -> new MemberNotFoundException("해당 멤버가 존재하지 않습니다."));
-
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority("ROLE_USER"));
 

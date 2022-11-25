@@ -1,22 +1,26 @@
 package com.example.interviewPrep.quiz.member.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberDTO {
 
-    private final Long id;
+    private Long id;
 
     @NotNull
-    private final String email;
+    private String email;
     @NotNull
-    private final String password;
+    private String password;
     @NotNull
-    private final String type;
+    private String nickName;
+    @NotNull
+    private String newPassword;
+    @NotNull
+    private String type;
 
 }

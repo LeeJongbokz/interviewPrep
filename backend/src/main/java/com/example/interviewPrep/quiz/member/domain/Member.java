@@ -1,10 +1,15 @@
 package com.example.interviewPrep.quiz.member.domain;
 
+import com.example.interviewPrep.quiz.answer.domain.Answer;
 import com.example.interviewPrep.quiz.domain.BaseTimeEntity;
 import com.example.interviewPrep.quiz.member.dto.Role;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Entity
@@ -13,6 +18,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(indexes = @Index(name= "i_member", columnList = "email"))
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +32,10 @@ public class Member extends BaseTimeEntity {
 
     private String type;
 
+    private String nickName;
+
+    @OneToMany(mappedBy = "member")
+    private List<Answer> answers = new ArrayList<>();
     private String name;
 
     private String refreshToken;
