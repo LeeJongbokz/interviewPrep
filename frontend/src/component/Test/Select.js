@@ -41,7 +41,7 @@ export default function BasicSelect({onSelect, searchType}) {
           label="category"
           onChange={onSelect}
         >
-          <MenuItem value="all">전체</MenuItem>
+          <MenuItem value="">전체</MenuItem>
           {CATEGORIES.map((item, index) => {
             return (
               <MenuItem key={index} value={item}>

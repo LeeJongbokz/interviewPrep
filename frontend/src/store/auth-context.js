@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 
 const AuthContext = React.createContext({
   token: '',
+  refreshToken : '',
   isLoggedIn: false,
   login: () => {},
   logout: () => {},
@@ -11,10 +12,11 @@ const AuthContext = React.createContext({
 export const AuthContextProvider = props => {
   const [cookies, setCookie, removeCookie] = useCookies(['interviewPrep']);
 
-  const tokenData = cookies.usertoken;
-  let initialToken = tokenData;
+  let initialToken = cookies.usertoken;
+  let initialReftoken = cookies.refreshtoken;
 
   const [token, setToken] = useState(initialToken);
+  const [refreshToken, setRefreshToken] = useState(initialReftoken);
   const userIsLoggedIn = !!token;
 
   const loginHandler = async (id, pw) => {
@@ -34,21 +36,21 @@ export const AuthContextProvider = props => {
         throw new Error();
       }
       const tokenData = await response.json();
-      if (tokenData?.accessToken) {
-        const accessExpires = new Date();
-        accessExpires.setUTCMinutes(accessExpires.getUTCMinutes() + 30);
-        setCookie('usertoken', tokenData.accessToken, {
+      if (tokenData.success) {
+        const accessToken = tokenData.data.accessToken;
+        const refreshToken = tokenData.data.refreshToken;
+        const expires = new Date();
+        expires.setUTCDate(expires.setUTCDate() + 14);
+        setCookie('usertoken', accessToken, {
           path: '/',
-          expires: accessExpires,
+          expires: expires,
         });
-
-        const refreshExpires = new Date();
-        refreshExpires.setUTCDate(refreshExpires.getUTCDate() + 1);
-        setCookie('refreshtoken', tokenData.refreshToken, {
+        setCookie('refreshtoken', refreshToken, {
           path: '/',
-          expires: refreshExpires
+          expires: expires
         });
-        setToken(tokenData.accessToken);
+        setToken(accessToken);
+        setRefreshToken(refreshToken);
         return { error: false, success: true };
       } else {
         return { error: false, success: false };
@@ -66,6 +68,7 @@ export const AuthContextProvider = props => {
 
   const contextValue = {
     token: token,
+    refreshToken: refreshToken,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,

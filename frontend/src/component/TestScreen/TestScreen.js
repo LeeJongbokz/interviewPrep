@@ -27,6 +27,7 @@ const TestScreen = () => {
         headers: {
           'Content-Type': 'application/json',
           accessToken: authCtx.token,
+          refreshToken: authCtx.refreshToken,
         },
       });
       if (!response.ok) {
@@ -46,7 +47,7 @@ const TestScreen = () => {
         throw new Error('Some Thing Went Error');
       }
       const data = await response.json();
-      setQuestion(data.title);
+      setQuestion(data.data.title);
     };
     fetchQuestion().catch(err => {
       console.log(err);

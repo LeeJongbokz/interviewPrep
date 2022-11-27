@@ -4,10 +4,11 @@ import { createTheme, ThemeProvider } from '@mui/material';
 
 import Layout from './layout/Layout';
 
-import MainPage from './pages/MainPage';
+// import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import TestListPage from './pages/TestListPage';
 import SignUpPage from './pages/SignUpPage';
+import ExamPage from './pages/ExamPage';
 import MyPage from './pages/MyPage';
 import AnswerListPage from './pages/AnswerListPage';
 import TestScreenPage from './pages/TestScreenPage';
@@ -16,20 +17,20 @@ import AuthContext from './store/auth-context';
 
 function App() {
   const theme = createTheme({
-    // palette: {
-    //   primary: {
-    //     light: '#757ce8',
-    //     main: '#3f50b5',
-    //     dark: '#002884',
-    //     contrastText: '#fff',
-    //   },
-    //   secondary: {
-    //     light: '#ff7961',
-    //     main: '#f44336',
-    //     dark: '#ba000d',
-    //     contrastText: '#000',
-    //   },
-    // },
+    palette: {
+      primary: {
+        light: '#ff4b4e',
+        main: '#ff4b4e',
+        dark: 'red',
+        contrastText: '#fff',
+      },
+      secondary: {
+        light: '#ff7961',
+        main: '#f44336',
+        dark: '#ba000d',
+        contrastText: '#000',
+      },
+    },
   });
   const authCtx = useContext(AuthContext);
 
@@ -38,8 +39,9 @@ function App() {
     <div className="App">
       <Switch>
         <Route element={<Layout />}>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<TestListPage />} />
           <Route path="/test" element={<TestListPage />} />
+          <Route path="/exam" element={<ExamPage />} />
           <Route path="/test/:subject" element={<TestScreenPage />} />
           <Route path="/answer/:id" element={<AnswerListPage />} />
           <Route
