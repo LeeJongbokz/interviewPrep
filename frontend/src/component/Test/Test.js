@@ -8,7 +8,7 @@ import LoadingSpinner from '../UI/LoadingSpinner';
 
 const Test = () => {
   const [question, setQuestion] = useState([]);
-  const [searchType, setSearchType] = useState('all'); //type의 값을 설정
+  const [searchType, setSearchType] = useState(''); //type의 값을 설정
   const [loading, setLoading] = useState(true);
   const [totalPage, setTotalPage] = useState(0);
   const [page, setPage] = useState(0);
@@ -38,8 +38,8 @@ const Test = () => {
         throw new Error('Some Thing Went Error');
       }
       const data = await response.json();
-      setQuestion(data.content);
-      setTotalPage(data.totalPages);
+      setQuestion(data.data.content);
+      setTotalPage(data.data.totalPages);
       setLoading(false);
     };
 

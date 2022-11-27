@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 
 const AuthContext = React.createContext({
   token: '',
+  refreshToken : '',
   isLoggedIn: false,
   login: () => {},
   logout: () => {},
@@ -11,10 +12,11 @@ const AuthContext = React.createContext({
 export const AuthContextProvider = props => {
   const [cookies, setCookie, removeCookie] = useCookies(['interviewPrep']);
 
-  const tokenData = cookies.usertoken;
-  let initialToken = tokenData;
+  let initialToken = cookies.usertoken;
+  let initialReftoken = cookies.refreshtoken;
 
   const [token, setToken] = useState(initialToken);
+  const [refreshToken, setRefreshToken] = useState(initialReftoken);
   const userIsLoggedIn = !!token;
 
   const loginHandler = async (id, pw) => {
@@ -35,20 +37,18 @@ export const AuthContextProvider = props => {
       }
       const tokenData = await response.json();
       if (tokenData?.accessToken) {
-        const accessExpires = new Date();
-        accessExpires.setUTCMinutes(accessExpires.getUTCMinutes() + 30);
+        const expires = new Date();
+        expires.setUTCDate(expires.setUTCDate() + 14);
         setCookie('usertoken', tokenData.accessToken, {
           path: '/',
-          expires: accessExpires,
+          expires: expires,
         });
-
-        const refreshExpires = new Date();
-        refreshExpires.setUTCDate(refreshExpires.getUTCDate() + 1);
         setCookie('refreshtoken', tokenData.refreshToken, {
           path: '/',
-          expires: refreshExpires
+          expires: expires
         });
         setToken(tokenData.accessToken);
+        setRefreshToken(tokenData.refreshToken);
         return { error: false, success: true };
       } else {
         return { error: false, success: false };
@@ -66,6 +66,7 @@ export const AuthContextProvider = props => {
 
   const contextValue = {
     token: token,
+    refreshToken: refreshToken,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,

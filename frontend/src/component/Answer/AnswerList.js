@@ -8,22 +8,6 @@ import ContainerUI from '../UI/ContainerUI';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import AnswerItem from './AnswerItem';
 
-const ANSWER_DATA = [
-  // Todo 날짜 추가.
-  {
-    answerId: 2, //답안 id
-    answer: 'answer2', //답안
-    name: 'jin', //답안을 작성한 사람의 이름
-    heartCnt: 5, //좋아요 개수
-  },
-  {
-    answerId: 1,
-    answer: 'answer1',
-    name: 'jin',
-    heartCnt: 3,
-  },
-];
-
 const AnswerList = () => {
   const { id: questionId } = useParams();
   const [answerArray, setAnswerArray] = useState([]);
@@ -47,10 +31,9 @@ const AnswerList = () => {
         const data = await res.json();
 
         if (res.url.includes('question/single')) {
-          setQuestion(data.title);
+          setQuestion(data.data.title);
         } else if (res.url.includes('answer/solution')) {
-          // Todo 더미데이터를 response 데이터로 변경
-          setAnswerArray(ANSWER_DATA);
+          setAnswerArray(data.data.content);
         }
       });
       setLoading(false);
