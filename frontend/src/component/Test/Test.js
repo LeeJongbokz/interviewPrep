@@ -69,7 +69,7 @@ const Test = () => {
         {!loading && <ProblemList question={question} />}
       </Box>
       <Box margin={5} display="flex" justifyContent="center" alignItems="center">
-        <Pagination page={page + 1} count={totalPage} onChange={pageHandler} color="primary" />
+        <Pagination page={page + 1} count={totalPage} onChange={pageHandler} sx={{color:'#ff4b4e' }}/>
       </Box>
     </ContainerUI>
   );
