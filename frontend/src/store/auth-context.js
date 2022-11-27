@@ -36,19 +36,21 @@ export const AuthContextProvider = props => {
         throw new Error();
       }
       const tokenData = await response.json();
-      if (tokenData?.accessToken) {
+      if (tokenData.success) {
+        const accessToken = tokenData.data.accessToken;
+        const refreshToken = tokenData.data.refreshToken;
         const expires = new Date();
         expires.setUTCDate(expires.setUTCDate() + 14);
-        setCookie('usertoken', tokenData.accessToken, {
+        setCookie('usertoken', accessToken, {
           path: '/',
           expires: expires,
         });
-        setCookie('refreshtoken', tokenData.refreshToken, {
+        setCookie('refreshtoken', refreshToken, {
           path: '/',
           expires: expires
         });
-        setToken(tokenData.accessToken);
-        setRefreshToken(tokenData.refreshToken);
+        setToken(accessToken);
+        setRefreshToken(refreshToken);
         return { error: false, success: true };
       } else {
         return { error: false, success: false };
