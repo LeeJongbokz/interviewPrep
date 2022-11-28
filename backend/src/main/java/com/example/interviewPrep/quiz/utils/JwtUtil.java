@@ -1,5 +1,7 @@
 package com.example.interviewPrep.quiz.utils;
 
+import com.example.interviewPrep.quiz.exception.advice.CommonException;
+import com.example.interviewPrep.quiz.exception.advice.ErrorCode;
 import com.example.interviewPrep.quiz.member.dto.Role;
 import com.example.interviewPrep.quiz.errors.InvalidTokenException;
 import com.example.interviewPrep.quiz.member.repository.TokenRepository;
@@ -149,10 +151,14 @@ public class JwtUtil {
     }
 
     public static Long getMemberId(){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails)principal;
-        Long memberId = Long.parseLong(userDetails.getUsername());
-        return memberId;
+
+        try {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            UserDetails userDetails = (UserDetails) principal;
+            return Long.parseLong(userDetails.getUsername());
+        }catch(Exception e){
+            throw new CommonException(ErrorCode.NOT_FOUND_ID);
+        }
     }
 
 

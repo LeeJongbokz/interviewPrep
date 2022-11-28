@@ -7,13 +7,8 @@ import com.example.interviewPrep.quiz.member.service.MemberService;
 import com.example.interviewPrep.quiz.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -39,17 +34,7 @@ public class MemberController {
     public ResultResponse<?> login(@RequestBody @NotNull LoginRequestDTO memberDTO){
         return ResultResponse.success(authService.login(memberDTO));
     }
-    /*
-    @GetMapping("logout")
-    public ResultResponse<?> logout(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("auth는?" + auth);
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return ResultResponse.success("logout success");
-    }
-    */
+
     @PutMapping("/nickname/change")
     public ResultResponse<?> changeNickName(@RequestBody @NotNull MemberDTO memberDTO){
         return ResultResponse.success(memberService.changeNickName(memberDTO));
