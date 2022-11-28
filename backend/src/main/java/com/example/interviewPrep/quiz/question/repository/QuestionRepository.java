@@ -13,21 +13,27 @@ import java.util.Optional;
 
 @Repository
 @Primary
-public interface QuestionRepository extends JpaRepository<Question, Long>{
+public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     Optional<Question> findById(Long id);
+
     Optional<Question> findByTitle(String title);
+
     List<Question> findByType(String type);
+
     Page<Question> findByType(String type, Pageable pageable);
+
     Page<Question> findAllBy(Pageable pageable);
 
     List<Question> findAll();
+
     Question save(Question question);
+
     void delete(Question question);
 
     @Query("SELECT q.type FROM Question q GROUP BY q.type ORDER BY q.type ASC")
     List<String> findAllByLanguage();
 
-    @Query(value = "SELECT * FROM Question order by RAND() limit 10",nativeQuery = true)
+    @Query(value = "SELECT * FROM question order by RAND() limit 10", nativeQuery = true)
     List<Question> findRandom();
 }
