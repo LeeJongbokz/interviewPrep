@@ -1,22 +1,19 @@
 package com.example.interviewPrep.quiz.member.controller;
 
 
-import com.example.interviewPrep.quiz.member.domain.Member;
-import com.example.interviewPrep.quiz.member.domain.RefreshToken;
-import com.example.interviewPrep.quiz.member.dto.LoginRequestDTO;
-import com.example.interviewPrep.quiz.member.dto.LoginResponseDTO;
-import com.example.interviewPrep.quiz.member.dto.Role;
-import com.example.interviewPrep.quiz.member.dto.SignUpRequestDTO;
-import com.example.interviewPrep.quiz.member.repository.TokenRepository;
+import com.example.interviewPrep.quiz.member.dto.*;
 import com.example.interviewPrep.quiz.member.service.AuthenticationService;
 import com.example.interviewPrep.quiz.member.service.MemberService;
-import com.example.interviewPrep.quiz.utils.JwtUtil;
+import com.example.interviewPrep.quiz.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -28,63 +25,44 @@ public class MemberController {
     private final AuthenticationService authService;
     private final MemberService memberService;
 
-    private final TokenRepository jpaTokenRepository;
-
-    private final JwtUtil jwtUtil;
-
     @PostMapping("signup")
-    public ResponseEntity<Void> signUp(@RequestBody @NotNull SignUpRequestDTO member){
+    public ResultResponse<?> signUp(@RequestBody @NotNull SignUpRequestDTO memberDTO){
 
-        if(member.hasNullDataBeforeSignup(member)){
-            throw new NullPointerException("회원가입시 필수 데이터를 모두 입력해야 합니다.");
+        if(memberDTO.hasNullDataBeforeSignup(memberDTO)){
+            throw new NullPointerException("회원 가입시 필수 데이터를 모두 입력해야 합니다.");
         }
-        memberService.createMember(member);
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResultResponse.success(memberService.createMember(memberDTO));
     }
 
 
     @PostMapping("login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody @NotNull LoginRequestDTO member){
-
-        ResponseEntity<LoginResponseDTO> responseEntity = null;
-        String accessToken = "";
-        String refreshToken = "";
-
-        if(member == null){
-            responseEntity = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }else{
-
-            try {
-                String email = member.getEmail();
-                String password = member.getPassword();
-
-                Member searchedMember = authService.login(email, password);
-                Long memberId = searchedMember.getId();
-                Role role = searchedMember.getRole();
-
-                accessToken = jwtUtil.createAccessToken(memberId, role);
-                refreshToken = jwtUtil.createRefreshToken(memberId, role);
-
-                jpaTokenRepository.save(new RefreshToken(memberId, refreshToken));
-
-                responseEntity = ResponseEntity.ok()
-                                .body(toResponse(accessToken, refreshToken));
-
-            }catch(RuntimeException re){
-                log.error("login Error:" + responseEntity);
-            }
+    public ResultResponse<?> login(@RequestBody @NotNull LoginRequestDTO memberDTO){
+        return ResultResponse.success(authService.login(memberDTO));
+    }
+    /*
+    @GetMapping("logout")
+    public ResultResponse<?> logout(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("auth는?" + auth);
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-
-
-        return responseEntity;
+        return ResultResponse.success("logout success");
+    }
+    */
+    @PutMapping("/nickname/change")
+    public ResultResponse<?> changeNickName(@RequestBody @NotNull MemberDTO memberDTO){
+        return ResultResponse.success(memberService.changeNickName(memberDTO));
     }
 
-    private LoginResponseDTO toResponse(String accessToken, String refreshToken){
-        return LoginResponseDTO.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+    @PutMapping("/email/change")
+    public ResultResponse<?> changeEmail(@RequestBody @NotNull MemberDTO memberDTO){
+        return ResultResponse.success(memberService.changeEmail(memberDTO));
+    }
+
+    @PutMapping("/password/change")
+    public ResultResponse<?> changePassword(@RequestBody @NotNull MemberDTO memberDTO){
+        return ResultResponse.success(memberService.changePassword(memberDTO));
     }
 
 }

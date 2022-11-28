@@ -1,8 +1,10 @@
 package com.example.interviewPrep.quiz.Member.service;
 
 import com.example.interviewPrep.quiz.member.domain.Member;
+import com.example.interviewPrep.quiz.member.dto.LoginRequestDTO;
 import com.example.interviewPrep.quiz.member.exception.LoginFailureException;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
+import com.example.interviewPrep.quiz.member.repository.TokenRepository;
 import com.example.interviewPrep.quiz.member.service.AuthenticationService;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,10 +38,21 @@ class AuthenticationServiceTest {
     @Mock
     private MemberRepository memberRepository;
 
+    @Mock
+    private TokenRepository tokenRepository;
+
+    private LoginRequestDTO memberDTO;
+
     @BeforeEach
     void setUp(){
         JwtUtil jwtUtil = new JwtUtil(SECRET);
-        authenticationService = new AuthenticationService(jwtUtil, memberRepository);
+        authenticationService = new AuthenticationService(jwtUtil, memberRepository, tokenRepository);
+
+
+        memberDTO = LoginRequestDTO.builder()
+                .email(email)
+                .password(password)
+                .build();
 
         Member member = Member.builder()
                         .password(password)
@@ -53,7 +66,7 @@ class AuthenticationServiceTest {
     void loginWithWrongEmail(){
 
         assertThatThrownBy(
-                () -> authenticationService.login(wrongEmail, password)
+                () -> authenticationService.login(memberDTO)
         ).isInstanceOf(LoginFailureException.class);
 
         verify(memberRepository).findByEmail(email);
@@ -63,7 +76,7 @@ class AuthenticationServiceTest {
     void loginWithWrongPassword(){
 
         assertThatThrownBy(
-                () -> authenticationService.login(email, wrongPassword)
+                () -> authenticationService.login(memberDTO)
         ).isInstanceOf(LoginFailureException.class);
 
         verify(memberRepository).findByEmail(email);

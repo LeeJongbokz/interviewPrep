@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +27,8 @@ import java.util.Date;
 public class JwtUtil {
 
 
-    // access 토큰 유효 시간 30m
-    private final long accessTokenValidTime =  Duration.ofMinutes(30).toMillis();
+    // access 토큰 유효 시간 3m
+    private final long accessTokenValidTime =  Duration.ofMinutes(3).toMillis();
     // 리프레시 토큰 유효시간 | 2주
     private final long refreshTokenValidTime = Duration.ofDays(14).toMillis();
     @Autowired
@@ -77,6 +78,12 @@ public class JwtUtil {
     public void setHeaderAccessToken(HttpServletResponse response, String accessToken) {
         response.setHeader("accessToken", "bearer "+ accessToken);
     }
+
+    /*
+    public void setBodyAccessToken(HttpServletResponse response, String accessToken) {
+        response.setBody("accessToken", accessToken);
+    }
+    */
 
     // 리프레시 토큰 헤더 설정
     public void setHeaderRefreshToken(HttpServletResponse response, String refreshToken) {
@@ -132,13 +139,20 @@ public class JwtUtil {
     }
 
 
-    public Claims getMemberId(String token){
+    public Claims getMemberIdFromToken(String token){
 
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         }catch(ExpiredJwtException e){
             return e.getClaims();
         }
+    }
+
+    public static Long getMemberId(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principal;
+        Long memberId = Long.parseLong(userDetails.getUsername());
+        return memberId;
     }
 
 

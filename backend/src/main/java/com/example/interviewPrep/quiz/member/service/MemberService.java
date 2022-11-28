@@ -1,10 +1,10 @@
 package com.example.interviewPrep.quiz.member.service;
 
 import com.example.interviewPrep.quiz.member.dto.MemberDTO;
+import com.example.interviewPrep.quiz.member.exception.LoginFailureException;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.dto.SignUpRequestDTO;
-import com.example.interviewPrep.quiz.member.exception.MemberNotFoundException;
 import com.example.interviewPrep.quiz.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,17 +17,13 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
 
-    public void createMember(SignUpRequestDTO memberDTO){
-
-            String encryptedPassword = SHA256Util.encryptSHA256(memberDTO.getPassword());
-
+    public Member createMember(SignUpRequestDTO memberDTO){
             Member member = memberDTO.toEntity();
-
             memberRepository.save(member);
+            return member;
     }
 
-
-    public void changeNickName(MemberDTO memberDTO){
+    public Member changeNickName(MemberDTO memberDTO){
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails)principal;
@@ -39,10 +35,12 @@ public class MemberService {
         String newNickName = memberDTO.getNickName();
         member.setNickName(newNickName);
         memberRepository.save(member);
+
+        return member;
     }
 
 
-    public void changeEmail(MemberDTO memberDTO){
+    public Member changeEmail(MemberDTO memberDTO){
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails)principal;
@@ -55,9 +53,11 @@ public class MemberService {
         member.setEmail(newEmail);
         memberRepository.save(member);
 
+        return member;
     }
 
-    public void changePassword(MemberDTO memberDTO){
+
+    public Member changePassword(MemberDTO memberDTO){
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails)principal;
@@ -74,18 +74,11 @@ public class MemberService {
             String newEncryptedPassword = SHA256Util.encryptSHA256(newPassword);
             member.setPassword(newEncryptedPassword);
             memberRepository.save(member);
+            return member;
+        }else{
+            throw new LoginFailureException(member.getEmail());
         }
 
     }
 
-
-
-    public void updateRefreshToken(Long memberId, String refreshToken){
-
-        Member member = memberRepository.findById(memberId).orElseThrow(()-> new MemberNotFoundException("멤버 정보를 찾을 수 없습니다."));
-
-        member.updateToken(refreshToken);
-
-        memberRepository.save(member);
-    }
 }

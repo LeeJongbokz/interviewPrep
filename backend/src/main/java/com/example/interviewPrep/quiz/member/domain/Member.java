@@ -37,8 +37,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
     private String name;
-
-    private String refreshToken;
     @Column
     private String picture;
 
@@ -49,11 +47,6 @@ public class Member extends BaseTimeEntity {
         this.name = name;
         this.picture = picture;
 
-        return this;
-    }
-
-    public Member updateToken(String refreshToken){
-        this.refreshToken = refreshToken;
         return this;
     }
 
