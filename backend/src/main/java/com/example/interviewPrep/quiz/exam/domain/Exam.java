@@ -25,7 +25,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 public class Exam {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = LAZY)
