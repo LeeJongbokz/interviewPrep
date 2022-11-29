@@ -33,21 +33,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .anyRequest().permitAll()
                 .and()
                 .logout()
+                .logoutUrl("/logout")
                 .logoutSuccessUrl("/") //로그아웃 성공시 이동
-                .invalidateHttpSession(true) //로그아웃 시 세션 삭제
+                .clearAuthentication(true)  //로그아웃 시 Authentication 삭제
                 .and()
                 .oauth2Login()//OAuth2 로그인 설정의 진입점
                 .userInfoEndpoint()//로그인 성공 이후 사용자 정보 가져올때의 설정 담당
                 .userService(customOAuth2UserService);
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
-
-        http.logout()
-            .logoutUrl("/members/logout")
-            .logoutSuccessUrl("/");
-
     }
-
 
 
     @Bean

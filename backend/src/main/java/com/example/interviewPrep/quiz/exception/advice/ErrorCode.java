@@ -11,8 +11,9 @@ public enum ErrorCode {
 
     MISSING_PARAMETER("missing_parameter", ""),
 
-    NOT_FOUND_EXAM("not_found_exam", "해당 모의고사를 찾을 수 없습니다.")
-    ;
+    NOT_FOUND_EXAM("not_found_exam", "해당 모의고사를 찾을 수 없습니다."),
+
+    NOT_FOUND_ID("not_found_id", "로그인된 ID를 찾을 수 없습니다.");
 
 
     private final String code;
