@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage';
 import TestListPage from './pages/TestListPage';
 import SignUpPage from './pages/SignUpPage';
 import ExamPage from './pages/ExamPage';
+import FrontendExamPage from './pages/FrontendExamPage';
 import MyPage from './pages/MyPage';
 import AnswerListPage from './pages/AnswerListPage';
 import TestScreenPage from './pages/TestScreenPage';
@@ -42,6 +43,7 @@ function App() {
           <Route path="/" element={<TestListPage />} />
           <Route path="/test" element={<TestListPage />} />
           <Route path="/exam" element={<ExamPage />} />
+          <Route path="/exam/frontend" element={<FrontendExamPage />} />
           <Route path="/test/:subject" element={<TestScreenPage />} />
           <Route path="/answer/:id" element={<AnswerListPage />} />
           <Route
@@ -59,5 +61,4 @@ function App() {
     </ThemeProvider>
   );
 }
-
 export default App;
