@@ -22,11 +22,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 헤더에서 JWT 를 받아옵니다.
         String accessToken = jwtUtil.resolveAccessToken(request);
         String refreshToken = jwtUtil.resolveRefreshToken(request);
-
-        System.out.println("accessToken은?" + accessToken);
-        System.out.println("refreshToken은?" + refreshToken);
-
-
         // 유효한 토큰인지 확인합니다.
         if (accessToken != null) {
             // access 토큰이 유효한 상황
@@ -41,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 boolean validateRefreshToken = jwtUtil.validateToken(refreshToken);
 
 
-                Claims claims = jwtUtil.getMemberId(refreshToken);
+                Claims claims = jwtUtil.getMemberIdFromToken(refreshToken);
                 Long memberId = Long.parseLong(claims.getId());
                 Role role = jwtUtil.getRole(memberId);
 
@@ -55,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 /// 토큰 발급
                 String newAccessToken = jwtUtil.createAccessToken(memberId, role);
-
+                System.out.println("newAccessToken은?" + newAccessToken);
                 /// 헤더에 어세스 토큰 추가
                 jwtUtil.setHeaderAccessToken(response, newAccessToken);
                 /// 컨텍스트에 넣기
