@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 
-const AnswerField = ({ answerRefIn: answerRef }) => {
+const AnswerField = ({ answerRef }) => {
   const [answer, setAnswer] = useState('');
 
   const changeHandler = e => {
