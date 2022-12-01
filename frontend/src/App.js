@@ -15,13 +15,14 @@ import AnswerListPage from './pages/AnswerListPage';
 import TestScreenPage from './pages/TestScreenPage';
 
 import AuthContext from './store/auth-context';
+import {THEME_COLOR} from './global_variables';
 
 function App() {
   const theme = createTheme({
     palette: {
       primary: {
-        light: '#ff4b4e',
-        main: '#ff4b4e',
+        light: THEME_COLOR,
+        main: THEME_COLOR,
         dark: 'red',
         contrastText: '#fff',
       },
