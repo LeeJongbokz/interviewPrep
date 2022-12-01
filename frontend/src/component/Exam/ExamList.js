@@ -7,10 +7,10 @@ const ExamList = () => {
     return (
       <ContainerUI>
       <div>모의고사 페이지입니다</div>
-      <Button variant="outlined" onClick={() => navigate('/')}>
+      <Button variant="outlined" onClick={() => navigate('/exam/frontend')}>
         FRONTEND
       </Button>
-      <Button variant="outlined" onClick={() => navigate('/')}>
+      <Button variant="outlined" onClick={() => navigate('/exam/frontend')}>
         BACKEND
       </Button>
       </ContainerUI>
