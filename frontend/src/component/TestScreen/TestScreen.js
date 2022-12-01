@@ -7,6 +7,8 @@ import ContainerUI from '../UI/ContainerUI';
 import SubmitButtonGroup from './SubmitButtonGroup';
 import AnswerField from './AnswerField';
 
+import { BACKEND_BASE_URL } from '../../global_variables';
+
 const TestScreen = () => {
   const { subject: testId } = useParams();
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ const TestScreen = () => {
         questionId: testId,
         content: answerRef.current.value.slice(0, 50),
       };
-      const response = await fetch(`http://52.202.27.18:8080/answer/`, {
+      const response = await fetch(`${BACKEND_BASE_URL}/answer/`, {
         method: 'POST',
         body: JSON.stringify(bodyData),
         headers: {
@@ -41,7 +43,7 @@ const TestScreen = () => {
 
   useEffect(() => {
     const fetchQuestion = async () => {
-      const response = await fetch(`http://52.202.27.18:8080/question/single/${testId}`);
+      const response = await fetch(`${BACKEND_BASE_URL}/question/single/${testId}`);
 
       if (!response.ok) {
         throw new Error('Some Thing Went Error');
