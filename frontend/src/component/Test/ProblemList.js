@@ -8,14 +8,18 @@ import TableBody from '@mui/material/TableBody';
 
 import { THEME_COLOR } from '../../global_variables';
 
+export const TableCellColumnHead = ({body}) => {
+  return <TableCell component="th" scope="column" sx={{ color: 'white' }}>{body}</TableCell>;
+}
+
 const ProblemList = ({ question }) => {
   return (
     <Table>
       <TableHead sx={{ backgroundColor: THEME_COLOR }}>
         <TableRow>
-          <TableCell sx={{ color: 'white' }}>No</TableCell>
-          <TableCell sx={{ color: 'white' }}>문제 내용</TableCell>
-          <TableCell sx={{ color: 'white' }}>분류</TableCell>
+          <TableCellColumnHead body="no" /> 
+          <TableCellColumnHead body="문제 내용" /> 
+          <TableCellColumnHead body="분류" />
         </TableRow>
       </TableHead>
       <TableBody>

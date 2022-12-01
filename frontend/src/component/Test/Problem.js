@@ -13,9 +13,9 @@ const Problem = ({ problem }) => {
   const navigate = useNavigate();
   return (
     <TableRow hover className={classes.row} onClick={() => navigate(`/test/${problem.id}`)}>
-      <TableCell>{problem.id}</TableCell>
+      <TableCell component="th" scope="row">{problem.id}</TableCell>
       <TableCell>{problem.title}</TableCell>
-      <TableCell>{problem.type}</TableCell>
+      <TableCell>{problem.type || '-'}</TableCell>
     </TableRow>
   );
   // return (
