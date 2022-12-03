@@ -11,10 +11,16 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Table from '@mui/material/Table';
+import TableCell from '@mui/material/TableCell';
 import { Link } from 'react-router-dom';
 
 import ContainerUI from '../../component/UI/ContainerUI';
+import RecentProblem from './RecentProblem';
 
+export const TableCellColumnHead = ({body}) => {
+  return <TableCell component="th" scope="column" sx={{ color: 'white' }}>{body}</TableCell>;
+}
 const Profile = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -201,7 +207,7 @@ const Profile = () => {
           name="name"
           type="text"
           margin="normal"
-          required
+          disabled
           fullWidth
           value={name}
           onChange={HandleChange}
@@ -306,11 +312,16 @@ const Profile = () => {
           </div>
         </Box>
         <Box>
-          <Tabs value={value} onChange={handleRecentProblem} lefted>
-            <Tab label="내가 푼 문제 "/>
+          <Tabs value={value} onChange={handleRecentProblem} >
+            <Tab label="최근 푼 문제 "/>
             {/* {loading && <LoadingSpinner />} */}
-            <Tab label="discuss" component={Link} to="/exam"/>
+            <Tab label="discuss" component={Link} to="#"/>
           </Tabs>
+        </Box>
+        <Box>
+          <Table>
+            <RecentProblem/>
+          </Table>              
         </Box>
       </Card>
       <Button type="submit" variant="contained" label={'margin="normal"'}>
