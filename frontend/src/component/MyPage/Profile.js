@@ -12,37 +12,68 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import ContainerUI from '../../component/UI/ContainerUI';
 
-// import Grid from '@mui/material/Unstable_Grid2';
 const Profile = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfrimPassword] = useState('');
   const [name, setName] = useState('');
+  const [nickname, setNickname] = useState('');
   const [open, setOpen] = useState(false);
   // const [loading, setLoading] = useState(true);
 
-  const onSubmit = async e => {
+  const onSubmitNickname = async e => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      return alert('비밀번호화 비밀번호 확인이 같지 않습니다. 다시 확인해주세요!');
-    }
+
     const bodyData = {
       name: name,
+      nickname: nickname,
       email: email,
       password: password,
       confirmPassword: confirmPassword,
     };
-    const response = await fetch(`http://52.202.27.18:8080/members/signup`, {
-      method: 'POST',
+    const response = await fetch(`http://52.202.27.18:8080/members/nickname/change`, {
+      method: 'PUT',
       body: JSON.stringify(bodyData),
       headers: {
         'Content-Type': 'application/json',
       },
     });
-    console.log(e.target.email.value);
-    console.log(e.target.password.value);
-    console.log(e.target.confirmpassword.value);
-    console.log(e.target.name.value);
+    console.log('성공!')
+    console.log(bodyData.nickname);
+    if (!response.ok) {
+      alert('오류가 발생했습니다. 다시 시도해주세요!');
+      return;
+    }
+    
+    // try {
+    //   const res = API.post('members/signup');
+    //   console.log(res);
+    //   console.log(HandleChange(e));
+    // } catch (err) {
+    //   console.log(err);
+    // }
+
+  };
+
+  const onSubmitEmail = async e => {
+    e.preventDefault();
+
+    const bodyData = {
+      name: name,
+      nickname: nickname,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    };
+    const response = await fetch(`http://52.202.27.18:8080/members/email/change`, {
+      method: 'PUT',
+      body: JSON.stringify(bodyData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log('성공!')
+    console.log(bodyData.email);
     if (!response.ok) {
       alert('오류가 발생했습니다. 다시 시도해주세요!');
       return;
@@ -63,6 +94,10 @@ const Profile = () => {
     switch (e.target.name) {
       case 'name':
         setName(e.target.value);
+        break;
+      case 'nickname':
+        setNickname(e.target.value);
+        console.log(e.target.value);
         break;
       case 'confirmpassword':
         setConfrimPassword(e.target.value);
@@ -88,6 +123,7 @@ const Profile = () => {
   const HandleChangeName = () =>{
     alert('닉네임 변경')
   }
+
   // useEffect(() => {
 
   //   const fetchMemberData = async () => {
@@ -124,23 +160,23 @@ const Profile = () => {
       <Typography component="h5" variant="h6" fontWeight="800" sx={{  marginTop: '20px'}}>
         회원 정보
       </Typography>
-      <Card onSubmit={onSubmit} noValidate variant="outlined" sx={{  marginBottom: '20px', padding: '20px'}}>
+      <Card noValidate variant="outlined" sx={{  marginBottom: '20px', padding: '20px'}}>
         <Typography component="h5" fontWeight="800" >
           닉네임
         </Typography>
         <Box display="flex" justifyContent="center" alignItems="center">
           <TextField
-            id="name"
-            label="name"
-            name="name"
+            id="nickname"
+            label="nickname"
+            name="nickname"
             type="text"
             margin="normal"
             required
             fullWidth
-            value={name}
+            value={nickname}
             onChange={HandleChange}
           />
-          <Button type="submit" variant="outlined" label={'margin="normal" '} sx={{  width: '150px' ,height: '54px'}}>
+          <Button onClick={onSubmitNickname} type="submit" variant="outlined" label={'margin="normal" '} sx={{  width: '150px' ,height: '54px'}}>
           닉네임 변경
           </Button>
         </Box>
@@ -171,9 +207,9 @@ const Profile = () => {
             required
             fullWidth
             value={email}
-            onChange={e => HandleChange(e)}
+            onChange={HandleChange}
           />
-          <Button type="submit" variant="outlined" label={'margin="normal" '} sx={{  width: '150px' ,height: '54px'}}>
+          <Button onClick={onSubmitEmail} type="submit" variant="outlined" label={'margin="normal" '} sx={{  width: '150px' ,height: '54px'}}>
           이메일 변경
           </Button>
       </Box>
@@ -182,6 +218,7 @@ const Profile = () => {
         </Typography>
         <Box display="flex" justifyContent="center" alignItems="center">
           <TextField
+            disabled
             id="password"
             label="password"
             type="password"
@@ -190,6 +227,7 @@ const Profile = () => {
             required
             fullWidth
             value={password}
+            
             onChange={e => HandleChange(e)}
           />
           <div>
