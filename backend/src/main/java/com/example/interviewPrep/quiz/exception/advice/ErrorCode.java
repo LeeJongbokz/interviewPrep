@@ -10,12 +10,13 @@ public enum ErrorCode {
     NOT_FOUND_QUESTION("not_found_question", "question을 찾을 수 없습니다."),
     NOT_FOUND_MEMBER("not_found_member", "member를 찾을 수 없습니다."),
     NOT_FOUND_COMMENT("not_found_comment", "comment를 찾을 수 없습니다."),
-
-    MISSING_PARAMETER("missing_parameter", ""),
-
     NOT_FOUND_EXAM("not_found_exam", "해당 모의고사를 찾을 수 없습니다."),
+    NOT_FOUND_ID("not_found_id", "로그인된 ID를 찾을 수 없습니다."),
+    NOT_FOUND_TYPE("not_found_type", "해당 type으로 조회할 수 없습니다."),
 
-    NOT_FOUND_ID("not_found_id", "로그인된 ID를 찾을 수 없습니다.");
+    MISSING_PARAMETER("missing_parameter", "");
+
+
 
 
     private final String code;

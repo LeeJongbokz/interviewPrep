@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.*;
+
 @Service
 @RequiredArgsConstructor
 public class AnswerService {
@@ -78,16 +80,19 @@ public class AnswerService {
 
         if(type.equals("my")) {
             answers = answerRepository.findMySolution(id, memberId, pageable);
-            if(answers.getContent().isEmpty()) throw new CommonException(ErrorCode.NOT_FOUND_ANSWER);
+            if(answers.getContent().isEmpty()) throw new CommonException(NOT_FOUND_ANSWER);
             return makeSolutionDto(answers.getContent(), new ArrayList<>());
         }
-        else {
+        else if(type.equals("others")){
             answers = answerRepository.findSolution(id, memberId, pageable);
-            if(answers.getContent().isEmpty()) throw new CommonException(ErrorCode.NOT_FOUND_ANSWER);
+            if(answers.getContent().isEmpty()) throw new CommonException(NOT_FOUND_ANSWER);
 
             List<Long> aList = answers.getContent().stream().map(Answer::getId).collect(Collectors.toList());
             List<Long> myHeart = heartRepository.findMyHeart(aList, memberId);
             return makeSolutionDto(answers.getContent(), myHeart);
+        }
+        else{
+            throw new CommonException(NOT_FOUND_TYPE);
         }
     }
 
