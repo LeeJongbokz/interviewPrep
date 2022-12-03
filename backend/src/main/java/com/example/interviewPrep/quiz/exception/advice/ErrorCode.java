@@ -8,6 +8,8 @@ public enum ErrorCode {
 
     NOT_FOUND_ANSWER("not_found_answer", "answer를 찾을 수 없습니다."),
     NOT_FOUND_QUESTION("not_found_question", "question을 찾을 수 없습니다."),
+    NOT_FOUND_MEMBER("not_found_member", "member를 찾을 수 없습니다."),
+    NOT_FOUND_COMMENT("not_found_comment", "comment를 찾을 수 없습니다."),
 
     MISSING_PARAMETER("missing_parameter", ""),
 

@@ -17,4 +17,6 @@ public class QuestionDTO {
     @NotNull
     private  String type;
 
+    private boolean status;
+
 }
