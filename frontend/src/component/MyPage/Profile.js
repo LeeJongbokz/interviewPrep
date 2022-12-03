@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
@@ -9,6 +11,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { Link } from 'react-router-dom';
 
 import ContainerUI from '../../component/UI/ContainerUI';
 
@@ -19,7 +22,12 @@ const Profile = () => {
   const [name, setName] = useState('');
   const [nickname, setNickname] = useState('');
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(0);
   // const [loading, setLoading] = useState(true);
+
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
 
   const onSubmitNickname = async e => {
     e.preventDefault();
@@ -110,6 +118,10 @@ const Profile = () => {
         break;
       default:
     }
+  }
+  function handleRecentProblem(e, newValue) {
+    setValue(newValue);
+    console.log(newValue);
   }
 
   const handleClickOpen = () => {
@@ -292,6 +304,13 @@ const Profile = () => {
               </DialogActions>
             </Dialog>
           </div>
+        </Box>
+        <Box>
+          <Tabs value={value} onChange={handleRecentProblem} lefted>
+            <Tab label="내가 푼 문제 "/>
+            {/* {loading && <LoadingSpinner />} */}
+            <Tab label="discuss" component={Link} to="/exam"/>
+          </Tabs>
         </Box>
       </Card>
       <Button type="submit" variant="contained" label={'margin="normal"'}>
