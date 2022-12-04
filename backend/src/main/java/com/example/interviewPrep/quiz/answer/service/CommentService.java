@@ -12,12 +12,9 @@ import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.*;
 import static com.example.interviewPrep.quiz.utils.DateFormat.customLocalDateTime;
@@ -36,26 +33,18 @@ public class CommentService {
 
         Long memberId = JwtUtil.getMemberId();
         Page<AnswerComment> comments = commentRepository.findByComment(id, pageable);
-        List<CommentRes> commentList = new ArrayList<>();
-
         if(comments.getContent().isEmpty()) throw new CommonException(NOT_FOUND_COMMENT);
+        return makeCommentRes(comments, memberId);
+    }
 
-        for(AnswerComment comment: comments){
-            boolean check=false;
-            if(comment.getMember().getId().equals(memberId)) check=true;
-            String time = customLocalDateTime(comment.getModifiedDate());
-
-            CommentRes commentRes = CommentRes.builder()
-                    .id(comment.getId())
-                    .comment(comment.getComment())
-                    .memberName(comment.getMember().getName())
-                    .modifiedDate(time)
-                    .myAnswer(check)
-                    .build();
-            commentList.add(commentRes);
-        }
-
-        return new PageImpl<>(commentList);
+    public Page<CommentRes> makeCommentRes(Page<AnswerComment> comments, Long memberId){
+        return comments.map(comment-> CommentRes.builder()
+                .id(comment.getId())
+                .comment(comment.getComment())
+                .memberName(comment.getMember().getName())
+                .modifiedDate(customLocalDateTime(comment.getModifiedDate()))
+                .myAnswer(comment.getMember().getId().equals(memberId))
+                .build());
     }
 
 

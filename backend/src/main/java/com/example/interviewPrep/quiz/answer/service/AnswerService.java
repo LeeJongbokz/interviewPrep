@@ -6,7 +6,6 @@ import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.answer.domain.Answer;
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
 import com.example.interviewPrep.quiz.exception.advice.CommonException;
-import com.example.interviewPrep.quiz.exception.advice.ErrorCode;
 import com.example.interviewPrep.quiz.heart.repository.HeartRepository;
 import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
@@ -15,7 +14,6 @@ import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -81,7 +79,7 @@ public class AnswerService {
         if(type.equals("my")) {
             answers = answerRepository.findMySolution(id, memberId, pageable);
             if(answers.getContent().isEmpty()) throw new CommonException(NOT_FOUND_ANSWER);
-            return makeSolutionDto(answers.getContent(), new ArrayList<>());
+            return makeSolutionDto(answers, new ArrayList<>());
         }
         else if(type.equals("others")){
             answers = answerRepository.findSolution(id, memberId, pageable);
@@ -89,7 +87,7 @@ public class AnswerService {
 
             List<Long> aList = answers.getContent().stream().map(Answer::getId).collect(Collectors.toList());
             List<Long> myHeart = heartRepository.findMyHeart(aList, memberId);
-            return makeSolutionDto(answers.getContent(), myHeart);
+            return makeSolutionDto(answers, myHeart);
         }
         else{
             throw new CommonException(NOT_FOUND_TYPE);
@@ -97,21 +95,14 @@ public class AnswerService {
     }
 
 
-    public Page<SolutionDTO> makeSolutionDto(List<Answer> answers, List<Long> myHeart){
-        List<SolutionDTO> solutionDTOS = new ArrayList<>();
-        for(Answer a : answers){
-            boolean status = myHeart.contains(a.getId());
-            SolutionDTO solutionDTO = SolutionDTO.builder()
+    public Page<SolutionDTO> makeSolutionDto(Page<Answer> answers, List<Long> myHeart){
+           return answers.map(a-> SolutionDTO.builder()
                     .answerId(a.getId())
                     .answer(a.getContent())
                     .heartCnt(a.getHeartCnt())
                     .name(a.getMember().getName())
-                    .heart(status)
-                    .build();
-            solutionDTOS.add(solutionDTO);
-        }
-
-        return new PageImpl<>(solutionDTOS);
+                    .heart(myHeart.contains(a.getId()))
+                    .build());
     }
 
 }

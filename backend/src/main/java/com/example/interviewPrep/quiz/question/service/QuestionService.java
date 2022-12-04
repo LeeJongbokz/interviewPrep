@@ -87,30 +87,23 @@ public class QuestionService {
         if(questions.getContent().isEmpty()) throw new CommonException(NOT_FOUND_QUESTION);
 
         if(memberId==0L){
-            return makeQuestionDto(questions.getContent(), new ArrayList<>());
+            return makeQuestionDto(questions, new ArrayList<>());
         }
         else{
             List<Long> qList = questions.getContent().stream().map(Question::getId).collect(Collectors.toList());
             List<Long> myAnswer = answerRepository.findMyAnswer(qList, memberId);
-            return makeQuestionDto(questions.getContent(), myAnswer);
+            return makeQuestionDto(questions, myAnswer);
         }
 
     }
 
-    public Page<QuestionDTO> makeQuestionDto(List<Question> questions, List<Long> myAnswer){
-        List<QuestionDTO> questionDTOS = new ArrayList<>();
-        for (Question q : questions) {
-            boolean status = myAnswer.contains(q.getId());
-            QuestionDTO questionDTO = QuestionDTO.builder()   //question list 값들을 dto로 변경
-                    .id(q.getId())
-                    .type(q.getType())
-                    .title(q.getTitle())
-                    .status(status)
-                    .build();
-            questionDTOS.add(questionDTO);
-        }
-
-        return new PageImpl<>(questionDTOS);
+    public Page<QuestionDTO> makeQuestionDto(Page<Question> questions, List<Long> myAnswer){
+        return questions.map(q -> QuestionDTO.builder()
+                        .id(q.getId())
+                        .type(q.getType())
+                        .title(q.getTitle())
+                        .status(myAnswer.contains(q.getId()))
+                        .build());
     }
 
 
