@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { BACKEND_BASE_URL } from '../global_variables';
 
 const AuthContext = React.createContext({
   token: '',
@@ -25,7 +26,7 @@ export const AuthContextProvider = props => {
         email: id,
         password: pw,
       };
-      const response = await fetch(`http://52.202.27.18:8080/members/login`, {
+      const response = await fetch(`${BACKEND_BASE_URL}/members/login`, {
         method: 'POST',
         body: JSON.stringify(loginData),
         headers: {

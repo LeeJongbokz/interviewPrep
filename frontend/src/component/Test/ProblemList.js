@@ -17,7 +17,8 @@ const ProblemList = ({ question }) => {
     <Table>
       <TableHead sx={{ backgroundColor: THEME_COLOR }}>
         <TableRow>
-          <TableCellColumnHead body="no" /> 
+          <TableCellColumnHead body="" /> 
+          <TableCellColumnHead body="" /> 
           <TableCellColumnHead body="문제 내용" /> 
           <TableCellColumnHead body="분류" />
         </TableRow>
@@ -29,6 +30,8 @@ const ProblemList = ({ question }) => {
       </TableBody>
     </Table>
   );
+
+  // grid version
   // return (
   //   <Grid container spacing={1} columns={12}>
   //     {question.map((test, index) => {

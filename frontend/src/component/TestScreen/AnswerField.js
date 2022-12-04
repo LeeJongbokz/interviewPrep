@@ -14,7 +14,7 @@ const AnswerField = ({ answerRef }) => {
       margin="dense"
       fullWidth
       variant="standard"
-      sx={{ marginTop: '20px', marginBottom: '20px' }}
+      sx={{ marginTop: '20px' }}
     >
       <TextField
         id="answer"

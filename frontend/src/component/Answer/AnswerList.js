@@ -5,12 +5,12 @@ import { BACKEND_BASE_URL } from '../../global_variables';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 
-import ContainerUI from '../UI/ContainerUI';
+// import ContainerUI from '../UI/ContainerUI';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import AnswerItem from './AnswerItem';
 
 const AnswerList = () => {
-  const { id: questionId } = useParams();
+  const { questionId } = useParams();
   const [answerArray, setAnswerArray] = useState([]);
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,7 @@ const AnswerList = () => {
   }, [questionId]);
 
   return (
-    <ContainerUI>
+    <>
       {loading && <LoadingSpinner />}
       {!loading && (
         <>
@@ -63,13 +63,14 @@ const AnswerList = () => {
                   name={item.name}
                   answer={item.answer}
                   heartCnt={item.heartCnt}
+                  // heart={heart}
                 />
               );
             })}
           </List>
         </>
       )}
-    </ContainerUI>
+    </>
   );
 };
 
