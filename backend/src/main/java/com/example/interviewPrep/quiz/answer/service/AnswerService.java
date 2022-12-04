@@ -105,4 +105,13 @@ public class AnswerService {
                     .build());
     }
 
+
+    public void checkMySolution(Long id){
+        Long memberId = JwtUtil.getMemberId();
+        if(memberId==0L) throw new CommonException(NOT_FOUND_ID);
+
+        Answer answer = answerRepository.findByQuestionIdAndMemberId(id, memberId);
+        if(answer==null) throw new CommonException(NOT_FOUND_ANSWER);
+    }
+
 }
