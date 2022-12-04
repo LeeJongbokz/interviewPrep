@@ -1,6 +1,6 @@
 package com.example.interviewPrep.quiz.exam.domain;
 
-import com.example.interviewPrep.quiz.member.domain.Member;
+import com.example.interviewPrep.quiz.question.domain.Question;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,28 +12,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 
-import static javax.persistence.FetchType.LAZY;
-
-@Entity
 @Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Exam {
+@NoArgsConstructor
+@Entity
+public class ExamKitQuestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long kitId;
+    @ManyToOne
+    @JoinColumn(name = "EXAMKIT_ID")
+    private ExamKit examKit;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
-
-    @OneToMany(mappedBy = "exam")
-    private List<ExamAnswer> answers = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "QUESTION_ID")
+    private Question question;
 }
