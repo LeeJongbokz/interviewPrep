@@ -13,6 +13,8 @@ public enum ErrorCode {
     NOT_FOUND_EXAM("not_found_exam", "해당 모의고사를 찾을 수 없습니다."),
     NOT_FOUND_ID("not_found_id", "로그인된 ID를 찾을 수 없습니다."),
     NOT_FOUND_TYPE("not_found_type", "해당 type으로 조회할 수 없습니다."),
+    EXIST_HEART_HISTORY("exist_heart_history", "이미 좋아요를 눌렀습니다."),
+    NOT_EXIST_HEART_HISTORY("not_exist_heart_history", "좋아요 누른 기록이 없어 삭제할 수 없습니다."),
 
     MISSING_PARAMETER("missing_parameter", ""),
 
