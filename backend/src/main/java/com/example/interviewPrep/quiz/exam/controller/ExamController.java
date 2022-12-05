@@ -1,11 +1,10 @@
 package com.example.interviewPrep.quiz.exam.controller;
 
 import com.example.interviewPrep.quiz.answer.domain.Answer;
+import com.example.interviewPrep.quiz.exam.dto.ExamKitByIdDTO;
 import com.example.interviewPrep.quiz.exam.service.ExamService;
 import com.example.interviewPrep.quiz.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,23 +17,38 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/exam")
+@RequestMapping("exam")
 @CrossOrigin("*")
 public class ExamController {
     private final ExamService examService;
 
-    @GetMapping()
-    public ResultResponse<?> createExam() {
-        return ResultResponse.success(examService.createExam());
+    @GetMapping("kit")
+    public ResultResponse<?> findExamAll() {
+        return ResultResponse.success(examService.findExamKit());
     }
 
-    @PostMapping()
-    public ResultResponse<?> saveExam(@RequestBody List<Answer> answerList) {
-        return ResultResponse.success(examService.saveExam(answerList));
+    @PostMapping("kit")
+    public ResultResponse<?> createExamKitById(@RequestBody ExamKitByIdDTO dto) {
+        return ResultResponse.success(examService.saveExamKitById(dto));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("kit/{id}")
+    public ResultResponse<?> loadExamQuestion(@PathVariable Long id) {
+        return ResultResponse.success(examService.findQuestions(id));
+    }
+
+    @PostMapping("kit/{id}")
+    public ResultResponse<?> saveExam(@PathVariable Long id, @RequestBody List<Answer> answerList) {
+        return ResultResponse.success(examService.saveExam(id, answerList));
+    }
+    @GetMapping("my")
+    public ResultResponse<?> myExam() {
+        return ResultResponse.success(examService.findMyExam());
+    }
+
+    @GetMapping("my/{id}")
     public ResultResponse<?> readExam(@PathVariable Long id) {
         return ResultResponse.success(examService.readExam(id));
     }
+
 }
