@@ -1,5 +1,6 @@
 package com.example.interviewPrep.quiz.member.service;
 
+import com.example.interviewPrep.quiz.exception.advice.CommonException;
 import com.example.interviewPrep.quiz.member.dto.MemberDTO;
 import com.example.interviewPrep.quiz.member.exception.LoginFailureException;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +26,17 @@ public class MemberService {
             return member;
     }
 
-    public Member changeNickName(MemberDTO memberDTO){
+
+    public Member getUserInfo(){
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principal;
+
+        Long memberId = Long.parseLong(userDetails.getUsername());
+        Member member = memberRepository.findById(memberId).get();
+        return member;
+    }
+    public Member changeNickNameAndEmail(MemberDTO memberDTO){
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails)principal;
@@ -32,8 +45,26 @@ public class MemberService {
 
         Member member = memberRepository.findById(memberId).get();
 
+
         String newNickName = memberDTO.getNickName();
-        member.setNickName(newNickName);
+        String newEmail = memberDTO.getEmail();
+
+        if(newNickName != null){
+            boolean duplicateNickName = memberRepository.existsByNickName(newNickName);
+            if(duplicateNickName){
+                throw new CommonException(DUPLICATE_NICKNAME);
+            }
+            member.setNickName(newNickName);
+        }
+
+        if(newEmail != null){
+            boolean duplicateEmail = memberRepository.existsByEmail(newEmail);
+            if(duplicateEmail){
+                throw new CommonException(DUPLICATE_EMAIL);
+            }
+            member.setEmail(newEmail);
+        }
+
         memberRepository.save(member);
 
         return member;
