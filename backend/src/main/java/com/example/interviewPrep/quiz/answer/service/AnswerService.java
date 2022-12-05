@@ -5,6 +5,8 @@ import com.example.interviewPrep.quiz.answer.dto.SolutionDTO;
 import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.answer.domain.Answer;
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
+import com.example.interviewPrep.quiz.exception.advice.CommonException;
+import com.example.interviewPrep.quiz.heart.repository.HeartRepository;
 import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import com.example.interviewPrep.quiz.question.domain.Question;
@@ -15,6 +17,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.*;
+
 @Service
 @RequiredArgsConstructor
 public class AnswerService {
@@ -22,6 +30,7 @@ public class AnswerService {
     private final MemberRepository memberRepository;
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
+    private final HeartRepository heartRepository;
 
     public Answer createAnswer(AnswerDTO answerDTO){
 
@@ -64,19 +73,36 @@ public class AnswerService {
 
     public Page<SolutionDTO> getSolution(Long id, String type, Pageable pageable){
 
+        Long memberId = JwtUtil.getMemberId();
         Page<Answer> answers;
-        //if(type.equals("all"))
-        answers = answerRepository.findSolution(id,pageable);
-        //else if(type.equals("my")){}
 
+        if(type.equals("my")) {
+            answers = answerRepository.findMySolution(id, memberId, pageable);
+            if(answers.getContent().isEmpty()) throw new CommonException(NOT_FOUND_ANSWER);
+            return makeSolutionDto(answers, new ArrayList<>());
+        }
+        else if(type.equals("others")){
+            answers = answerRepository.findSolution(id, memberId, pageable);
+            if(answers.getContent().isEmpty()) throw new CommonException(NOT_FOUND_ANSWER);
 
-        return answers.map(a ->SolutionDTO.builder()
-                .answerId(a.getId())
-                .answer(a.getContent())
-                .heartCnt(a.getHeartCnt())
-                .name(a.getMember().getName())
-                .build());
+            List<Long> aList = answers.getContent().stream().map(Answer::getId).collect(Collectors.toList());
+            List<Long> myHeart = heartRepository.findMyHeart(aList, memberId);
+            return makeSolutionDto(answers, myHeart);
+        }
+        else{
+            throw new CommonException(NOT_FOUND_TYPE);
+        }
     }
 
+
+    public Page<SolutionDTO> makeSolutionDto(Page<Answer> answers, List<Long> myHeart){
+           return answers.map(a-> SolutionDTO.builder()
+                    .answerId(a.getId())
+                    .answer(a.getContent())
+                    .heartCnt(a.getHeartCnt())
+                    .name(a.getMember().getName())
+                    .heart(myHeart.contains(a.getId()))
+                    .build());
+    }
 
 }

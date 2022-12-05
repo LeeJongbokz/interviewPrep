@@ -1,17 +1,17 @@
 package com.example.interviewPrep.quiz.answer.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class SolutionDTO {
 
-    private final Long answerId;
-    private final String answer;
-    private final String name;
-    private final int heartCnt;
+    private Long answerId;
+    private String answer;
+    private String name;
+    private int heartCnt;
+    private boolean heart;
 
 }

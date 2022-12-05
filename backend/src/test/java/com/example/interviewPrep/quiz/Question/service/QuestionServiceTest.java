@@ -1,5 +1,6 @@
 package com.example.interviewPrep.quiz.Question.service;
 
+import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.question.domain.Question;
 import com.example.interviewPrep.quiz.question.dto.QuestionDTO;
 import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
@@ -26,13 +27,14 @@ public class QuestionServiceTest {
     private QuestionService questionService;
 
     private final QuestionRepository questionRepository = mock(QuestionRepository.class);
+    private final AnswerRepository answerRepository = mock(AnswerRepository.class);
 
     Question question;
 
     @BeforeEach
     void setUp(){
 
-        questionService = new QuestionService(questionRepository);
+        questionService = new QuestionService(questionRepository, answerRepository);
 
         question = Question.builder()
                             .id(1L)
