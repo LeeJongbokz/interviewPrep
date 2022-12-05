@@ -43,4 +43,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     @Query("select a.question.id from Answer a where a.question.id in ?1 and a.member.id = ?2")
     List<Long> findMyAnswer(List<Long> qList, Long memberId); //@Param("memberId")
 
+
+    Answer findByQuestionIdAndMemberId(Long questionId, Long memberId);
+
 }

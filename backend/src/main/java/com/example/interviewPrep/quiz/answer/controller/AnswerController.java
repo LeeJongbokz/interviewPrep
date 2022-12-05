@@ -43,4 +43,11 @@ public class AnswerController {
         return ResultResponse.success(answerService.getSolution(id, type, pageable));
     }
 
+
+    @GetMapping("/solution/check/{id}")
+    public ResultResponse<?> checkMySolution(@PathVariable Long id){
+        answerService.checkMySolution(id);
+        return ResultResponse.success();
+    }
+
 }
