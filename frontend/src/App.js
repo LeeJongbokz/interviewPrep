@@ -15,13 +15,14 @@ import AnswerListPage from './pages/AnswerListPage';
 import TestScreenPage from './pages/TestScreenPage';
 
 import AuthContext from './store/auth-context';
+import {THEME_COLOR} from './global_variables';
 
 function App() {
   const theme = createTheme({
     palette: {
       primary: {
-        light: '#ff4b4e',
-        main: '#ff4b4e',
+        light: THEME_COLOR,
+        main: THEME_COLOR,
         dark: 'red',
         contrastText: '#fff',
       },
@@ -44,8 +45,8 @@ function App() {
           <Route path="/test" element={<TestListPage />} />
           <Route path="/exam" element={<ExamPage />} />
           <Route path="/exam/frontend" element={<FrontendExamPage />} />
-          <Route path="/test/:subject" element={<TestScreenPage />} />
-          <Route path="/answer/:id" element={<AnswerListPage />} />
+          <Route path="/test/:questionId" element={<TestScreenPage />} />
+          <Route path="/answer/:questionId" element={<AnswerListPage />} />
           <Route
             path="/login"
             element={authCtx.isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginPage />}

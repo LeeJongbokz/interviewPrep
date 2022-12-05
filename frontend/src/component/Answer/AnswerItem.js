@@ -10,8 +10,9 @@ import Collapse from '@mui/material/Collapse';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatIcon from '@mui/icons-material/Chat';
 
-const AnswerItem = ({ answerId, name, answer, heartCnt }) => {
+const AnswerItem = ({ answerId, name, answer, heartCnt, heart }) => {
   const [commentSection, setCommentSection] = useState(false);
+  // const heart  // 좋아요 표시 여부 ( bool )
 
   const toggleCommentSection = () => {
     setCommentSection(prevState => !prevState);

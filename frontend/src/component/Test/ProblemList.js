@@ -1,49 +1,55 @@
-// import React, { useEffect,useState} from 'react';
 import Problem from './Problem';
-import Grid from '@mui/material/Unstable_Grid2';
 
-const ProblemList = ({question}) => {
-  // const [question, setQuestion] = useState([]);//map은 array만 됨
-  // useEffect(() => {
-  //   const fetchQuestion = async () => {
-  //     setLoading(true);
-  //     const target = searchtype === [] ? '' : `${searchtype}?page=0`
-  //     //console.log(target)
-  //     const response = await fetch(`http://52.202.27.18:8080/question/${target}`);
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import TableBody from '@mui/material/TableBody';
 
-  //     if(!response.ok){
-  //       throw new Error('Some Thing Went Error');
-  //     }
-  //     const data = await response.json();
-  //     setQuestion(data.content);
-  //   }
-  //   fetchQuestion().catch((err) => {
-  //     console.log(err)
-  //   })
-  //   setLoading(false);
-  // }, [searchtype]);
+import { THEME_COLOR } from '../../global_variables';
+
+export const TableCellColumnHead = ({body}) => {
+  return <TableCell component="th" scope="column" sx={{ color: 'white' }}>{body}</TableCell>;
+}
+
+const ProblemList = ({ question }) => {
   return (
-    <Grid container spacing={1} columns={12}>
-      {question.map((test, index) => {
-        return (
-          <Grid        
-            item
-            key={index}
-            xs={12}
-            sm={6}
-            md={3}
-            // sx={{ width: { xs: '100%', sm: '50%', md: '25%' } }}
-          >
-            <Problem
-              sx={{ height: { xs: '250px', sm: '150px', md: '100px' } }}
-              key={test.id}
-              problem={test}
-            />
-          </Grid>
-        );
-      })}
-    </Grid>
+    <Table>
+      <TableHead sx={{ backgroundColor: THEME_COLOR }}>
+        <TableRow>
+          <TableCellColumnHead body="" /> 
+          <TableCellColumnHead body="" /> 
+          <TableCellColumnHead body="문제 내용" /> 
+          <TableCellColumnHead body="분류" />
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {question.map(test => {
+          return <Problem key={test.id} problem={test} />;
+        })}
+      </TableBody>
+    </Table>
   );
+
+  // grid version
+  // return (
+  //   <Grid container spacing={1} columns={12}>
+  //     {question.map((test, index) => {
+  //       return (
+  //         <Grid
+  //           item
+  //           key={index}
+  //           xs={12}
+  //           sm={6}
+  //           md={3}
+  //           // sx={{ width: { xs: '100%', sm: '50%', md: '25%' } }}
+  //         >
+  //          <Problem key={test.id} problem={test} />;
+  //         </Grid>
+  //       );
+  //     })}
+  //   </Grid>
+  // );
 };
 
 export default ProblemList;

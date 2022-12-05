@@ -6,6 +6,8 @@ import Pagination from '@mui/material/Pagination';
 import Box from '@mui/material/Box';
 import LoadingSpinner from '../UI/LoadingSpinner';
 
+import { BACKEND_BASE_URL } from '../../global_variables';
+
 const Test = () => {
   const [question, setQuestion] = useState([]);
   const [searchType, setSearchType] = useState(''); //type의 값을 설정
@@ -32,7 +34,7 @@ const Test = () => {
     const fetchQuestion = async () => {
       setLoading(true);
       setQuestion([]);
-      const response = await fetch(`http://52.202.27.18:8080/question/${searchType}?page=${page}`);
+      const response = await fetch(`${BACKEND_BASE_URL}/question/${searchType}?page=${page}`);
 
       if (!response.ok) {
         throw new Error('Some Thing Went Error');

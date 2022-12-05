@@ -65,7 +65,7 @@ const AnswerCommentList = ({ answerId }) => {
           multiline
           rows={2}
           // onChange={changeHandler}
-          placeholder="답을 입력해주세요"
+          placeholder=""
           inputProps={{
             maxLength: 50,
           }}

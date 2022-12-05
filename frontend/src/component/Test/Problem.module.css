@@ -1,5 +1,5 @@
-.card:hover {
-    border: 1.5px solid;
-    border-color: #ff4b4e;
+.row:hover {
+    /* border: double 2px #ff4b4e; */
     cursor: pointer;
+    /* box-shadow: 0 0 0 2px #ff4b4e inset; */
   }
