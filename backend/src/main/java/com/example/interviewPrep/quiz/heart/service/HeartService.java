@@ -1,15 +1,20 @@
 package com.example.interviewPrep.quiz.heart.service;
 
 import com.example.interviewPrep.quiz.answer.domain.Answer;
-import com.example.interviewPrep.quiz.answer.exception.AnswerNotFoundException;
 import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
+import com.example.interviewPrep.quiz.exception.advice.CommonException;
 import com.example.interviewPrep.quiz.heart.dto.HeartRequestDTO;
 import com.example.interviewPrep.quiz.heart.domain.Heart;
-import com.example.interviewPrep.quiz.heart.exception.HeartNotFoundException;
 import com.example.interviewPrep.quiz.heart.repository.HeartRepository;
+import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+
+import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.*;
+import static com.example.interviewPrep.quiz.utils.JwtUtil.*;
 
 @Service
 @RequiredArgsConstructor
@@ -19,25 +24,52 @@ public class HeartService {
 
     private final MemberRepository memberRepository;
 
-    public Heart createHeart(HeartRequestDTO heartDTO) {
-        Answer answer = answerRepository.findById(heartDTO.getAnswerId()).orElseThrow(() ->
-            new AnswerNotFoundException("답변 정보를 찾을 수 없어 좋아요를 누를 수 없습니다."));
-        //TODO 멤버 정보 가져오기 - 좋아요 기록 검증
-        Heart heart = Heart.builder()
-            .answer(answer)
-            .build();
+    public boolean createHeart(HeartRequestDTO heartDTO) throws InterruptedException {
+        Long memberId = getMemberId();
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+            new CommonException(NOT_FOUND_MEMBER));
+        if (heartRepository.findByAnswerIdAndMemberId(heartDTO.getAnswerId(), memberId).isPresent()) {
+            throw new CommonException(EXIST_HEART_HISTORY);
+        }
 
-        heartRepository.save(heart);
-        return heart;
+        Answer answer = increaseHeartWithOptimisticLock(heartDTO.getAnswerId());
+
+        heartRepository.save(Heart.builder().answer(answer).member(member).build());
+
+        return true;
     }
 
-    public Heart deleteHeart(HeartRequestDTO heartDTO) {
-        Heart heart = heartRepository.findByAnswerIdAndMemberId(heartDTO.getAnswerId(), heartDTO.getMemberId()).orElseThrow(() ->
-            new HeartNotFoundException("좋아요를 누른 기록이 없어 좋아요 취소를 할 수 없습니다."));
+    public boolean deleteHeart(HeartRequestDTO heartDTO) {
+        Long memberId = getMemberId();
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+            new CommonException(NOT_FOUND_MEMBER));
+        Heart heart = heartRepository.findByAnswerIdAndMemberId(heartDTO.getAnswerId(), memberId).orElseThrow(() ->
+            new CommonException(NOT_EXIST_HEART_HISTORY));
 
-        //TODO 멤버 정보 가져오기 - 좋아요 기록 검증
+        Answer answer = decreaseHeartWithOptimisticLock(heartDTO.getAnswerId());
+
         heartRepository.delete(heart);
 
-        return heart;
+        return true;
+    }
+
+    @Transactional
+    public Answer increaseHeartWithOptimisticLock(Long answerId) {
+        Answer answer = answerRepository.findById(answerId).orElseThrow(() ->
+            new CommonException(NOT_FOUND_ANSWER));
+
+        answer.increase();
+
+        return answerRepository.saveAndFlush(answer);
+    }
+
+    @Transactional
+    public Answer decreaseHeartWithOptimisticLock(Long answerId) {
+        Answer answer = answerRepository.findById(answerId).orElseThrow(() ->
+            new CommonException(NOT_FOUND_ANSWER));
+
+        answer.decrease();
+
+        return answerRepository.saveAndFlush(answer);
     }
 }
