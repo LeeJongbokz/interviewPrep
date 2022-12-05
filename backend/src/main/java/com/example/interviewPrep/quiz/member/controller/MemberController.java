@@ -29,20 +29,19 @@ public class MemberController {
         return ResultResponse.success(memberService.createMember(memberDTO));
     }
 
+    @GetMapping("userInfo")
+    public ResultResponse<?> getUserInfo(){
+        return ResultResponse.success(memberService.getUserInfo());
+    }
 
     @PostMapping("login")
     public ResultResponse<?> login(@RequestBody @NotNull LoginRequestDTO memberDTO){
         return ResultResponse.success(authService.login(memberDTO));
     }
 
-    @PutMapping("/nickname/change")
-    public ResultResponse<?> changeNickName(@RequestBody @NotNull MemberDTO memberDTO){
-        return ResultResponse.success(memberService.changeNickName(memberDTO));
-    }
-
-    @PutMapping("/email/change")
-    public ResultResponse<?> changeEmail(@RequestBody @NotNull MemberDTO memberDTO){
-        return ResultResponse.success(memberService.changeEmail(memberDTO));
+    @PutMapping("/change")
+    public ResultResponse<?> changeNickNameAndEmail(@RequestBody @NotNull MemberDTO memberDTO){
+        return ResultResponse.success(memberService.changeNickNameAndEmail(memberDTO));
     }
 
     @PutMapping("/password/change")

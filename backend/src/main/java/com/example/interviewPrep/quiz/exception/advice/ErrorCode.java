@@ -14,10 +14,10 @@ public enum ErrorCode {
     NOT_FOUND_ID("not_found_id", "로그인된 ID를 찾을 수 없습니다."),
     NOT_FOUND_TYPE("not_found_type", "해당 type으로 조회할 수 없습니다."),
 
-    MISSING_PARAMETER("missing_parameter", "");
+    MISSING_PARAMETER("missing_parameter", ""),
 
-
-
+    DUPLICATE_NICKNAME("duplicate_nickname", "닉네임이 중복되었습니다."),
+    DUPLICATE_EMAIL("duplicate_email", "이메일이 중복되었습니다.");
 
     private final String code;
     private String message;
