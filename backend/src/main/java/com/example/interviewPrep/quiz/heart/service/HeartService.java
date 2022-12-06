@@ -32,21 +32,22 @@ public class HeartService {
             throw new CommonException(EXIST_HEART_HISTORY);
         }
 
-        Answer answer = increaseHeartWithOptimisticLock(heartDTO.getAnswerId());
+        increaseHeartFacade(heartDTO.getAnswerId());
 
-        heartRepository.save(Heart.builder().answer(answer).member(member).build());
+        heartRepository.save(Heart.builder()
+            .answer(answerRepository.findById(heartDTO.getAnswerId()).get())
+            .member(member)
+            .build());
 
         return true;
     }
 
-    public boolean deleteHeart(HeartRequestDTO heartDTO) {
+    public boolean deleteHeart(HeartRequestDTO heartDTO) throws InterruptedException {
         Long memberId = getMemberId();
-        Member member = memberRepository.findById(memberId).orElseThrow(() ->
-            new CommonException(NOT_FOUND_MEMBER));
         Heart heart = heartRepository.findByAnswerIdAndMemberId(heartDTO.getAnswerId(), memberId).orElseThrow(() ->
             new CommonException(NOT_EXIST_HEART_HISTORY));
 
-        Answer answer = decreaseHeartWithOptimisticLock(heartDTO.getAnswerId());
+        decreaseHeartFacade(heartDTO.getAnswerId());
 
         heartRepository.delete(heart);
 
@@ -54,22 +55,44 @@ public class HeartService {
     }
 
     @Transactional
-    public Answer increaseHeartWithOptimisticLock(Long answerId) {
-        Answer answer = answerRepository.findById(answerId).orElseThrow(() ->
+    public void increaseHeartWithOptimisticLock(Long answerId) {
+        Answer answer = answerRepository.findByIdWithOptimisticLock(answerId).orElseThrow(() ->
             new CommonException(NOT_FOUND_ANSWER));
 
         answer.increase();
 
-        return answerRepository.saveAndFlush(answer);
+        answerRepository.saveAndFlush(answer);
     }
 
     @Transactional
-    public Answer decreaseHeartWithOptimisticLock(Long answerId) {
-        Answer answer = answerRepository.findById(answerId).orElseThrow(() ->
+    public void decreaseHeartWithOptimisticLock(Long answerId) {
+        Answer answer = answerRepository.findByIdWithOptimisticLock(answerId).orElseThrow(() ->
             new CommonException(NOT_FOUND_ANSWER));
 
         answer.decrease();
 
-        return answerRepository.saveAndFlush(answer);
+        answerRepository.saveAndFlush(answer);
+    }
+
+    public void increaseHeartFacade(Long answerId) throws InterruptedException {
+        while (true) {
+            try {
+                increaseHeartWithOptimisticLock(answerId);
+                break;
+            } catch (Exception e) {
+                Thread.sleep(50);
+            }
+        }
+    }
+
+    public void decreaseHeartFacade(Long answerId) throws InterruptedException {
+        while (true) {
+            try {
+                decreaseHeartWithOptimisticLock(answerId);
+                break;
+            } catch (Exception e) {
+                Thread.sleep(50);
+            }
+        }
     }
 }
