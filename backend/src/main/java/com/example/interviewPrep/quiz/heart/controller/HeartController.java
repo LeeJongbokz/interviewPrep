@@ -28,7 +28,7 @@ public class HeartController {
     }
 
     @DeleteMapping()
-    public ResultResponse<?> delete(@RequestBody @NotNull HeartRequestDTO heartDTO) {
+    public ResultResponse<?> delete(@RequestBody @NotNull HeartRequestDTO heartDTO) throws InterruptedException {
         return ResultResponse.success(heartService.deleteHeart(heartDTO));
     }
 
