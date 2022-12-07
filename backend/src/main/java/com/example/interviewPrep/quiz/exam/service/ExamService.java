@@ -7,9 +7,9 @@ import com.example.interviewPrep.quiz.exam.domain.Exam;
 import com.example.interviewPrep.quiz.exam.domain.ExamAnswer;
 import com.example.interviewPrep.quiz.exam.domain.ExamKit;
 import com.example.interviewPrep.quiz.exam.domain.ExamKitQuestion;
-import com.example.interviewPrep.quiz.exam.dto.ExamKitByIdDTO;
-import com.example.interviewPrep.quiz.exam.dto.ExamDTO;
-import com.example.interviewPrep.quiz.exam.dto.ExamKitDTO;
+import com.example.interviewPrep.quiz.exam.dto.ExamKitREQ;
+import com.example.interviewPrep.quiz.exam.dto.ExamRES;
+import com.example.interviewPrep.quiz.exam.dto.ExamKitRES;
 import com.example.interviewPrep.quiz.exam.repository.ExamAnswerRepository;
 import com.example.interviewPrep.quiz.exam.repository.ExamKitQuestionRepository;
 import com.example.interviewPrep.quiz.exam.repository.ExamKitRepository;
@@ -58,7 +58,7 @@ public class ExamService {
         return saveExam;
     }
 
-    public ExamDTO readExam(Long examId) {
+    public ExamRES readExam(Long examId) {
         Exam exam = examRepository.findById(examId).orElseThrow(
             () -> new CommonException(ErrorCode.NOT_FOUND_EXAM)
         );
@@ -69,13 +69,13 @@ public class ExamService {
             x -> AnswerDTO.builder().questionId(x.getAnswer().getId()).content(x.getAnswer().getContent()).build()
         ).collect(Collectors.toList());
 
-        return ExamDTO.builder().title(examKit.getTitle()).answers(answers).build();
+        return ExamRES.builder().title(examKit.getTitle()).answers(answers).build();
     }
 
-    public List<ExamKitDTO> findExamKit() {
+    public List<ExamKitRES> findExamKit() {
         List<ExamKit> kits = examKitRepository.findAll();
 
-        return kits.stream().map(x -> ExamKitDTO.builder()
+        return kits.stream().map(x -> ExamKitRES.builder()
             .id(x.getId())
             .title(x.getTitle())
             .duration(x.getDuration())
@@ -86,7 +86,7 @@ public class ExamService {
             .build()).collect(Collectors.toList());
     }
 
-    public ExamKit saveExamKitById(ExamKitByIdDTO dto) {
+    public ExamKit saveExamKitById(ExamKitREQ dto) {
         ExamKit examKit = examKitRepository.save(ExamKit.builder()
             .title(dto.getTitle())
             .duration(dto.getDuration())
@@ -115,9 +115,9 @@ public class ExamService {
             .collect(Collectors.toList());
     }
 
-    public List<ExamDTO> findMyExam() {
+    public List<ExamRES> findMyExam() {
         Long memberId = getMemberId();
-        return examRepository.findByMemberId(memberId).stream().map(x -> ExamDTO.builder()
+        return examRepository.findByMemberId(memberId).stream().map(x -> ExamRES.builder()
             .title(examKitRepository.findById(x.getKitId()).get().getTitle())
             .id(x.getId())
             .build())
