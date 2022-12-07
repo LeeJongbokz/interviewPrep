@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.exam.controller;
 
 import com.example.interviewPrep.quiz.answer.domain.Answer;
-import com.example.interviewPrep.quiz.exam.dto.ExamKitREQ;
+import com.example.interviewPrep.quiz.exam.dto.ExamKitReq;
 import com.example.interviewPrep.quiz.exam.service.ExamService;
 import com.example.interviewPrep.quiz.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class ExamController {
     }
 
     @PostMapping("kit")
-    public ResultResponse<?> createExamKitById(@RequestBody ExamKitREQ dto) {
+    public ResultResponse<?> createExamKitById(@RequestBody ExamKitReq dto) {
         return ResultResponse.success(examService.saveExamKitById(dto));
     }
 
