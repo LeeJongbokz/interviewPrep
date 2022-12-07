@@ -22,12 +22,6 @@
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
-  "compilerOptions": {
-    "baseUrl": "src"
-  },
-  "include": [
-    "src" 
-  ],
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
