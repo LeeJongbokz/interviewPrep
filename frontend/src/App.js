@@ -11,7 +11,6 @@ import SignUpPage from './pages/SignUpPage';
 import ExamPage from './pages/ExamPage';
 import FrontendExamPage from './pages/FrontendExamPage';
 import MyPage from './pages/MyPage';
-import AnswerListPage from './pages/AnswerListPage';
 import TestScreenPage from './pages/TestScreenPage';
 
 import AuthContext from './store/auth-context';
@@ -46,7 +45,6 @@ function App() {
           <Route path="/exam" element={<ExamPage />} />
           <Route path="/exam/frontend" element={<FrontendExamPage />} />
           <Route path="/test/:questionId" element={<TestScreenPage />} />
-          <Route path="/answer/:questionId" element={<AnswerListPage />} />
           <Route
             path="/login"
             element={authCtx.isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginPage />}

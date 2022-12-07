@@ -5,21 +5,19 @@ import { BACKEND_BASE_URL } from '../../global_variables';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 
-// import ContainerUI from '../UI/ContainerUI';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import AnswerItem from './AnswerItem';
+import { getAnswerList, setAnswerList } from '../TestScreen/TestScreenVariables';
 
 const AnswerList = () => {
   const { questionId } = useParams();
-  const [answerArray, setAnswerArray] = useState([]);
-  const [question, setQuestion] = useState('');
+  const [answerArray, setAnswerArray] = useState(getAnswerList());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const multipleFetch = async () => {
       setLoading(true);
       let urls = [
-        `${BACKEND_BASE_URL}/question/single/${questionId}`,
         `${BACKEND_BASE_URL}/answer/solution/${questionId}/all`,
       ];
 
@@ -31,18 +29,19 @@ const AnswerList = () => {
         }
         const data = await res.json();
 
-        if (res.url.includes('question/single')) {
-          setQuestion(data.data.title);
-        } else if (res.url.includes('answer/solution')) {
+        if (res.url.includes('answer/solution')) {
           setAnswerArray(data.data.content);
+          setAnswerList(data.data.content);
         }
       });
       setLoading(false);
     };
-    multipleFetch().catch(err => {
-      console.log(err);
-      setLoading(false);
-    });
+    if(getAnswerList().length === 0){
+      multipleFetch().catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+    }
   }, [questionId]);
 
   return (
@@ -51,7 +50,7 @@ const AnswerList = () => {
       {!loading && (
         <>
           <Typography variant="h5" gutterBottom>
-            "{question}" 의 답변.
+            Answer
           </Typography>
           <List sx={{ bgcolor: 'white' }}>
             {answerArray.length === 0 && '등록된 답변이 없습니다.'}

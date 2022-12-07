@@ -11,6 +11,7 @@ import AnswerField from './AnswerField';
 
 import { BACKEND_BASE_URL } from '../../global_variables';
 import QuestionField from './QuestionField';
+import DiscussionSection from '../Discussion/DiscussionSection'
 import AnswerList from '../Answer/AnswerList';
 
 const TestScreen = () => {
@@ -55,7 +56,7 @@ const TestScreen = () => {
         <Grid item xs={12} md={6} borderRight={1} borderColor={'lightGray'}>
           <QuestionSectionHeader headerVal={headerVal} setHeaderVal={setHeaderVal} />
           {headerVal === 0 && <QuestionField questionId={questionId} />}
-          {headerVal === 1 && <>DISCUSSION</>}
+          {headerVal === 1 && <DiscussionSection />}
           {headerVal === 2 && <AnswerList />}
           {headerVal === 3 && <>SUBMISSION</>}
         </Grid>
