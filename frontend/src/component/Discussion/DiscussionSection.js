@@ -9,7 +9,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 const DiscussionSection = () => {
   return (
     <>
-      <Card eveluation={0} variant="outlined" sx={{ minWidth: 500, margin: 2 }}>
+      <Card eveluation={0} variant="outlined" sx={{ margin: 2 }}>
         <CardContent>
           <Box padding={1} sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography component="div" sx={{ fontWeight: 'bold' }}>
@@ -28,7 +28,7 @@ const DiscussionSection = () => {
           <MoreHorizIcon />
         </CardActions>
       </Card>
-      <Card eveluation={0} variant="outlined" sx={{ minWidth: 500, margin: 2 }}>
+      <Card eveluation={0} variant="outlined" sx={{ margin: 2 }}>
         <CardContent>
           <Box padding={1} sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography component="div" sx={{ fontWeight: 'bold' }}>

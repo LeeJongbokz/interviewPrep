@@ -54,7 +54,7 @@ const TestScreen = () => {
     >
       <Grid container borderTop={1} borderColor={'lightGray'}>
         <Grid item xs={12} md={6} borderRight={1} borderColor={'lightGray'}>
-          <QuestionSectionHeader headerVal={headerVal} setHeaderVal={setHeaderVal} />
+          <QuestionSectionHeader questionId={questionId} headerVal={headerVal} setHeaderVal={setHeaderVal} />
           {headerVal === 0 && <QuestionField questionId={questionId} />}
           {headerVal === 1 && <DiscussionSection />}
           {headerVal === 2 && <AnswerList />}

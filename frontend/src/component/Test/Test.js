@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ProblemList from './ProblemList';
 import Select from './Select';
 import ContainerUI from '../UI/ContainerUI';
@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import LoadingSpinner from '../UI/LoadingSpinner';
 
 import { BACKEND_BASE_URL } from '../../global_variables';
+import AuthContext from '../../store/auth-context';
 
 const Test = () => {
   const [question, setQuestion] = useState([]);
@@ -14,6 +15,8 @@ const Test = () => {
   const [loading, setLoading] = useState(true);
   const [totalPage, setTotalPage] = useState(0);
   const [page, setPage] = useState(0);
+
+  const authCtx = useContext(AuthContext);
 
   //선택했을 때 카테고리 값을 받아와서 업데이트 해줄 것
   // const selectTypeHandler = useCallback((event) => {
@@ -34,7 +37,13 @@ const Test = () => {
     const fetchQuestion = async () => {
       setLoading(true);
       setQuestion([]);
-      const response = await fetch(`${BACKEND_BASE_URL}/question/${searchType}?page=${page}`);
+      const response = await fetch(`${BACKEND_BASE_URL}/question/${searchType}?page=${page}`, {
+        method: "GET",
+        headers: {
+          accessToken: authCtx.token,
+          refreshToken: authCtx.refreshToken,
+        }
+      });
 
       if (!response.ok) {
         throw new Error('Some Thing Went Error');
@@ -49,7 +58,7 @@ const Test = () => {
       console.log(err);
       setLoading(false);
     });
-  }, [searchType, page]);
+  }, [searchType, page, authCtx.token, authCtx.refreshToken]);
 
   return (
     <ContainerUI>
