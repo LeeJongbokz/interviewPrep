@@ -1,6 +1,5 @@
 package com.example.interviewPrep.quiz.exam.dto;
 
-import com.example.interviewPrep.quiz.question.dto.QuestionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,9 +12,9 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExamKitDTO {
+public class ExamKitREQ {
     private Long id;
     private String title;
     private int duration;
-    private List<QuestionDTO> questions = new ArrayList<>();
+    private List<Long> questions = new ArrayList<>();
 }

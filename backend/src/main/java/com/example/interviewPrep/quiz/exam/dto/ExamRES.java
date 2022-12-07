@@ -1,20 +1,20 @@
 package com.example.interviewPrep.quiz.exam.dto;
 
+import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExamKitByIdDTO {
+public class ExamRES {
     private Long id;
     private String title;
     private int duration;
-    private List<Long> questions = new ArrayList<>();
+    private List<AnswerDTO> answers;
 }
