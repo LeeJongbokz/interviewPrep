@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 
-import { BACKEND_BASE_URL } from '../../global_variables';
+import { BACKEND_BASE_URL } from '../../../../global_variables';
 
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
 
-import { getTestQuestion, setTestQuestion } from './TestScreenVariables';
+import { getTestQuestion, setTestQuestion } from '../../TestScreenVariables';
 
 const QuestionField = ({ questionId }) => {
   const [question, setQuestion] = useState(getTestQuestion);
@@ -26,10 +26,10 @@ const QuestionField = ({ questionId }) => {
         console.log(err);
       });
     }
-  }, [questionId]);
+  }, [question, questionId]);
 
   return (
-    <Box marginTop={5}>
+    <Box marginTop={2}>
       {question && (
         <Typography variant="h4" gutterBottom>
           #{questionId}.

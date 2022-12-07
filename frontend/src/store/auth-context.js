@@ -62,10 +62,10 @@ export const AuthContextProvider = props => {
   };
 
   const logoutHandler = () => {
+    removeCookie('usertoken',{path:'/'});
+    removeCookie('refreshtoken',{path:'/'});
     setToken(null);
     setRefreshToken(null);
-    removeCookie('usertoken');
-    removeCookie('refreshtoken');
     window.location.reload();
     return;
   };

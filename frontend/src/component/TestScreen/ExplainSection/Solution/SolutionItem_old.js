@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import AnswerCommentList from './AnswerCommentList';
-import VerticalSquareButton from '../UI/VerticalSquareButton';
+import SolutionCommentList from './SolutionCommentList';
+import VerticalSquareButton from '../../../UI/VerticalSquareButton';
 
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -10,7 +10,7 @@ import Collapse from '@mui/material/Collapse';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatIcon from '@mui/icons-material/Chat';
 
-const AnswerItem = ({ answerId, name, answer, heartCnt, heart }) => {
+const SolutionItem = ({ answerId, name, answer, heartCnt, heart }) => {
   const [commentSection, setCommentSection] = useState(false);
   // const heart  // 좋아요 표시 여부 ( bool )
 
@@ -35,10 +35,10 @@ const AnswerItem = ({ answerId, name, answer, heartCnt, heart }) => {
       </ListItem>
 
       <Collapse in={commentSection} timeout="auto">
-        <AnswerCommentList answerId={answerId} />
+        <SolutionCommentList answerId={answerId} />
       </Collapse>
     </>
   );
 };
 
-export default AnswerItem;
+export default SolutionItem;

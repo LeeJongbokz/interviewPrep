@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
-import AuthContext from '../../store/auth-context';
-import { BACKEND_BASE_URL } from '../../global_variables';
+import AuthContext from '../../../store/auth-context'
+import { BACKEND_BASE_URL } from '../../../global_variables';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -43,23 +43,25 @@ const QuestionSectionHeader = ({ questionId, headerVal, setHeaderVal }) => {
 
   return (
     <>
-      {isLoading ? <Tabs /> : (
+      {isLoading ? (
+        <Tabs />
+      ) : (
         <Tabs variant="fullWidth" centered value={headerVal} onChange={changeHanlder}>
-          <Tab label="question" />
-          <Tab label="reference" />
+          <Tab disableRipple={true} label="question" />
+          <Tab disableRipple={true} label="reference" />
           {solved ? (
-            <Tab label="solution" />
+            <Tab disableRipple={true} label="solution" />
           ) : (
             <Tab
               label="solution"
-              wrapped={true} 
-              sx={{ minHeight:48 }}
+              wrapped={true}
+              sx={{ minHeight: 48 }}
               icon={<LockSharpIcon margin={0} sx={{ fontSize: 15 }} />}
               iconPosition="end"
               disabled
             />
           )}
-          <Tab label="submission" />
+          <Tab disableRipple={true} label="submission" />
         </Tabs>
       )}
     </>

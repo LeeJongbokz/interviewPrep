@@ -1,6 +1,8 @@
-import { Typography, Box, CardActions } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -9,7 +11,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 const DiscussionSection = () => {
   return (
     <>
-      <Card eveluation={0} variant="outlined" sx={{ margin: 2 }}>
+      <Card eveluation={0} variant="outlined" sx={{ marginY: 2 }}>
         <CardContent>
           <Box padding={1} sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography component="div" sx={{ fontWeight: 'bold' }}>
@@ -28,7 +30,7 @@ const DiscussionSection = () => {
           <MoreHorizIcon />
         </CardActions>
       </Card>
-      <Card eveluation={0} variant="outlined" sx={{ margin: 2 }}>
+      <Card eveluation={0} variant="outlined" sx={{ marginY: 2 }}>
         <CardContent>
           <Box padding={1} sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography component="div" sx={{ fontWeight: 'bold' }}>
