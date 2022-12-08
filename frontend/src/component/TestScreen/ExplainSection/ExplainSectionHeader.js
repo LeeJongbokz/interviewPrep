@@ -1,6 +1,6 @@
-import { useState, useEffect, useContext } from 'react';
-import AuthContext from '../../../store/auth-context'
-import { BACKEND_BASE_URL } from '../../../global_variables';
+import { useState, useEffect } from 'react';
+
+import useHttpRequest from '../../../hook/use-http';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -8,38 +8,18 @@ import LockSharpIcon from '@mui/icons-material/LockSharp';
 
 const QuestionSectionHeader = ({ questionId, headerVal, setHeaderVal }) => {
   const [solved, setsolved] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { isLoading, sendGetRequest } = useHttpRequest();
 
   const changeHanlder = (e, value) => {
     setHeaderVal(value);
   };
 
-  const authCtx = useContext(AuthContext);
-
   useEffect(() => {
-    const fetchSolved = async () => {
-      const response = await fetch(`${BACKEND_BASE_URL}/answer/solution/check/${questionId}`, {
-        method: 'GET',
-        headers: {
-          accessToken: authCtx.token,
-          refreshToken: authCtx.refreshToken,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Some Thing Went Error');
-      }
-
-      const data = await response.json();
+    const solvedHandler = data => {
       setsolved(data.success);
-      setIsLoading(false);
     };
-
-    fetchSolved().catch(err => {
-      setIsLoading(false);
-      console.log(err);
-    });
-  }, [solved, questionId, authCtx.token, authCtx.refreshToken]);
+    sendGetRequest(`/answer/solution/check/${questionId}`, solvedHandler);
+  }, [sendGetRequest, questionId]);
 
   return (
     <>
