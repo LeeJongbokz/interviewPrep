@@ -14,7 +14,4 @@ import javax.validation.constraints.NotNull;
 public class HeartRequestDTO {
     @NotNull
     private Long answerId;
-
-    @NotNull
-    private Long memberId;
 }

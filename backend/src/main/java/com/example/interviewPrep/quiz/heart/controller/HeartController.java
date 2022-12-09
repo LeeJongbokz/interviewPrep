@@ -2,6 +2,7 @@ package com.example.interviewPrep.quiz.heart.controller;
 
 import com.example.interviewPrep.quiz.heart.dto.HeartRequestDTO;
 import com.example.interviewPrep.quiz.heart.service.HeartService;
+import com.example.interviewPrep.quiz.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -16,29 +17,19 @@ import static com.example.interviewPrep.quiz.utils.ResponseEntityConstants.RESPO
 @RestController
 @RequestMapping("/heart")
 @RequiredArgsConstructor
-@CrossOrigin(origins =  "*")
+@CrossOrigin(origins = "*")
 @Log4j2
 public class HeartController {
     private final HeartService heartService;
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Void> create(@RequestBody @NotNull HeartRequestDTO heartDTO) {
-        try {
-            heartService.createHeart(heartDTO);
-            return RESPONSE_CREATED;
-        } catch (Exception e) {
-            return RESPONSE_SERVER_ERROR;
-        }
+    @PostMapping()
+    public ResultResponse<?> create(@RequestBody @NotNull HeartRequestDTO heartDTO) throws InterruptedException {
+        return ResultResponse.success(heartService.createHeart(heartDTO));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@RequestBody @NotNull HeartRequestDTO heartDTO) {
-        try {
-            heartService.deleteHeart(heartDTO);
-            return RESPONSE_OK;
-        } catch (Exception e) {
-            return RESPONSE_SERVER_ERROR;
-        }
+    @DeleteMapping()
+    public ResultResponse<?> delete(@RequestBody @NotNull HeartRequestDTO heartDTO) throws InterruptedException {
+        return ResultResponse.success(heartService.deleteHeart(heartDTO));
     }
 
 

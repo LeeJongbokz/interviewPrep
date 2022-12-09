@@ -47,6 +47,8 @@ public class Answer extends BaseTimeEntity {
     Member member;
 
     private int heartCnt;
+    @Version
+    private Long version;
 
     public void change(String content){
         this.content = content;
