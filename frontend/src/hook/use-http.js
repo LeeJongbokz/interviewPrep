@@ -24,14 +24,14 @@ const useHttpRequest = () => {
         const responseData = await response.json();
         callback(responseData);
       } catch (err) {
-        console.err(err);
+        console.error(err);
       }
       setIsLoading(false);
     },
     [authCtx.token, authCtx.refreshToken]
   );
 
-  const sendPostRequest = useCallback(async (requestOption, callback) => {
+  const sendPostRequest = useCallback(async (requestOption, callback = () => {}) => {
     setIsLoading(true);
     const { endpoint, bodyData } = requestOption;
     try {
@@ -52,7 +52,7 @@ const useHttpRequest = () => {
       const responseData = await response.json();
       callback(responseData);
     } catch (err) {
-      console.err(err);
+      console.error(err);
     }
   }, [authCtx.token, authCtx.refreshToken]);
 

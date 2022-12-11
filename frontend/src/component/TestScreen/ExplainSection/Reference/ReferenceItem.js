@@ -1,34 +1,35 @@
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
+import { useState } from 'react';
+import ExplainSectionCards from '../../../UI/ExplainSectionCards';
+// import useHttpRequest from '../../../../hook/use-http';
 
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+const ReferenceItem = ({ namae, content, date, heartCnt:initHeartCnt }) => {
+  const [favorite, setFavorite] = useState(false);
+  const [heartCnt, setHeartCnt] = useState(initHeartCnt)
 
-const ReferenceItem = ({namae, content, date, heartCnt}) => {
+  // const { sendPostRequest } = useHttpRequest();
+
+  const favoriteHandler = () => {
+    console.log('FAV');
+    setFavorite(true);
+    setHeartCnt(prevState => prevState+1);
+    
+  };
+  const unFavoriteHandler = () => {
+    console.log('UN_FAV');
+    setFavorite(false);
+    setHeartCnt(prevState => prevState-1);
+  };
+
   return (
-    <Card eveluation={0} variant="outlined" sx={{ marginY: 2 }}>
-      <CardContent>
-        <Box padding={1} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography component="div" sx={{ fontWeight: 'bold' }}>
-            {namae}
-          </Typography>
-          <Typography>{date}</Typography>
-        </Box>
-        <Box padding={1}>
-          <Typography>{content}</Typography>
-        </Box>
-      </CardContent>
-      <CardActions disableSpacing sx={{ marginLeft: 1, color: 'text.secondary' }}>
-        <KeyboardArrowUpIcon />
-        <Typography>{heartCnt}</Typography>
-        <KeyboardArrowDownIcon />
-        <MoreHorizIcon />
-      </CardActions>
-    </Card>
+    <ExplainSectionCards
+      namae={namae}
+      answer={content}
+      heartCnt={heartCnt}
+      availFav={true}
+      favorite={favorite}
+      favHandler={favoriteHandler}
+      unFavHandler={unFavoriteHandler}
+    />
   );
 };
 
