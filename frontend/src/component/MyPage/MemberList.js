@@ -24,12 +24,12 @@ const MemberList = ({memberInfo}) => {
     const { fetchedEmail = "aa", fetchedPassword="gg" } = memberInfo;
     const [email, setEmail] = useState(fetchedEmail);
     const [password, setPassword] = useState(fetchedPassword || "password");
-    const [confirmPassword, setConfrimPassword] = useState('');
-    const [name, setName] = useState('');
-    const [nickname, setNickname] = useState('');
-    const [open, setOpen] = useState(false);
-    const [newNickname, setnewNickname] = useState(false);
-    const [value, setValue] = useState(0);
+    // const [confirmPassword, setConfrimPassword] = useState('');
+    // const [name, setName] = useState('');
+    // const [nickname, setNickname] = useState('');
+    // const [open, setOpen] = useState(false);
+    // const [newNickname, setnewNickname] = useState(false);
+    // const [value, setValue] = useState(0);
   
     const onSubmitEmail = async e => {
       e.preventDefault();
