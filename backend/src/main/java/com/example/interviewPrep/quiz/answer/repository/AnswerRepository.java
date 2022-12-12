@@ -40,10 +40,10 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     Optional<Answer> findByIdWithOptimisticLock(@Param("id") Long id);
 
 
-    @Query("select a.question.id from Answer a where a.question.id in ?1 and a.member.id = ?2")
+    @Query("select a.question.id from Answer a where a.question.id in ?1 and a.member.id = ?2 ")
     List<Long> findMyAnswer(List<Long> qList, Long memberId); //@Param("memberId")
 
 
-    Answer findByQuestionIdAndMemberId(Long questionId, Long memberId);
+    List<Answer> findAllByQuestionIdAndMemberId(Long questionId, Long memberId);
 
 }

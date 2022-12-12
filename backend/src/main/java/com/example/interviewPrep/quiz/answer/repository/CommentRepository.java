@@ -18,6 +18,6 @@ public interface CommentRepository extends JpaRepository<AnswerComment, Long> {
 
     void delete(AnswerComment comment);
 
-    @Query("SELECT c FROM AnswerComment c WHERE c.answer.id = ?1 ORDER BY c.modifiedDate")
+    @Query("SELECT c FROM AnswerComment c WHERE c.answer.id = ?1 ORDER BY c.createdDate")
     Page<AnswerComment> findByComment(Long id, Pageable pageable);
 }
