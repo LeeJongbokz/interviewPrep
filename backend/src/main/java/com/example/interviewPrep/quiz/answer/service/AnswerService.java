@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.*;
+import static com.example.interviewPrep.quiz.utils.DateFormat.customLocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -102,6 +103,9 @@ public class AnswerService {
                     .heartCnt(a.getHeartCnt())
                     .name(a.getMember().getName())
                     .heart(myHeart.contains(a.getId()))
+                    .createdDate(customLocalDateTime(a.getCreatedDate()))
+                    .modifiedDate(customLocalDateTime(a.getModifiedDate()))
+                    .modify(!a.getCreatedDate().equals(a.getModifiedDate()))
                     .build());
     }
 
@@ -110,8 +114,8 @@ public class AnswerService {
         Long memberId = JwtUtil.getMemberId();
         if(memberId==0L) throw new CommonException(NOT_FOUND_ID);
 
-        Answer answer = answerRepository.findByQuestionIdAndMemberId(id, memberId);
-        if(answer==null) throw new CommonException(NOT_FOUND_ANSWER);
+        List<Answer> answers = answerRepository.findAllByQuestionIdAndMemberId(id, memberId);
+        if(answers.isEmpty()) throw new CommonException(NOT_FOUND_ANSWER);
     }
 
 }

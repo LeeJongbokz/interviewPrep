@@ -15,6 +15,8 @@ public enum ErrorCode {
     NOT_FOUND_TYPE("not_found_type", "해당 type으로 조회할 수 없습니다."),
     EXIST_HEART_HISTORY("exist_heart_history", "이미 좋아요를 눌렀습니다."),
     NOT_EXIST_HEART_HISTORY("not_exist_heart_history", "좋아요 누른 기록이 없어 삭제할 수 없습니다."),
+    NOT_FOUND_REF("not_found_reference", "reference를 찾을 수 없습니다."),
+    NOT_FOUND_SOCIAL_TYPE("illegal_argument", "알 수 없는 소셜 로그인 형식입니다."),
 
     MISSING_PARAMETER("missing_parameter", ""),
 

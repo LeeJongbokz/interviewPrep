@@ -42,7 +42,9 @@ public class CommentService {
                 .id(comment.getId())
                 .comment(comment.getComment())
                 .memberName(comment.getMember().getName())
+                .createdDate(customLocalDateTime(comment.getCreatedDate()))
                 .modifiedDate(customLocalDateTime(comment.getModifiedDate()))
+                .modify(!comment.getCreatedDate().equals(comment.getModifiedDate()))
                 .myAnswer(comment.getMember().getId().equals(memberId))
                 .build());
     }

@@ -13,5 +13,8 @@ public class SolutionDTO {
     private String name;
     private int heartCnt;
     private boolean heart;
+    private String createdDate;
+    private String modifiedDate;
+    private boolean modify;
 
 }

@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Builder
 @AllArgsConstructor
@@ -14,13 +12,11 @@ import java.time.LocalDateTime;
 public class CommentRes {
 
     private  Long id;
-
     private  String memberName;
-
     private  String comment;
-
+    private String createdDate;
     private String modifiedDate;
-
+    private boolean modify;
     private boolean myAnswer;
 
 }
