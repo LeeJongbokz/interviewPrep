@@ -28,7 +28,6 @@ import static javax.persistence.FetchType.LAZY;
 public class Exam extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "EXAM_ID")
     private Long id;
 
     private Long kitId;

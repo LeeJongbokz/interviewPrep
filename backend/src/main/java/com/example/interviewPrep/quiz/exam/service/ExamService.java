@@ -49,12 +49,11 @@ public class ExamService {
         for (AnswerDTO answer : answers) {
             Question question = questionRepository.findById(answer.getQuestionId())
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_QUESTION));
-            Answer saveAnswer = Answer.builder()
+            Answer saveAnswer = answerRepository.save(Answer.builder()
                 .member(member)
                 .question(question)
                 .content(answer.getContent())
-                .build();
-            answerRepository.save(saveAnswer);
+                .build());
             examAnswerRepository.save(ExamAnswer.builder()
                 .exam(saveExam)
                 .answer(saveAnswer)
