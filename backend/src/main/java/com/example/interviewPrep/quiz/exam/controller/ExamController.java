@@ -1,6 +1,7 @@
 package com.example.interviewPrep.quiz.exam.controller;
 
 import com.example.interviewPrep.quiz.answer.domain.Answer;
+import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
 import com.example.interviewPrep.quiz.exam.dto.ExamKitReq;
 import com.example.interviewPrep.quiz.exam.service.ExamService;
 import com.example.interviewPrep.quiz.response.ResultResponse;
@@ -38,7 +39,7 @@ public class ExamController {
     }
 
     @PostMapping("kit/{id}")
-    public ResultResponse<?> saveExam(@PathVariable Long id, @RequestBody List<Answer> answerList) {
+    public ResultResponse<?> saveExam(@PathVariable Long id, @RequestBody List<AnswerDTO> answerList) {
         return ResultResponse.success(examService.saveExam(id, answerList));
     }
     @GetMapping("my")
