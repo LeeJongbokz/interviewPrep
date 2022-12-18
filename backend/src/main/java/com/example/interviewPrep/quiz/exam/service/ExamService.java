@@ -40,18 +40,24 @@ public class ExamService {
     private final AnswerRepository answerRepository;
     private final ExamAnswerRepository examAnswerRepository;
 
-    public Exam saveExam(Long kitId, List<Answer> answers) {
-        answerRepository.saveAll(answers);
-
+    public Exam saveExam(Long kitId, List<AnswerDTO> answers) {
         Member member = memberRepository.findById(getMemberId()).orElseThrow(
             () -> new CommonException(ErrorCode.NOT_FOUND_ID));
 
         Exam saveExam = examRepository.save(Exam.builder().kitId(kitId).member(member).build());
 
-        for (Answer answer : answers) {
+        for (AnswerDTO answer : answers) {
+            Question question = questionRepository.findById(answer.getQuestionId())
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_QUESTION));
+            Answer saveAnswer = Answer.builder()
+                .member(member)
+                .question(question)
+                .content(answer.getContent())
+                .build();
+            answerRepository.save(saveAnswer);
             examAnswerRepository.save(ExamAnswer.builder()
                 .exam(saveExam)
-                .answer(answer)
+                .answer(saveAnswer)
                 .build());
         }
 
@@ -118,9 +124,9 @@ public class ExamService {
     public List<ExamRes> findMyExam() {
         Long memberId = getMemberId();
         return examRepository.findByMemberId(memberId).stream().map(x -> ExamRes.builder()
-            .title(examKitRepository.findById(x.getKitId()).get().getTitle())
-            .id(x.getId())
-            .build())
+                .title(examKitRepository.findById(x.getKitId()).get().getTitle())
+                .id(x.getId())
+                .build())
             .collect(Collectors.toList());
     }
 }
