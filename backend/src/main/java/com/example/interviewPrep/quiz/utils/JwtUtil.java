@@ -157,7 +157,7 @@ public class JwtUtil {
             UserDetails userDetails = (UserDetails) principal;
             return Long.parseLong(userDetails.getUsername());
         }catch(Exception e){
-            throw new CommonException(ErrorCode.NOT_FOUND_ID);
+            return 0L;
         }
     }
 
