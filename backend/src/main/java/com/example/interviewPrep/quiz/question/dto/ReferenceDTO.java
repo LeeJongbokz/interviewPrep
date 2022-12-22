@@ -22,5 +22,6 @@ public class ReferenceDTO {
     private boolean modify;
     private int heartCnt;
     private boolean heart;
+    private boolean myRef;
 
 }

@@ -29,6 +29,8 @@ public class ReferenceService {
 
     public Page<ReferenceDTO> findAnswerReference(Long id, Pageable pageable){
 
+        Long memberId = JwtUtil.getMemberId();
+
         Page<QuestionReference> references = referenceRepository.findByRef(id, pageable);
         if(references.getContent().isEmpty()) throw new CommonException(NOT_FOUND_REF);
 
@@ -39,6 +41,7 @@ public class ReferenceService {
                 .createdDate(customLocalDateTime(ref.getCreatedDate()))
                 .modifiedDate(customLocalDateTime(ref.getModifiedDate()))
                 .modify(!ref.getCreatedDate().equals(ref.getModifiedDate()))
+                .myRef(ref.getMember().getId().equals(memberId))
                 .build());
     }
 
