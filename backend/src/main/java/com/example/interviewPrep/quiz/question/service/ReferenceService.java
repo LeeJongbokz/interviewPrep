@@ -5,6 +5,7 @@ import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import com.example.interviewPrep.quiz.question.domain.Question;
 import com.example.interviewPrep.quiz.question.domain.QuestionReference;
+import com.example.interviewPrep.quiz.dto.CreateDto;
 import com.example.interviewPrep.quiz.question.dto.ReferenceDTO;
 import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.question.repository.ReferenceRepository;
@@ -36,6 +37,7 @@ public class ReferenceService {
 
         return references.map(ref -> ReferenceDTO.builder()
                 .id(ref.getId())
+                .name(ref.getMember().getName())
                 .questionId(ref.getQuestion().getId())
                 .link(ref.getLink())
                 .createdDate(customLocalDateTime(ref.getCreatedDate()))
@@ -46,7 +48,7 @@ public class ReferenceService {
     }
 
 
-    public void createReference(ReferenceDTO referenceDTO){
+    public CreateDto createReference(ReferenceDTO referenceDTO){
 
         Member member = findMember(JwtUtil.getMemberId());
         Question question = findQuestion(referenceDTO.getQuestionId());
@@ -58,6 +60,10 @@ public class ReferenceService {
                 .build();
 
         referenceRepository.save(reference);
+
+        return CreateDto.builder()
+                .id(reference.getId())
+                .build();
     }
 
 

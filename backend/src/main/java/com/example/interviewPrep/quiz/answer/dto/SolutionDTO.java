@@ -12,6 +12,7 @@ public class SolutionDTO {
     private String answer;
     private String name;
     private int heartCnt;
+    private int commentCnt;
     private boolean heart;
     private String createdDate;
     private String modifiedDate;

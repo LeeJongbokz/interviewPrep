@@ -6,6 +6,7 @@ import com.example.interviewPrep.quiz.answer.dto.req.CommentReq;
 import com.example.interviewPrep.quiz.answer.dto.res.CommentRes;
 import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.answer.repository.CommentRepository;
+import com.example.interviewPrep.quiz.dto.CreateDto;
 import com.example.interviewPrep.quiz.exception.advice.CommonException;
 import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
@@ -50,12 +51,15 @@ public class CommentService {
     }
 
 
-    public void createComment(CommentReq commentReq){
+    public CreateDto createComment(CommentReq commentReq){
 
         Long memberId = JwtUtil.getMemberId();
 
         Member member = findMember(memberId);
         Answer answer = findAnswer(commentReq.getAnswerId());
+
+        answer.commentIncrease();
+        answerRepository.save(answer);
 
         AnswerComment comment = AnswerComment.builder()
                 .answer(answer)
@@ -64,6 +68,10 @@ public class CommentService {
                 .build();
 
         commentRepository.save(comment);
+
+        return CreateDto.builder()
+                .id(comment.getId())
+                .build();
     }
 
 
@@ -75,6 +83,7 @@ public class CommentService {
 
     public void deleteComment(Long id){
         AnswerComment comment = findComment(id);
+        decreaseComment(comment.getAnswer().getId());
         commentRepository.delete(comment);
     }
 
@@ -88,6 +97,13 @@ public class CommentService {
 
     public Member findMember(Long id){
         return memberRepository.findById(id).orElseThrow(()-> new CommonException(NOT_FOUND_MEMBER));
+    }
+
+    public void decreaseComment(Long answerId) {
+        Answer answer = answerRepository.findById(answerId).orElseThrow(() ->
+                new CommonException(NOT_FOUND_ANSWER));
+        answer.commentDecrease();
+        answerRepository.save(answer);
     }
 
 }

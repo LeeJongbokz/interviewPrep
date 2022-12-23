@@ -28,7 +28,7 @@ public class CommentController {
     @PostMapping("/comment")
     public ResultResponse<?> createAnswerComment(@RequestBody @Valid CommentReq commentReq){
         commentService.createComment(commentReq);
-        return ResultResponse.success();
+        return ResultResponse.success(commentService.createComment(commentReq));
     }
 
     @PutMapping("/comment")

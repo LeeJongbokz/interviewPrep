@@ -26,8 +26,7 @@ public class ReferenceController {
 
     @PostMapping("/ref")
     public ResultResponse<?> createQuestionReference(@RequestBody @Valid ReferenceDTO referenceDTO){
-        referenceService.createReference(referenceDTO);
-        return ResultResponse.success();
+        return ResultResponse.success(referenceService.createReference(referenceDTO));
     }
 
     @PutMapping("/ref")
