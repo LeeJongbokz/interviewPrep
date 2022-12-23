@@ -5,6 +5,7 @@ import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import com.example.interviewPrep.quiz.question.domain.Question;
 import com.example.interviewPrep.quiz.question.domain.QuestionReference;
+import com.example.interviewPrep.quiz.dto.CreateDto;
 import com.example.interviewPrep.quiz.question.dto.ReferenceDTO;
 import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
 import com.example.interviewPrep.quiz.question.repository.ReferenceRepository;
@@ -29,21 +30,25 @@ public class ReferenceService {
 
     public Page<ReferenceDTO> findAnswerReference(Long id, Pageable pageable){
 
+        Long memberId = JwtUtil.getMemberId();
+
         Page<QuestionReference> references = referenceRepository.findByRef(id, pageable);
         if(references.getContent().isEmpty()) throw new CommonException(NOT_FOUND_REF);
 
         return references.map(ref -> ReferenceDTO.builder()
                 .id(ref.getId())
+                .name(ref.getMember().getName())
                 .questionId(ref.getQuestion().getId())
                 .link(ref.getLink())
                 .createdDate(customLocalDateTime(ref.getCreatedDate()))
                 .modifiedDate(customLocalDateTime(ref.getModifiedDate()))
                 .modify(!ref.getCreatedDate().equals(ref.getModifiedDate()))
+                .myRef(ref.getMember().getId().equals(memberId))
                 .build());
     }
 
 
-    public void createReference(ReferenceDTO referenceDTO){
+    public CreateDto createReference(ReferenceDTO referenceDTO){
 
         Member member = findMember(JwtUtil.getMemberId());
         Question question = findQuestion(referenceDTO.getQuestionId());
@@ -55,6 +60,10 @@ public class ReferenceService {
                 .build();
 
         referenceRepository.save(reference);
+
+        return CreateDto.builder()
+                .id(reference.getId())
+                .build();
     }
 
 

@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 public class ReferenceDTO {
 
     private Long id;
+    private String name;
     private Long questionId;
     @NotBlank
     private String link;
@@ -22,5 +23,6 @@ public class ReferenceDTO {
     private boolean modify;
     private int heartCnt;
     private boolean heart;
+    private boolean myRef;
 
 }

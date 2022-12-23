@@ -5,6 +5,7 @@ import com.example.interviewPrep.quiz.answer.dto.SolutionDTO;
 import com.example.interviewPrep.quiz.answer.repository.AnswerRepository;
 import com.example.interviewPrep.quiz.answer.domain.Answer;
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
+import com.example.interviewPrep.quiz.dto.CreateDto;
 import com.example.interviewPrep.quiz.exception.advice.CommonException;
 import com.example.interviewPrep.quiz.heart.repository.HeartRepository;
 import com.example.interviewPrep.quiz.member.domain.Member;
@@ -33,7 +34,7 @@ public class AnswerService {
     private final QuestionRepository questionRepository;
     private final HeartRepository heartRepository;
 
-    public Answer createAnswer(AnswerDTO answerDTO){
+    public CreateDto createAnswer(AnswerDTO answerDTO){
 
         Long memberId = JwtUtil.getMemberId();
 
@@ -47,7 +48,10 @@ public class AnswerService {
                 .build();
 
         answerRepository.save(answer);
-        return answer;
+
+        return CreateDto.builder()
+                .id(answer.getId())
+                .build();
     }
 
     public AnswerDTO readAnswer(Long id){
@@ -101,6 +105,7 @@ public class AnswerService {
                     .answerId(a.getId())
                     .answer(a.getContent())
                     .heartCnt(a.getHeartCnt())
+                   .commentCnt(a.getCommentCnt())
                     .name(a.getMember().getName())
                     .heart(myHeart.contains(a.getId()))
                     .createdDate(customLocalDateTime(a.getCreatedDate()))

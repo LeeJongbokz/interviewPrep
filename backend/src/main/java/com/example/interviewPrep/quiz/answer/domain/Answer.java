@@ -46,6 +46,8 @@ public class Answer extends BaseTimeEntity {
     @JsonIgnore
     Member member;
 
+    private int commentCnt;
+
     private int heartCnt;
     @Version
     private Long version;
@@ -64,6 +66,10 @@ public class Answer extends BaseTimeEntity {
         }
         return --this.heartCnt;
     }
+
+    public int commentIncrease() { return ++this.commentCnt; }
+
+    public int commentDecrease() {return --this.commentCnt;}
 
     @OneToMany(mappedBy = "answer")
     List<ExamAnswer> exams = new ArrayList<>();
