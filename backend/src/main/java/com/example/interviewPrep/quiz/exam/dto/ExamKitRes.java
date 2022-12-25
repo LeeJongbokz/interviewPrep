@@ -17,5 +17,5 @@ public class ExamKitRes {
     private Long id;
     private String title;
     private int duration;
-    private List<QuestionDTO> questions = new ArrayList<>();
+    private String picture;
 }

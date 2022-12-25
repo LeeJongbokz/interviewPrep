@@ -1,6 +1,5 @@
 package com.example.interviewPrep.quiz.exam.controller;
 
-import com.example.interviewPrep.quiz.answer.domain.Answer;
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
 import com.example.interviewPrep.quiz.exam.dto.ExamKitReq;
 import com.example.interviewPrep.quiz.exam.service.ExamService;

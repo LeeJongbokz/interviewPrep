@@ -16,5 +16,6 @@ public class ExamKitReq {
     private Long id;
     private String title;
     private int duration;
+    private String picture;
     private List<Long> questions = new ArrayList<>();
 }

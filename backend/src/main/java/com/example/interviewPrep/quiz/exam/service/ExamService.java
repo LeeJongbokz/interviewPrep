@@ -8,8 +8,8 @@ import com.example.interviewPrep.quiz.exam.domain.ExamAnswer;
 import com.example.interviewPrep.quiz.exam.domain.ExamKit;
 import com.example.interviewPrep.quiz.exam.domain.ExamKitQuestion;
 import com.example.interviewPrep.quiz.exam.dto.ExamKitReq;
-import com.example.interviewPrep.quiz.exam.dto.ExamRes;
 import com.example.interviewPrep.quiz.exam.dto.ExamKitRes;
+import com.example.interviewPrep.quiz.exam.dto.ExamRes;
 import com.example.interviewPrep.quiz.exam.repository.ExamAnswerRepository;
 import com.example.interviewPrep.quiz.exam.repository.ExamKitQuestionRepository;
 import com.example.interviewPrep.quiz.exam.repository.ExamKitRepository;
@@ -84,10 +84,7 @@ public class ExamService {
             .id(x.getId())
             .title(x.getTitle())
             .duration(x.getDuration())
-            .questions(x.getQuestions().stream().map(q -> QuestionDTO.builder()
-                .id(q.getId())
-                .title(q.getQuestion().getTitle())
-                .build()).collect(Collectors.toList()))
+            .picture(x.getPicture())
             .build()).collect(Collectors.toList());
     }
 
@@ -95,6 +92,7 @@ public class ExamService {
         ExamKit examKit = examKitRepository.save(ExamKit.builder()
             .title(dto.getTitle())
             .duration(dto.getDuration())
+            .picture(dto.getPicture())
             .build());
 
         List<Question> questions = dto.getQuestions().stream()

@@ -30,6 +30,8 @@ public class ExamKit {
 
     private int duration;
 
+    private String picture;
+
     @OneToMany(mappedBy = "examKit")
     private List<ExamKitQuestion> questions = new ArrayList<>();
 }
