@@ -11,6 +11,7 @@ import com.example.interviewPrep.quiz.exam.dto.ExamKitListRes;
 import com.example.interviewPrep.quiz.exam.dto.ExamKitReq;
 import com.example.interviewPrep.quiz.exam.dto.ExamRes;
 import com.example.interviewPrep.quiz.exam.dto.ExamkitRes;
+import com.example.interviewPrep.quiz.exam.dto.MyExamRes;
 import com.example.interviewPrep.quiz.exam.repository.ExamAnswerRepository;
 import com.example.interviewPrep.quiz.exam.repository.ExamKitQuestionRepository;
 import com.example.interviewPrep.quiz.exam.repository.ExamKitRepository;
@@ -25,9 +26,11 @@ import com.example.interviewPrep.quiz.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.interviewPrep.quiz.utils.DateFormat.customLocalDateTime;
 import static com.example.interviewPrep.quiz.utils.JwtUtil.getMemberId;
 
 @RequiredArgsConstructor
@@ -64,7 +67,7 @@ public class ExamService {
         return ExamRes.builder().title(examKitRepository.findById(saveExam.getKitId()).get().getTitle()).build();
     }
 
-    public ExamRes readExam(Long examId) {
+    public MyExamRes readExam(Long examId) {
         Exam exam = examRepository.findById(examId).orElseThrow(
             () -> new CommonException(ErrorCode.NOT_FOUND_EXAM)
         );
@@ -75,7 +78,12 @@ public class ExamService {
             x -> AnswerDTO.builder().questionId(x.getAnswer().getId()).content(x.getAnswer().getContent()).build()
         ).collect(Collectors.toList());
 
-        return ExamRes.builder().title(examKit.getTitle()).answers(answers).build();
+        HashMap<String, String> questionAndAnswer = new HashMap<>();
+
+        for (AnswerDTO dto : answers) {
+            questionAndAnswer.put(questionRepository.findById(dto.getQuestionId()).orElseThrow().getTitle(),dto.getContent());
+        }
+        return MyExamRes.builder().title(examKit.getTitle()).questionAndAnswer(questionAndAnswer).build();
     }
 
     public List<ExamKitListRes> findExamKit() {
@@ -129,6 +137,7 @@ public class ExamService {
         return examRepository.findByMemberId(memberId).stream().map(x -> ExamRes.builder()
                 .title(examKitRepository.findById(x.getKitId()).get().getTitle())
                 .id(x.getId())
+                .createTime(customLocalDateTime(x.getCreatedDate()))
                 .build())
             .collect(Collectors.toList());
     }

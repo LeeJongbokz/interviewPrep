@@ -1,21 +1,22 @@
 package com.example.interviewPrep.quiz.exam.dto;
 
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
+import com.example.interviewPrep.quiz.question.dto.QuestionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.HashMap;
 
 @Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExamRes {
+public class MyExamRes {
     private Long id;
     private String title;
     private int duration;
     private String createTime;
-    private List<AnswerDTO> answers;
+    private HashMap<String, String> questionAndAnswer;
 }
