@@ -34,7 +34,7 @@ public class ExamController {
 
     @GetMapping("kit/{id}")
     public ResultResponse<?> loadExamQuestion(@PathVariable Long id) {
-        return ResultResponse.success(examService.findQuestions(id));
+        return ResultResponse.success(examService.loadExamQuestion(id));
     }
 
     @PostMapping("kit/{id}")
