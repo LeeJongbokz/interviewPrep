@@ -5,17 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExamKitReq {
+public class ExamKitListRes {
     private Long id;
     private String title;
     private int duration;
     private String picture;
-    private List<Long> questions = new ArrayList<>();
 }

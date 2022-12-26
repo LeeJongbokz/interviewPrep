@@ -16,5 +16,6 @@ public class ExamRes {
     private Long id;
     private String title;
     private int duration;
+    private String createTime;
     private List<AnswerDTO> answers;
 }
