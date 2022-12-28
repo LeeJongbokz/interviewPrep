@@ -7,23 +7,25 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 @Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignUpRequestDTO {
 
+    @NotBlank
     private String name;
+    @Email
     private String email;
+    @NotBlank
     private String password;
+    @NotBlank
     private String passwordConfirm;
 
     private Role role;
-
-    public static boolean hasNullDataBeforeSignup(SignUpRequestDTO member) {
-        return member.getName() == null || member.getEmail() == null
-                || member.getPassword() == null || member.getPasswordConfirm() == null;
-    }
 
     public Member toEntity() {
         Member member = Member.builder()
