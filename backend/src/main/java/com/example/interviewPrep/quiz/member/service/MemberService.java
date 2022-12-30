@@ -34,7 +34,13 @@ public class MemberService {
 
         Long memberId = Long.parseLong(userDetails.getUsername());
         Member member = memberRepository.findById(memberId).get();
-        return member;
+
+        Member userInfo = Member.builder()
+                          .email(member.getEmail())
+                          .name(member.getName())
+                          .nickName(member.getNickName())
+                          .build();
+        return userInfo;
     }
     public Member changeNickNameAndEmail(MemberDTO memberDTO){
 
