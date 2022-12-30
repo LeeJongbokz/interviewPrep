@@ -1,19 +1,13 @@
 package com.example.interviewPrep.quiz.member.controller;
 
-
 import com.example.interviewPrep.quiz.member.dto.*;
 import com.example.interviewPrep.quiz.member.service.AuthenticationService;
 import com.example.interviewPrep.quiz.member.service.MemberService;
-import com.example.interviewPrep.quiz.member.social.service.OauthService;
 import com.example.interviewPrep.quiz.response.ResultResponse;
-import com.google.common.net.HttpHeaders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 

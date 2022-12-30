@@ -4,6 +4,7 @@ import com.example.interviewPrep.quiz.answer.domain.Answer;
 import com.example.interviewPrep.quiz.domain.BaseTimeEntity;
 import com.example.interviewPrep.quiz.member.dto.Role;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
@@ -34,6 +35,7 @@ public class Member extends BaseTimeEntity {
 
     private String nickName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
     private String name;
