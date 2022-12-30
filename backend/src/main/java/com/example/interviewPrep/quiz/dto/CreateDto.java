@@ -13,5 +13,7 @@ import lombok.NoArgsConstructor;
 public class CreateDto {
 
     private Long id;
+    private String createDate;
+    private String name;
 
 }

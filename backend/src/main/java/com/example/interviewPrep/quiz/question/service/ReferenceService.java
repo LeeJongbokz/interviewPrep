@@ -63,6 +63,8 @@ public class ReferenceService {
 
         return CreateDto.builder()
                 .id(reference.getId())
+                .createDate(customLocalDateTime(reference.getCreatedDate()))
+                .name(reference.getMember().getName())
                 .build();
     }
 

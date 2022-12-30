@@ -51,6 +51,8 @@ public class AnswerService {
 
         return CreateDto.builder()
                 .id(answer.getId())
+                .createDate(customLocalDateTime(answer.getCreatedDate()))
+                .name(answer.getMember().getName())
                 .build();
     }
 
