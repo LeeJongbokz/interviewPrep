@@ -26,6 +26,10 @@ public class RefHeartService {
         Member member = memberRepository.findById(getMemberId()).orElseThrow(() ->
             new CommonException(ErrorCode.NOT_FOUND_ID));
 
+        if (refHeartRepository.findByReferenceIdAndMemberId(referenceId, getMemberId()).isPresent()) {
+            throw new CommonException(ErrorCode.EXIST_HEART_HISTORY);
+        }
+
         refHeartRepository.save(RefHeart.builder().reference(reference).member(member).build());
         return true;
     }
@@ -33,7 +37,6 @@ public class RefHeartService {
     public boolean deleteRefHeart(Long referenceId) {
         RefHeart refHeart = refHeartRepository.findByReferenceIdAndMemberId(referenceId, getMemberId()).orElseThrow(() ->
             new CommonException(ErrorCode.NOT_EXIST_HEART_HISTORY));
-        System.out.println("123123" + refHeart.getId());
 
         refHeartRepository.deleteById(refHeart.getId());
 
