@@ -71,6 +71,8 @@ public class CommentService {
 
         return CreateDto.builder()
                 .id(comment.getId())
+                .createDate(customLocalDateTime(comment.getCreatedDate()))
+                .name(comment.getMember().getName())
                 .build();
     }
 
