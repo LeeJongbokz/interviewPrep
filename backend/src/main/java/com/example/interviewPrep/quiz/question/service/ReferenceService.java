@@ -1,6 +1,7 @@
 package com.example.interviewPrep.quiz.question.service;
 
 import com.example.interviewPrep.quiz.exception.advice.CommonException;
+import com.example.interviewPrep.quiz.heart.repository.RefHeartRepository;
 import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import com.example.interviewPrep.quiz.question.domain.Question;
@@ -26,6 +27,7 @@ public class ReferenceService {
     private final ReferenceRepository referenceRepository;
     private final QuestionRepository questionRepository;
     private final MemberRepository memberRepository;
+    private final RefHeartRepository refHeartRepository;
 
 
     public Page<ReferenceDTO> findAnswerReference(Long id, Pageable pageable){
@@ -34,6 +36,7 @@ public class ReferenceService {
 
         Page<QuestionReference> references = referenceRepository.findByRef(id, pageable);
         if(references.getContent().isEmpty()) throw new CommonException(NOT_FOUND_REF);
+        int cntHeart = refHeartRepository.countRefHeartByReferenceId(id);
 
         return references.map(ref -> ReferenceDTO.builder()
                 .id(ref.getId())
@@ -44,6 +47,7 @@ public class ReferenceService {
                 .modifiedDate(customLocalDateTime(ref.getModifiedDate()))
                 .modify(!ref.getCreatedDate().equals(ref.getModifiedDate()))
                 .myRef(ref.getMember().getId().equals(memberId))
+                .heartCnt(cntHeart)
                 .build());
     }
 
