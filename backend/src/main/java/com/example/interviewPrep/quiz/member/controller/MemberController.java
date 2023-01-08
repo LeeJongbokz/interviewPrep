@@ -31,8 +31,8 @@ public class MemberController {
     }
 
     @PostMapping("login")
-    public ResultResponse<?> login(@RequestBody @NotNull LoginRequestDTO memberDTO){
-        return ResultResponse.success(authService.login(memberDTO));
+    public ResultResponse<?> login(@RequestBody @NotNull LoginRequestDTO memberDTO, HttpServletResponse response){
+        return ResultResponse.success(authService.login(memberDTO, response));
     }
 
     @PutMapping("/change")
@@ -44,5 +44,29 @@ public class MemberController {
     public ResultResponse<?> changePassword(@RequestBody @NotNull MemberDTO memberDTO){
         return ResultResponse.success(memberService.changePassword(memberDTO));
     }
+
+//    @GetMapping(value="auth/{socialType}")
+//    public void socialLoginType(@PathVariable String socialType){
+//        oauthService.request(socialType);
+//    }
+//
+//    @GetMapping(value="auth/{socialType}/callback")
+//    public ResultResponse<?> callback(@PathVariable String socialType, @RequestParam(name="code") String code){
+//        return ResultResponse.success(oauthService.socialLogin(socialType, code));
+//    }
+
+    @GetMapping(value="logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        authService.logout(request.getHeader(HttpHeaders.AUTHORIZATION), response);
+    }
+
+
+    @GetMapping(value="reissue")
+    public ResultResponse<LoginResponseDTO> reissueToken(@CookieValue(value="refreshToken", required = false) Cookie cookie){
+        return ResultResponse.success(authService.reissue(cookie.getValue()));
+    }
+
+
+
 
 }

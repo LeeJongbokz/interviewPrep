@@ -32,3 +32,7 @@ spring:
     username: root
     password: root1234
     driver-class-name: org.mariadb.jdbc.Driver
+
+  redis:
+    host: redis-server
+    port: 6379
