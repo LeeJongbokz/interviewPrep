@@ -1,70 +1,67 @@
 package com.example.interviewPrep.quiz.filter;
 
-import com.example.interviewPrep.quiz.member.dto.Role;
+import com.example.interviewPrep.quiz.redis.RedisDao;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
+import com.google.common.net.HttpHeaders;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
+
+import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.*;
+
+@Slf4j
 @RequiredArgsConstructor
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    private final RedisDao redisDao;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 헤더에서 JWT 를 받아옵니다.
-        String accessToken = jwtUtil.resolveAccessToken(request);
-        String refreshToken = jwtUtil.resolveRefreshToken(request);
-        // 유효한 토큰인지 확인합니다.
-        if (accessToken != null) {
-            // access 토큰이 유효한 상황
-            if (jwtUtil.validateToken(accessToken)) {
-                this.setAuthentication(accessToken);
-            }
-            // access 토큰이 만료된 상황 | 리프레시 토큰 또한 존재하는 상황
-            else if (!jwtUtil.validateToken(accessToken) && refreshToken != null) {
-                // 재발급 후, 컨텍스트에 다시 넣기
-                /// 리프레시 토큰 검증
-
-                boolean validateRefreshToken = jwtUtil.validateToken(refreshToken);
-
-
-                Claims claims = jwtUtil.getMemberIdFromToken(refreshToken);
-                Long memberId = Long.parseLong(claims.getId());
-                Role role = jwtUtil.getRole(memberId);
-
-                /// 리프레시 토큰 저장소 존재유무 확인
-                boolean isRefreshToken = jwtUtil.existsRefreshToken(refreshToken);
-
-                if (!(validateRefreshToken && isRefreshToken)) {
-                    String newRefreshToken = jwtUtil.createRefreshToken(memberId, role);
-                    jwtUtil.setHeaderRefreshToken(response, newRefreshToken);
+        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+            try {
+                if (header != null && header.startsWith("Bearer")) {
+                    String accessToken = header.substring(7);
+                    Claims claims = jwtUtil.decode(accessToken);
+                    boolean valid = !claims.getExpiration().before(new Date());
+                    if (valid) {
+                        if (redisDao.getValues(accessToken) == null) {
+                            // 토큰으로부터 유저 정보를 받아옵니다.
+                            String memberId = claims.get("id", String.class);
+                            Authentication authentication = jwtUtil.getAuthentication(memberId);
+                            // SecurityContext 에 Authentication 객체를 저장합니다.
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+                        }
+                        else request.setAttribute("exception", WRONG_ID_TOKEN);
+                    }
                 }
 
-                /// 토큰 발급
-                String newAccessToken = jwtUtil.createAccessToken(memberId, role);
-                System.out.println("newAccessToken은?" + newAccessToken);
-                /// 헤더에 어세스 토큰 추가
-                jwtUtil.setHeaderAccessToken(response, newAccessToken);
-                /// 컨텍스트에 넣기
-                this.setAuthentication(newAccessToken);
+            } catch (SignatureException e) {
+                request.setAttribute("exception", WRONG_TYPE_SIGNATURE);
+            } catch (UnsupportedJwtException e) {
+                request.setAttribute("exception", WRONG_TOKEN);
+            } catch (ExpiredJwtException e) {
+                log.error("ExpiredJwtToken JWT token");
+                request.setAttribute("exception", EXPIRED_TOKEN);
+            } catch (IllegalArgumentException e) {
+                request.setAttribute("exception", INVALID_TOKEN);
             }
-        }
+
         filterChain.doFilter(request, response);
     }
 
-    // SecurityContext 에 Authentication 객체를 저장합니다.
-    public void setAuthentication(String token) {
-        // 토큰으로부터 유저 정보를 받아옵니다.
-        Authentication authentication = jwtUtil.getAuthentication(token);
-        // SecurityContext 에 Authentication 객체를 저장합니다.
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
 }

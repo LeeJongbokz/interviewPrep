@@ -1,45 +1,49 @@
 package com.example.interviewPrep.quiz.member.service;
 
-import com.example.interviewPrep.quiz.member.domain.RefreshToken;
+import com.example.interviewPrep.quiz.exception.advice.CommonException;
+import com.example.interviewPrep.quiz.exception.advice.ErrorCode;
 import com.example.interviewPrep.quiz.member.dto.LoginRequestDTO;
 import com.example.interviewPrep.quiz.member.dto.LoginResponseDTO;
 import com.example.interviewPrep.quiz.member.dto.Role;
-import com.example.interviewPrep.quiz.member.exception.LoginFailureException;
 import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
-import com.example.interviewPrep.quiz.member.repository.TokenRepository;
+import com.example.interviewPrep.quiz.redis.RedisDao;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import com.example.interviewPrep.quiz.utils.PasswordCheck;
 import com.example.interviewPrep.quiz.utils.SHA256Util;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.time.Duration;
+
+import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.NOT_FOUND_LOGIN;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    @Autowired
     private final JwtUtil jwtUtil;
-    @Autowired
     private final MemberRepository memberRepository;
+    private final RedisDao redisDao;
 
-    @Autowired
-    private final TokenRepository tokenRepository;
-
-    public LoginResponseDTO login(LoginRequestDTO memberDTO) {
+    public LoginResponseDTO login(LoginRequestDTO memberDTO, HttpServletResponse response) {
 
         String email = memberDTO.getEmail();
         String password = memberDTO.getPassword();
-
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(()-> new LoginFailureException(email));
+                .orElseThrow(()-> new CommonException(NOT_FOUND_LOGIN));
 
         String encryptedPassword = SHA256Util.encryptSHA256(password);
-
-        boolean isSamePassword = PasswordCheck.isMatch(member.getPassword(), encryptedPassword);
-
-        if(!isSamePassword){
-            throw new LoginFailureException(email);
+        if(!PasswordCheck.isMatch(member.getPassword(), encryptedPassword)){
+            throw new CommonException(NOT_FOUND_LOGIN);
         }
 
         Long memberId = member.getId();
@@ -48,12 +52,57 @@ public class AuthenticationService {
         String accessToken = jwtUtil.createAccessToken(memberId, role);
         String refreshToken = jwtUtil.createRefreshToken(memberId, role);
 
-        tokenRepository.save(new RefreshToken(memberId, refreshToken));
+        // 토큰으로부터 유저 정보를 받아옵니다.
+        Authentication authentication = jwtUtil.getAuthentication(String.valueOf(memberId));
+        // SecurityContext 에 Authentication 객체를 저장합니다.
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        redisDao.setValues(String.valueOf(memberId), refreshToken, Duration.ofDays(7));
+
+        Cookie cookie = new Cookie("refreshToken", refreshToken);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(7*24*60*60);
+        cookie.setPath("/"); // 모든 경로에서 접근 가능 하도록 설정
+        response.addCookie(cookie);
 
         return LoginResponseDTO.builder()
                 .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .refreshToken("httpOnly")
                 .build();
     }
 
+    public LoginResponseDTO reissue(String token){
+        Claims claims  = jwtUtil.decode(token);
+        String memberId = claims.get("id", String.class);
+        Role role = claims.get("role", Role.class);
+        String refreshToken = redisDao.getValues(memberId);
+
+        if(refreshToken==null || !refreshToken.equals(token)){
+            throw new CommonException(ErrorCode.INVALID_TOKEN);
+        }
+        String accessToken = jwtUtil.createAccessToken(Long.valueOf(memberId), role);
+        return LoginResponseDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken("httpOnly")
+                .build();
+    }
+
+
+    public void logout(String token, HttpServletResponse response){
+        String accessToken = token.substring(7);
+        Long expiration = jwtUtil.getExpirations(accessToken);
+        String memberId = JwtUtil.getMemberId().toString();
+
+        if(redisDao.getValues(memberId) !=null){
+            redisDao.deleteValues(memberId);
+        }
+
+        redisDao.setValues(accessToken, "logout", Duration.ofMillis(expiration));
+
+        try {
+            response.sendRedirect("/server/logout");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
