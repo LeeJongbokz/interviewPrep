@@ -12,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static com.example.interviewPrep.quiz.exception.advice.ErrorCode.*;
 
 @Service
@@ -21,9 +23,26 @@ public class MemberService {
 
 
     public Member createMember(SignUpRequestDTO memberDTO){
+
+            boolean duplicatedEmail = isDuplicatedEmail(memberDTO.getEmail());
+            if(duplicatedEmail){
+                throw new CommonException(DUPLICATE_EMAIL);
+            }
+
             Member member = memberDTO.toEntity();
             memberRepository.save(member);
             return member;
+    }
+
+    public boolean isDuplicatedEmail(String email){
+
+            Optional<Member> member = memberRepository.findByEmail(email);
+
+            if(member.isPresent()){
+                return true;
+            }
+
+            return false;
     }
 
 
