@@ -2,7 +2,6 @@ package com.example.interviewPrep.quiz.filter;
 
 import com.example.interviewPrep.quiz.redis.RedisDao;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
-import com.google.common.net.HttpHeaders;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -34,21 +33,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (header != null && header.startsWith("Bearer")) {
             try {
-                if (header != null && header.startsWith("Bearer")) {
-                    String accessToken = header.substring(7);
-                    Claims claims = jwtUtil.decode(accessToken);
-                    boolean valid = !claims.getExpiration().before(new Date());
-                    if (valid) {
-                        if (redisDao.getValues(accessToken) == null) {
-                            // 토큰으로부터 유저 정보를 받아옵니다.
-                            String memberId = claims.get("id", String.class);
-                            Authentication authentication = jwtUtil.getAuthentication(memberId);
-                            // SecurityContext 에 Authentication 객체를 저장합니다.
-                            SecurityContextHolder.getContext().setAuthentication(authentication);
-                        }
-                        else request.setAttribute("exception", WRONG_ID_TOKEN);
-                    }
+
+                String accessToken = header.substring(7);
+                Claims claims = jwtUtil.decode(accessToken);
+                boolean valid = !claims.getExpiration().before(new Date());
+                if (valid) {
+                    if (redisDao.getValues(accessToken) == null) {
+                        // 토큰으로부터 유저 정보를 받아옵니다.
+                        String memberId = claims.get("id", String.class);
+                        Authentication authentication = jwtUtil.getAuthentication(memberId);
+                        // SecurityContext 에 Authentication 객체를 저장합니다.
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    } else request.setAttribute("exception", WRONG_ID_TOKEN);
                 }
 
             } catch (SignatureException e) {
@@ -61,6 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             } catch (IllegalArgumentException e) {
                 request.setAttribute("exception", INVALID_TOKEN);
             }
+        }
 
         filterChain.doFilter(request, response);
     }
