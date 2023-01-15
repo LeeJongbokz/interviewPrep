@@ -66,11 +66,8 @@ public class MemberController {
 
 
     @GetMapping(value="reissue")
-    public ResultResponse<LoginResponseDTO> reissueToken(@CookieValue(value="refreshToken", required = false) Cookie cookie){
-        return ResultResponse.success(authService.reissue(cookie.getValue()));
+    public ResultResponse<LoginResponseDTO> reissueToken(@CookieValue(value="refreshToken", defaultValue = "0" ) String cookie){
+        return ResultResponse.success(authService.reissue(cookie));
     }
-
-
-
 
 }

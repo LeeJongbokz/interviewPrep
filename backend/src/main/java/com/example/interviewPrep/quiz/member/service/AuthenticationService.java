@@ -2,6 +2,7 @@ package com.example.interviewPrep.quiz.member.service;
 
 import com.example.interviewPrep.quiz.exception.advice.CommonException;
 import com.example.interviewPrep.quiz.exception.advice.ErrorCode;
+import com.example.interviewPrep.quiz.exception.advice.LoginException;
 import com.example.interviewPrep.quiz.member.dto.LoginRequestDTO;
 import com.example.interviewPrep.quiz.member.dto.LoginResponseDTO;
 import com.example.interviewPrep.quiz.member.dto.Role;
@@ -72,15 +73,18 @@ public class AuthenticationService {
     }
 
     public LoginResponseDTO reissue(String token){
+        if(token.equals("0")) throw new LoginException(ErrorCode.INVALID_TOKEN);
+
         Claims claims  = jwtUtil.decode(token);
         String memberId = claims.get("id", String.class);
-        Role role = claims.get("role", Role.class);
-        String refreshToken = redisDao.getValues(memberId);
+        String role = claims.get("role", String.class);
+        Role myRole = Role.MENTOR;
+        if(role.equals("USER")) myRole = Role.USER;
 
-        if(refreshToken==null || !refreshToken.equals(token)){
-            throw new CommonException(ErrorCode.INVALID_TOKEN);
-        }
-        String accessToken = jwtUtil.createAccessToken(Long.valueOf(memberId), role);
+        String refreshToken = redisDao.getValues(memberId);
+        if(refreshToken==null || !refreshToken.equals(token))throw new LoginException(ErrorCode.INVALID_TOKEN);
+
+        String accessToken = jwtUtil.createAccessToken(Long.valueOf(memberId), myRole);
         return LoginResponseDTO.builder()
                 .accessToken(accessToken)
                 .refreshToken("httpOnly")

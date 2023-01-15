@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +28,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
                 // 토큰 만료된 경우
                 else if(errorCode.equals(EXPIRED_TOKEN)) {
-                        setResponse(response, errorCode);
+                        setResponseReissue(response, errorCode);
                 }
 
                 // 토큰 시그니처가 다른 경우
@@ -54,6 +53,15 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         private void setResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
                 response.setContentType("application/json;charset=UTF-8");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().println("{ \"message\" : \"" + errorCode.getMessage()
+                        + "\", \"code\" : \"" +  errorCode.getCode()
+                        + ", \"errors\" : [ ] }");
+        }
+
+
+        private void setResponseReissue(HttpServletResponse response, ErrorCode errorCode) throws IOException {
+                response.setContentType("application/json;charset=UTF-8");
+                response.setStatus(HttpServletResponse.SC_NON_AUTHORITATIVE_INFORMATION);
                 response.getWriter().println("{ \"message\" : \"" + errorCode.getMessage()
                         + "\", \"code\" : \"" +  errorCode.getCode()
                         + ", \"errors\" : [ ] }");
