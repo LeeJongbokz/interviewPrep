@@ -52,6 +52,10 @@ public class Member extends BaseTimeEntity {
         return this;
     }
 
+    public void createPwd(String password){
+        this.password = password;
+    }
+
     public String getRoleKey(){
         return this.role.getKey();
     }

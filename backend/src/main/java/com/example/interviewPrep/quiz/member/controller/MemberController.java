@@ -3,13 +3,13 @@ package com.example.interviewPrep.quiz.member.controller;
 import com.example.interviewPrep.quiz.member.dto.*;
 import com.example.interviewPrep.quiz.member.service.AuthenticationService;
 import com.example.interviewPrep.quiz.member.service.MemberService;
+import com.example.interviewPrep.quiz.member.social.service.OauthService;
 import com.example.interviewPrep.quiz.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 public class MemberController {
     private final AuthenticationService authService;
     private final MemberService memberService;
+    private final OauthService oauthService;
 
     @PostMapping("signup")
     public ResultResponse<?> signUp(@RequestBody @Valid SignUpRequestDTO memberDTO){
@@ -49,15 +50,15 @@ public class MemberController {
         return ResultResponse.success(memberService.changePassword(memberDTO));
     }
 
-//    @GetMapping(value="auth/{socialType}")
-//    public void socialLoginType(@PathVariable String socialType){
-//        oauthService.request(socialType);
-//    }
-//
-//    @GetMapping(value="auth/{socialType}/callback")
-//    public ResultResponse<?> callback(@PathVariable String socialType, @RequestParam(name="code") String code){
-//        return ResultResponse.success(oauthService.socialLogin(socialType, code));
-//    }
+    @GetMapping(value="auth/{socialType}")
+    public void socialLoginType(@PathVariable String socialType){
+        oauthService.request(socialType);
+    }
+
+    @GetMapping(value="auth/{socialType}/callback")
+    public ResultResponse<?> callback(@PathVariable String socialType, @RequestParam(name="code") String code){
+        return ResultResponse.success(oauthService.socialLogin(socialType, code));
+    }
 
     @GetMapping(value="logout")
     public void logout(HttpServletRequest request, HttpServletResponse response){
