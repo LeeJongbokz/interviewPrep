@@ -10,7 +10,6 @@ import com.example.interviewPrep.quiz.redis.RedisDao;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import com.example.interviewPrep.quiz.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.time.Duration;
 
-@Slf4j
+
 @Service
 @RequiredArgsConstructor
 public class OauthService {
