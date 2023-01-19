@@ -10,6 +10,7 @@ import com.example.interviewPrep.quiz.redis.RedisDao;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import com.example.interviewPrep.quiz.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.time.Duration;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OauthService {
@@ -88,7 +90,7 @@ public class OauthService {
         String refreshToken = jwtUtil.createRefreshToken(memberId, role);
 
         // 토큰으로부터 유저 정보를 받아옵니다.
-        Authentication authentication = jwtUtil.getAuthentication(accessToken);
+        Authentication authentication = jwtUtil.getAuthentication(String.valueOf(memberId));
         // SecurityContext 에 Authentication 객체를 저장합니다.
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
