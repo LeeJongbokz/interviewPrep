@@ -2,13 +2,11 @@ package com.example.interviewPrep.quiz.answer.domain;
 
 import com.example.interviewPrep.quiz.domain.BaseTimeEntity;
 
-import com.example.interviewPrep.quiz.exam.domain.ExamAnswer;
+// import com.example.interviewPrep.quiz.exam.domain.ExamAnswer;
 import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.question.domain.Question;
 import com.example.interviewPrep.quiz.heart.exception.HeartExistException;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,14 +34,17 @@ public class Answer extends BaseTimeEntity {
     @Lob
     private String content;
 
+    @Lob
+    private String question_title;
+
     @ManyToOne(fetch = LAZY)
+    @JsonBackReference
     @JoinColumn(name = "QUESTION_ID")
-    @JsonIgnore
     Question question;
 
     @ManyToOne(fetch = LAZY)
+    @JsonBackReference
     @JoinColumn(name = "MEMBER_ID")
-    @JsonIgnore
     Member member;
 
     private int commentCnt;
@@ -71,6 +72,6 @@ public class Answer extends BaseTimeEntity {
 
     public int commentDecrease() {return --this.commentCnt;}
 
-    @OneToMany(mappedBy = "answer")
-    List<ExamAnswer> exams = new ArrayList<>();
+    // @OneToMany(mappedBy = "answer")
+    // List<ExamAnswer> exams = new ArrayList<>();
 }
