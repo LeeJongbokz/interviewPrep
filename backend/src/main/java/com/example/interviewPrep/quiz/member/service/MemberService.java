@@ -6,6 +6,7 @@ import com.example.interviewPrep.quiz.member.exception.LoginFailureException;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.dto.SignUpRequestDTO;
+import com.example.interviewPrep.quiz.utils.JwtUtil;
 import com.example.interviewPrep.quiz.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +31,7 @@ public class MemberService {
             }
 
             Member member = memberDTO.toEntity();
+
             memberRepository.save(member);
             return member;
     }
@@ -48,18 +50,11 @@ public class MemberService {
 
     public Member getUserInfo(){
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails)principal;
+            Long id = JwtUtil.getMemberId();
+            Member member = memberRepository.findById(id).orElseThrow();
+            member.setPassword(null);
+            return member;
 
-        Long memberId = Long.parseLong(userDetails.getUsername());
-        Member member = memberRepository.findById(memberId).get();
-
-        Member userInfo = Member.builder()
-                          .email(member.getEmail())
-                          .name(member.getName())
-                          .nickName(member.getNickName())
-                          .build();
-        return userInfo;
     }
     public Member changeNickNameAndEmail(MemberDTO memberDTO){
 
@@ -69,7 +64,6 @@ public class MemberService {
         Long memberId = Long.parseLong(userDetails.getUsername());
 
         Member member = memberRepository.findById(memberId).get();
-
 
         String newNickName = memberDTO.getNickName();
         String newEmail = memberDTO.getEmail();
@@ -115,15 +109,14 @@ public class MemberService {
 
     public Member changePassword(MemberDTO memberDTO){
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails)principal;
+        Long id = JwtUtil.getMemberId();
 
-        Long memberId = Long.parseLong(userDetails.getUsername());
-
-        Member member = memberRepository.findById(memberId).get();
+        Member member = memberRepository.findById(id).get();
 
         String password = memberDTO.getPassword();
+
         String newPassword = memberDTO.getNewPassword();
+
         String encryptedPassword = SHA256Util.encryptSHA256(password);
 
         if(member.getPassword().equals(encryptedPassword)){
