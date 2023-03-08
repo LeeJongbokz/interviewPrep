@@ -24,14 +24,25 @@ public class EmailController {
 
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
-    @PostMapping("/mail")
+    @PostMapping("/mail/change")
     @ResponseBody
-    public void emailConfirm(@RequestBody MemberDTO memberDTO)throws Exception{
+    public void emailChangeConfirm(@RequestBody MemberDTO memberDTO)throws Exception{
         logger.info("post emailConfirm");
         Long memberId = JwtUtil.getMemberId();
         String email = memberDTO.getEmail();
-        service.sendSimpleMessage(email);
+        service.sendSimpleMessage(email, "change");
     }
+
+
+    @PostMapping("/mail/join")
+    @ResponseBody
+    public void emailJoinConfirm(@RequestBody MemberDTO memberDTO)throws Exception{
+        logger.info("post emailConfirm");
+        Long memberId = JwtUtil.getMemberId();
+        String email = memberDTO.getEmail();
+        service.sendSimpleMessage(email, "join");
+    }
+
     @PostMapping("/verifyCode")
     @ResponseBody
     public int verifyCode(String code) {
