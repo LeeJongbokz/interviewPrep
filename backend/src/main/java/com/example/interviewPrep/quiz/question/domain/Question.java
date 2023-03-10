@@ -1,7 +1,7 @@
 package com.example.interviewPrep.quiz.question.domain;
 
 import com.example.interviewPrep.quiz.domain.BaseTimeEntity;
-import com.example.interviewPrep.quiz.exam.domain.ExamKitQuestion;
+// import com.example.interviewPrep.quiz.exam.domain.ExamKitQuestion;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,8 +23,8 @@ public class Question extends BaseTimeEntity {
     private String title;
     private String type;
 
-    @OneToMany(mappedBy = "question")
-    private List<ExamKitQuestion> questions = new ArrayList<>();
+    // @OneToMany(mappedBy = "question")
+    // private List<ExamKitQuestion> questions = new ArrayList<>();
 
     public void change(String title, String type){
         this.title = title;
