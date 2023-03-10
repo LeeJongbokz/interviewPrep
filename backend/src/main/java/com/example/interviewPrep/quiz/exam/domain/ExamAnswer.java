@@ -1,6 +1,8 @@
+/*
 package com.example.interviewPrep.quiz.exam.domain;
 
 import com.example.interviewPrep.quiz.answer.domain.Answer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,10 +26,13 @@ public class ExamAnswer {
 
     @ManyToOne
     @JoinColumn(name = "EXAM_ID")
+    @JsonIgnore
     private Exam exam;
 
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")
+    @JsonIgnore
     private Answer answer;
 
 }
+*/

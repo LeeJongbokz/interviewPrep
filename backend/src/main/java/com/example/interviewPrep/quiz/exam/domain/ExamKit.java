@@ -1,3 +1,4 @@
+/*
 package com.example.interviewPrep.quiz.exam.domain;
 
 import lombok.AllArgsConstructor;
@@ -35,3 +36,4 @@ public class ExamKit {
     @OneToMany(mappedBy = "examKit")
     private List<ExamKitQuestion> questions = new ArrayList<>();
 }
+*/

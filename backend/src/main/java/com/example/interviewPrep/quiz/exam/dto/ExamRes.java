@@ -1,3 +1,4 @@
+/*
 package com.example.interviewPrep.quiz.exam.dto;
 
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
@@ -19,3 +20,4 @@ public class ExamRes {
     private String createTime;
     private List<AnswerDTO> answers;
 }
+*/

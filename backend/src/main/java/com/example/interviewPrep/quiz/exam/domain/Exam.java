@@ -1,7 +1,9 @@
+/*
 package com.example.interviewPrep.quiz.exam.domain;
 
 import com.example.interviewPrep.quiz.domain.BaseTimeEntity;
 import com.example.interviewPrep.quiz.member.domain.Member;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,5 +39,7 @@ public class Exam extends BaseTimeEntity {
     private Member member;
 
     @OneToMany(mappedBy = "exam")
+    @JsonBackReference
     private List<ExamAnswer> answers = new ArrayList<>();
 }
+*/

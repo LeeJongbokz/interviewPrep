@@ -1,3 +1,4 @@
+/*
 package com.example.interviewPrep.quiz.exam.dto;
 
 import lombok.AllArgsConstructor;
@@ -19,3 +20,4 @@ public class ExamKitReq {
     private String picture;
     private List<Long> questions = new ArrayList<>();
 }
+*/
