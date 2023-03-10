@@ -1,3 +1,4 @@
+/*
 package com.example.interviewPrep.quiz.exam.dto;
 
 import com.example.interviewPrep.quiz.question.dto.QuestionDTO;
@@ -19,3 +20,4 @@ public class ExamkitRes {
     private String picture;
     private List<QuestionDTO> questions;
 }
+*/

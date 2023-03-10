@@ -1,3 +1,4 @@
+/*
 package com.example.interviewPrep.quiz.exam.dto;
 
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
@@ -20,3 +21,4 @@ public class MyExamRes {
     private String createTime;
     private HashMap<String, String> questionAndAnswer;
 }
+*/

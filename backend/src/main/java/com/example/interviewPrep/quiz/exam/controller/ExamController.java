@@ -1,3 +1,4 @@
+/*
 package com.example.interviewPrep.quiz.exam.controller;
 
 import com.example.interviewPrep.quiz.answer.dto.AnswerDTO;
@@ -52,3 +53,4 @@ public class ExamController {
     }
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.example.interviewPrep.quiz.exam.dto;
 
 import lombok.AllArgsConstructor;
@@ -15,3 +16,4 @@ public class ExamKitListRes {
     private int duration;
     private String picture;
 }
+*/

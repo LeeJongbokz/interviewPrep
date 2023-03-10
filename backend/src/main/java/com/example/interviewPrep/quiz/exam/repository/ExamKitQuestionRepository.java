@@ -1,3 +1,4 @@
+/*
 package com.example.interviewPrep.quiz.exam.repository;
 
 import com.example.interviewPrep.quiz.exam.domain.ExamKitQuestion;
@@ -8,3 +9,4 @@ import java.util.List;
 public interface ExamKitQuestionRepository extends JpaRepository<ExamKitQuestion, Long> {
     List<ExamKitQuestion> findByExamKitId(Long examKitId);
 }
+*/

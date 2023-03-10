@@ -1,3 +1,4 @@
+/*
 package com.example.interviewPrep.quiz.exam.service;
 
 import com.example.interviewPrep.quiz.answer.domain.Answer;
@@ -142,3 +143,4 @@ public class ExamService {
             .collect(Collectors.toList());
     }
 }
+*/

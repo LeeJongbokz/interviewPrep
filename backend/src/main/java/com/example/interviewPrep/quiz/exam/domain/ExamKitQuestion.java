@@ -1,3 +1,4 @@
+/*
 package com.example.interviewPrep.quiz.exam.domain;
 
 import com.example.interviewPrep.quiz.question.domain.Question;
@@ -31,3 +32,4 @@ public class ExamKitQuestion {
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
 }
+*/
