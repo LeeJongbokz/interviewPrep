@@ -39,6 +39,7 @@ public class AuthenticationService {
 
         String email = memberDTO.getEmail();
         String password = memberDTO.getPassword();
+
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(()-> new CommonException(NOT_FOUND_LOGIN));
 
@@ -55,8 +56,11 @@ public class AuthenticationService {
 
         // 토큰으로부터 유저 정보를 받아옵니다.
         Authentication authentication = jwtUtil.getAuthentication(String.valueOf(memberId));
+
         // SecurityContext 에 Authentication 객체를 저장합니다.
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        Long id = JwtUtil.getMemberId();
 
         redisDao.setValues(String.valueOf(memberId), refreshToken, Duration.ofDays(7));
 
