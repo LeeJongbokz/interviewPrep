@@ -17,7 +17,7 @@ import javax.validation.constraints.NotBlank;
 public class SignUpRequestDTO {
 
     @NotBlank
-    private String name;
+    private String nickName;
     @Email
     private String email;
     @NotBlank
@@ -25,17 +25,8 @@ public class SignUpRequestDTO {
     @NotBlank
     private String passwordConfirm;
 
+    @NotBlank
+    private String code;
     private Role role;
-
-    public Member toEntity() {
-        Member member = Member.builder()
-                .email(email)
-                .name(name)
-                .password(SHA256Util.encryptSHA256(password))
-                .nickName(name)
-                .role(role.USER)
-                .build();
-        return member;
-    }
 
 }

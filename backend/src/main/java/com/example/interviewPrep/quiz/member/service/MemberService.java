@@ -6,9 +6,12 @@ import com.example.interviewPrep.quiz.member.exception.LoginFailureException;
 import com.example.interviewPrep.quiz.member.repository.MemberRepository;
 import com.example.interviewPrep.quiz.member.domain.Member;
 import com.example.interviewPrep.quiz.member.dto.SignUpRequestDTO;
+import com.example.interviewPrep.quiz.redis.RedisDao;
+import com.example.interviewPrep.quiz.utils.AES256;
 import com.example.interviewPrep.quiz.utils.JwtUtil;
 import com.example.interviewPrep.quiz.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -23,15 +26,24 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
 
-    public Member createMember(SignUpRequestDTO memberDTO){
+    @Autowired
+    private final RedisDao redisDao;
 
-            boolean duplicatedEmail = isDuplicatedEmail(memberDTO.getEmail());
+
+    public Member createMember(SignUpRequestDTO memberDTO) throws Exception {
+
+            AES256 aes256 = new AES256();
+            String code = memberDTO.getCode();
+            String email = redisDao.getValues(aes256.decrypt(code));
+
+            String password = SHA256Util.encryptSHA256(memberDTO.getPassword());
+
+            boolean duplicatedEmail = isDuplicatedEmail(email);
             if(duplicatedEmail){
                 throw new CommonException(DUPLICATE_EMAIL);
             }
 
-            Member member = memberDTO.toEntity();
-
+            Member member = new Member(email, password, memberDTO.getNickName());
             memberRepository.save(member);
             return member;
     }
@@ -43,7 +55,6 @@ public class MemberService {
             if(member.isPresent()){
                 return true;
             }
-
             return false;
     }
 

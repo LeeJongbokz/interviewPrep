@@ -19,6 +19,12 @@ import java.util.List;
 @Table(indexes = @Index(name= "i_member", columnList = "email"))
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Member extends BaseTimeEntity {
+    public Member(String email, String password, String nickName){
+        this.email = email;
+        this.password = password;
+        this.nickName = nickName;
+        this.role = Role.USER;
+    }
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="MEMBER_ID")

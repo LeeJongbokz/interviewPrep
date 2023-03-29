@@ -26,7 +26,7 @@ public class MemberController {
     private final OauthService oauthService;
 
     @PostMapping("signup")
-    public ResultResponse<?> signUp(@RequestBody SignUpRequestDTO memberDTO){
+    public ResultResponse<?> signUp(@RequestBody SignUpRequestDTO memberDTO) throws Exception {
         return ResultResponse.success(memberService.createMember(memberDTO));
     }
 
